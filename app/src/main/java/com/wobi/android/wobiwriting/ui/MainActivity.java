@@ -1,9 +1,11 @@
-package com.wobi.writing.wobiwriting;
+package com.wobi.android.wobiwriting.ui;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
-public class MainActivity extends AppCompatActivity {
+import com.wobi.android.wobiwriting.R;
+
+public class MainActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

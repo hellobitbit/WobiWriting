@@ -1,4 +1,4 @@
-package com.wobi.writing.wobiwriting;
+package com.wobi.android.wobiwriting;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

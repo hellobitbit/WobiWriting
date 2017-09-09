@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="TargetToolBar">
+        <attr name="textSelectedColor" format="color"/>
+        <attr name="textNoSelectedColor" format="color"/>
+        <attr name="textSize" format="dimension"/>
+        <attr name="SelectedSrc" format="reference"/>
+        <attr name="NoSelectedSrc" format="reference"/>
+        <attr name="textValue" format="string"/>
+        <attr name="isSelected" format="boolean"/>
+    </declare-styleable>
+</resources>

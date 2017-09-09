@@ -1,4 +1,4 @@
-package com.wobi.writing.wobiwriting;
+package com.wobi.android.wobiwriting;
 
 import org.junit.Test;
 
