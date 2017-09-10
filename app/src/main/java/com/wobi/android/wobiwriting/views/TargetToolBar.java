@@ -62,6 +62,10 @@ public class TargetToolBar extends RelativeLayout{
     }
 
     private void updateToolBarStatus(){
-
+        if (isSelected){
+            mToolBarIcon.setBackgroundResource(mSelectedIconId);
+        }else {
+            mToolBarIcon.setBackgroundResource(mNoSelectedIconId);
+        }
     }
 }
