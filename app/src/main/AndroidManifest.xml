@@ -17,6 +17,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".me.MyInformationActivity"/>
+        <activity android:name=".me.FeedbackActivity"/>
+        <activity android:name=".me.MyMomentActivity"/>
+        <activity android:name=".me.MyFollowActivity"/>
+        <activity android:name=".me.MyWodouActivity"/>
     </application>
 
 </manifest>

@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">wobiwriting</string>
+    <string name="moments_search_hint">请输入沃比圈名称或者邀请码</string>
+
+    <string name="action_bar_right_title_confirm">确定</string>
+    <string name="action_bar_right_title_send">发送</string>
+
+    //me related
+    <string name="moment_num_title">圈子</string>
+    <string name="follow_num_title">关注</string>
+    <string name="wodou_num_title">沃豆</string>
+    <string name="share_the_app_to_others_title">把沃笔习字推荐给好友</string>
+    <string name="account_exit_title">退出此账号</string>
+    <string name="activity_feedback_title">用户反馈</string>
+    <string name="activity_feedback_content_hint">您好，请填写您的宝贵意见</string>
+    <string name="activity_feedback_assistant">小贴士:</string>
+    <string name="activity_feedback_assistant_content">感谢您对沃笔习字一直以来的支持\n您的建议我们会及时采纳的.</string>
+    <string name="activity_personal_info_title">我的信息</string>
+    <string name="activity_my_info_head_portrait">头像</string>
+    <string name="activity_my_info_name">名字</string>
+    <string name="activity_my_info_description">介绍</string>
+    <string name="activity_my_moment_title">我的圈子</string>
+    <string name="activity_my_wodou_title">充值中心</string>
 </resources>

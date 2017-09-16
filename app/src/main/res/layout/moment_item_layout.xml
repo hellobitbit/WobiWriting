@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/moment_icon"
+            android:background="@mipmap/ic_launcher_round"
+            android:layout_width="48dp"
+            android:layout_height="48dp" />
+        <TextView
+            android:id="@+id/moment_name"
+            android:layout_toRightOf="@+id/moment_icon"
+            android:layout_width="wrap_content"
+            android:text="@string/app_name"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/moment_code"
+            android:layout_toRightOf="@id/moment_icon"
+            android:layout_below="@id/moment_name"
+            android:text="373873879"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/moment_time"
+            android:text="07:00"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/moment_people_num"
+            android:text="1371"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/moment_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <View
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+
+    <TextView
+        android:id="@+id/moment_title"
+        android:text="please help me ~"
+        android:layout_marginTop="@dimen/screen_margin_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/moment_icon_big"
+        android:layout_marginTop="@dimen/screen_margin_size"
+        android:background="#FF6A6A"
+        android:layout_width="150dp"
+        android:layout_height="150dp" />
+
+    <View
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/dianzan"
+            android:text="30"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+        <TextView
+            android:id="@+id/comments"
+            android:text="350"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+        <TextView
+            android:id="@+id/forward"
+            android:text="101"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+    </LinearLayout>
+</LinearLayout>

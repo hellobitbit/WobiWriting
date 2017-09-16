@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="app_bottom_title_text_size">12dp</dimen>
+    <dimen name="screen_margin_size">5dp</dimen>
+
+    <dimen name="customer_setting_bar_margin_size">10dp</dimen>
 </resources>
