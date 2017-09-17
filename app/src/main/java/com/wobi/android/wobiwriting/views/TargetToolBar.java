@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.wobi.android.wobiwriting.R;
 
@@ -17,9 +18,12 @@ public class TargetToolBar extends RelativeLayout{
 
     private ImageView mToolBarIcon;
     private boolean isSelected;
+    private TextView mToolBarText;
 
     private int mSelectedIconId;
     private int mNoSelectedIconId;
+    private int mTextValue;
+
 
     public TargetToolBar(Context context) {
         this(context, null);
@@ -40,6 +44,7 @@ public class TargetToolBar extends RelativeLayout{
         isSelected = a.getBoolean(R.styleable.TargetToolBar_isSelected, false);
         mSelectedIconId = a.getResourceId(R.styleable.TargetToolBar_SelectedSrc, 0);
         mNoSelectedIconId = a.getResourceId(R.styleable.TargetToolBar_NoSelectedSrc, 0);
+        mTextValue = a.getResourceId(R.styleable.TargetToolBar_textValue, 0);
         a.recycle();
     }
 
@@ -48,6 +53,8 @@ public class TargetToolBar extends RelativeLayout{
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.tool_bar_layout, this);
         mToolBarIcon = (ImageView)findViewById(R.id.toolBarIcon);
+        mToolBarText = (TextView)findViewById(R.id.toolBarText);
+        ((TextView)findViewById(R.id.toolBarText)).setText(mTextValue);
         updateToolBarStatus();
     }
 
@@ -63,9 +70,11 @@ public class TargetToolBar extends RelativeLayout{
 
     private void updateToolBarStatus(){
         if (isSelected){
-            mToolBarIcon.setBackgroundResource(mSelectedIconId);
+            mToolBarIcon.setImageResource(mSelectedIconId);
+            mToolBarText.setTextColor(getResources().getColor(R.color.colorPrimary));
         }else {
-            mToolBarIcon.setBackgroundResource(mNoSelectedIconId);
+            mToolBarIcon.setImageResource(mNoSelectedIconId);
+            mToolBarText.setTextColor(getResources().getColor(android.R.color.black));
         }
     }
 }

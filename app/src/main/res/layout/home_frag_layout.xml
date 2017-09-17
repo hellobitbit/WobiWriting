@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:customer="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -15,44 +16,66 @@
             android:layout_height="match_parent" />
     </FrameLayout>
 
-    <FrameLayout
+    <com.wobi.android.wobiwriting.views.HomeItemView
+        android:id="@+id/speak_chinese"
         android:layout_weight="1"
         android:layout_marginTop="@dimen/screen_margin_size"
         android:layout_marginLeft="@dimen/screen_margin_size"
         android:layout_marginRight="@dimen/screen_margin_size"
         android:background="#FF6A6A"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
+        android:layout_height="match_parent"
+        customer:itemTypeIcon="@mipmap/ic_launcher"
+        customer:itemTypeName="@string/home_item_speak"
+        customer:itemSubType1Name="@string/home_item_speak_word_source"
+        customer:itemSubType2Name="@string/home_item_speak_word_shape"
+        customer:itemSubType3Name="@string/home_item_speak_description"
+        customer:itemSubType4Name="@string/home_item_speak_story"/>
 
-    <FrameLayout
+    <com.wobi.android.wobiwriting.views.HomeItemView
+        android:id="@+id/chinese_writing"
         android:layout_weight="1"
         android:layout_marginTop="@dimen/screen_margin_size"
         android:layout_marginLeft="@dimen/screen_margin_size"
         android:layout_marginRight="@dimen/screen_margin_size"
         android:background="#6495ED"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
+        android:layout_height="match_parent"
+        customer:itemTypeIcon="@mipmap/ic_launcher"
+        customer:itemTypeName="@string/home_item_writing"
+        customer:itemSubType1Name="@string/home_item_writing_bishun"
+        customer:itemSubType2Name="@string/home_item_writing_blackbroad"
+        customer:itemSubType3Name="@string/home_item_writing_hard"
+        customer:itemSubType4Name="@string/home_item_writing_brush"/>
 
-    <FrameLayout
+    <com.wobi.android.wobiwriting.views.HomeItemView
+        android:id="@+id/calligraghy_class"
         android:layout_weight="1"
         android:layout_marginTop="@dimen/screen_margin_size"
         android:layout_marginLeft="@dimen/screen_margin_size"
         android:layout_marginRight="@dimen/screen_margin_size"
         android:background="#7CCD7C"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
+        android:layout_height="match_parent"
+        customer:itemTypeIcon="@mipmap/ic_launcher"
+        customer:itemTypeName="@string/home_item_writing_class"
+        customer:itemSubType1Name="@string/home_item_writing_class_hard"
+        customer:itemSubType3Name="@string/home_item_writing_class_brush" />
 
-    <FrameLayout
+    <com.wobi.android.wobiwriting.views.HomeItemView
+        android:id="@+id/chinese_classic"
         android:layout_weight="1"
         android:layout_marginTop="@dimen/screen_margin_size"
         android:layout_marginLeft="@dimen/screen_margin_size"
         android:layout_marginRight="@dimen/screen_margin_size"
         android:background="#FF7F00"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
+        android:layout_height="match_parent"
+        customer:itemTypeIcon="@mipmap/ic_launcher"
+        customer:itemTypeName="@string/home_item_classic"
+        customer:itemSubType1Name="@string/home_item_classic_dizigui"
+        customer:itemSubType2Name="@string/home_item_classic_three"
+        customer:itemSubType3Name="@string/home_item_classic_daode"
+        customer:itemSubType4Name="@string/home_item_classic_ancient_poetry"/>
 
 </LinearLayout>

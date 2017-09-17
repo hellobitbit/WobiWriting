@@ -11,6 +11,15 @@
         <attr name="isSelected" format="boolean"/>
     </declare-styleable>
 
+    <declare-styleable name="HomeItemView">
+        <attr name="itemTypeIcon" format="string"/>
+        <attr name="itemTypeName" format="string"/>
+        <attr name="itemSubType1Name" format="string"/>
+        <attr name="itemSubType2Name" format="string"/>
+        <attr name="itemSubType3Name" format="string"/>
+        <attr name="itemSubType4Name" format="string"/>
+    </declare-styleable>
+
     <declare-styleable name="CustomSettingBar">
         <attr name="rightIconSrc" format="reference"/>
         <attr name="rightIconMarginRight" format="dimension"/>

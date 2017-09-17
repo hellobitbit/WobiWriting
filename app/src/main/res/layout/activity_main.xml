@@ -7,60 +7,56 @@
 
     <FrameLayout
         android:id="@+id/bottom_background"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="48dp">
-    </FrameLayout>
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"/>
 
     <FrameLayout
         android:id="@+id/container"
-        android:layout_above="@id/bottom_background"
-        android:layout_marginBottom="@dimen/screen_margin_size"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_background"
+        android:layout_marginBottom="@dimen/screen_margin_size"/>
 
     <LinearLayout
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="48dp">
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
 
         <com.wobi.android.wobiwriting.views.TargetToolBar
             android:id="@+id/home"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
-            android:paddingBottom="4dp"
-            customer:NoSelectedSrc = "@mipmap/ic_launcher"
-            customer:SelectedSrc = "@mipmap/ic_launcher_round"
-            customer:isSelected = "false"
-            />
+            customer:NoSelectedSrc="@mipmap/ic_launcher"
+            customer:SelectedSrc="@mipmap/ic_launcher_round"
+            customer:isSelected="false"
+            customer:textValue="@string/home"/>
 
         <com.wobi.android.wobiwriting.views.TargetToolBar
             android:id="@+id/moments"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
-            android:paddingBottom="4dp"
-            customer:NoSelectedSrc = "@mipmap/ic_launcher"
-            customer:SelectedSrc = "@mipmap/ic_launcher_round"
-            customer:isSelected = "false"
-            />
+            customer:NoSelectedSrc="@mipmap/ic_launcher"
+            customer:SelectedSrc="@mipmap/ic_launcher_round"
+            customer:isSelected="false"
+            customer:textValue="@string/moment"/>
+
 
         <com.wobi.android.wobiwriting.views.TargetToolBar
             android:id="@+id/me"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
-            android:paddingBottom="4dp"
-            customer:NoSelectedSrc = "@mipmap/ic_launcher"
-            customer:SelectedSrc = "@mipmap/ic_launcher_round"
-            customer:isSelected = "false"
-            />
+            customer:NoSelectedSrc="@mipmap/ic_launcher"
+            customer:SelectedSrc="@mipmap/ic_launcher_round"
+            customer:isSelected="false"
+            customer:textValue="@string/me"/>
 
     </LinearLayout>
 
