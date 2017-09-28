@@ -28,4 +28,15 @@
         android:layout_marginLeft="@dimen/screen_margin_size"
         android:layout_marginRight="@dimen/screen_margin_size"/>
 
+    <ImageView
+        android:clickable="true"
+        android:id="@+id/sendMoment"
+        android:src="@mipmap/ic_launcher"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="50dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp" />
+
 </RelativeLayout>

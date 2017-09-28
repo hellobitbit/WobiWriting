@@ -33,7 +33,12 @@ public abstract class CustomActionBarActivity extends AppCompatActivity {
             actionBar.setCustomView(mActionbarLayout);
             ImageButton back = (ImageButton) mActionbarLayout.findViewById(R.id.actionbar_left_back);
             TextView title = (TextView) mActionbarLayout.findViewById(R.id.actionbar_title);
-            title.setText(getActionBarTitle());
+            if (getActionBarTitle() > 0){
+                title.setText(getActionBarTitle());
+            }else {
+                title.setText("");
+            }
+
             back.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

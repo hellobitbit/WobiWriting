@@ -3,6 +3,7 @@ package com.wobi.android.wobiwriting.home;
 import android.os.Bundle;
 
 import com.wobi.android.wobiwriting.R;
+import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.ui.CustomActionBarActivity;
 
 /**
@@ -20,6 +21,13 @@ public class SpeakCNActivity extends CustomActionBarActivity {
     }
 
     private void initViews() {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                NetDataManager.getInstance();
+            }
+        }).start();
 
     }
 

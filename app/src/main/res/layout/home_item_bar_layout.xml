@@ -30,7 +30,7 @@
 
     <View
         android:background="@android:color/white"
-        android:layout_width="0.5dp"
+        android:layout_width="@dimen/home_screen_horizontal_margin"
         android:layout_height="match_parent"/>
 
     <LinearLayout
@@ -55,7 +55,7 @@
             <View
                 android:id="@+id/interval_above"
                 android:background="@android:color/white"
-                android:layout_width="0.5dp"
+                android:layout_width="@dimen/home_screen_horizontal_margin"
                 android:layout_height="match_parent"/>
 
             <TextView
@@ -71,7 +71,7 @@
         <View
             android:background="@android:color/white"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"/>
+            android:layout_height="@dimen/home_screen_horizontal_margin"/>
 
         <LinearLayout
             android:layout_weight="1"
@@ -89,7 +89,7 @@
             <View
                 android:id="@+id/interval_below"
                 android:background="@android:color/white"
-                android:layout_width="0.5dp"
+                android:layout_width="@dimen/home_screen_horizontal_margin"
                 android:layout_height="match_parent"/>
 
             <TextView

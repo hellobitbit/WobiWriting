@@ -1,11 +1,14 @@
 package com.wobi.android.wobiwriting.ui;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.views.TargetToolBar;
@@ -106,19 +109,36 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 mHomeBar.setSelected();
                 mMeBar.setNoSelected();
                 mMomentsBar.setNoSelected();
+                updateStatusDisplay();
                 break;
             case R.id.moments:
                 showFragment(MOMENTS_FRAG_TAG);
                 mMomentsBar.setSelected();
                 mMeBar.setNoSelected();
                 mHomeBar.setNoSelected();
+                updateStatusDisplay();
                 break;
             case R.id.me:
                 showFragment(ME_FRAG_TAG);
                 mMeBar.setSelected();
                 mHomeBar.setNoSelected();
                 mMomentsBar.setNoSelected();
+                updateStatusDisplay();
                 break;
+        }
+    }
+
+    private void updateStatusDisplay(){
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+                //底部导航栏
+                //window.setNavigationBarColor(activity.getResources().getColor(colorResId));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

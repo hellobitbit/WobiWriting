@@ -1,81 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:customer="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <FrameLayout
-        android:layout_weight="1"
-        android:background="@color/colorPrimaryDark"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="@dimen/home_screen_poster_height">
+
         <ImageView
-            android:background="@mipmap/ic_launcher"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@mipmap/ic_launcher" />
+
+        <TextView
+            android:background="@drawable/home_grade_title_default_shape_corner"
+            android:id="@+id/dropdown"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:clickable="true"
+            android:textColor="@android:color/white"
+            android:text="一年级（上）"
+            android:layout_width="116dp"
+            android:layout_height="30dp" />
     </FrameLayout>
 
     <com.wobi.android.wobiwriting.views.HomeItemView
         android:id="@+id/speak_chinese"
-        android:layout_weight="1"
-        android:layout_marginTop="@dimen/screen_margin_size"
-        android:layout_marginLeft="@dimen/screen_margin_size"
-        android:layout_marginRight="@dimen/screen_margin_size"
-        android:background="#FF6A6A"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        customer:itemTypeIcon="@mipmap/ic_launcher"
-        customer:itemTypeName="@string/home_item_speak"
+        android:layout_marginLeft="@dimen/home_screen_horizontal_margin"
+        android:layout_marginRight="@dimen/home_screen_horizontal_margin"
+        android:layout_marginTop="@dimen/home_screen_vertical_margin"
+        android:layout_weight="1"
+        android:background="@drawable/home_speak_shape_corner"
         customer:itemSubType1Name="@string/home_item_speak_word_source"
         customer:itemSubType2Name="@string/home_item_speak_word_shape"
         customer:itemSubType3Name="@string/home_item_speak_description"
-        customer:itemSubType4Name="@string/home_item_speak_story"/>
+        customer:itemSubType4Name="@string/home_item_speak_story"
+        customer:itemTypeIcon="@mipmap/ic_launcher"
+        customer:itemTypeName="@string/home_item_speak" />
 
     <com.wobi.android.wobiwriting.views.HomeItemView
         android:id="@+id/chinese_writing"
-        android:layout_weight="1"
-        android:layout_marginTop="@dimen/screen_margin_size"
-        android:layout_marginLeft="@dimen/screen_margin_size"
-        android:layout_marginRight="@dimen/screen_margin_size"
-        android:background="#6495ED"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        customer:itemTypeIcon="@mipmap/ic_launcher"
-        customer:itemTypeName="@string/home_item_writing"
+        android:layout_marginLeft="@dimen/home_screen_horizontal_margin"
+        android:layout_marginRight="@dimen/home_screen_horizontal_margin"
+        android:layout_marginTop="@dimen/home_screen_vertical_margin"
+        android:layout_weight="1"
+        android:background="@drawable/home_writing_shape_corner"
         customer:itemSubType1Name="@string/home_item_writing_bishun"
         customer:itemSubType2Name="@string/home_item_writing_blackbroad"
         customer:itemSubType3Name="@string/home_item_writing_hard"
-        customer:itemSubType4Name="@string/home_item_writing_brush"/>
+        customer:itemSubType4Name="@string/home_item_writing_brush"
+        customer:itemTypeIcon="@mipmap/ic_launcher"
+        customer:itemTypeName="@string/home_item_writing" />
 
     <com.wobi.android.wobiwriting.views.HomeItemView
         android:id="@+id/calligraghy_class"
-        android:layout_weight="1"
-        android:layout_marginTop="@dimen/screen_margin_size"
-        android:layout_marginLeft="@dimen/screen_margin_size"
-        android:layout_marginRight="@dimen/screen_margin_size"
-        android:background="#7CCD7C"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        customer:itemTypeIcon="@mipmap/ic_launcher"
-        customer:itemTypeName="@string/home_item_writing_class"
+        android:layout_marginLeft="@dimen/home_screen_horizontal_margin"
+        android:layout_marginRight="@dimen/home_screen_horizontal_margin"
+        android:layout_marginTop="@dimen/home_screen_vertical_margin"
+        android:layout_weight="1"
+        android:background="@drawable/home_calligraphy_shape_corner"
         customer:itemSubType1Name="@string/home_item_writing_class_hard"
-        customer:itemSubType3Name="@string/home_item_writing_class_brush" />
+        customer:itemSubType3Name="@string/home_item_writing_class_brush"
+        customer:itemTypeIcon="@mipmap/ic_launcher"
+        customer:itemTypeName="@string/home_item_writing_class" />
 
     <com.wobi.android.wobiwriting.views.HomeItemView
         android:id="@+id/chinese_classic"
-        android:layout_weight="1"
-        android:layout_marginTop="@dimen/screen_margin_size"
-        android:layout_marginLeft="@dimen/screen_margin_size"
-        android:layout_marginRight="@dimen/screen_margin_size"
-        android:background="#FF7F00"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        customer:itemTypeIcon="@mipmap/ic_launcher"
-        customer:itemTypeName="@string/home_item_classic"
+        android:layout_marginLeft="@dimen/home_screen_horizontal_margin"
+        android:layout_marginRight="@dimen/home_screen_horizontal_margin"
+        android:layout_marginTop="@dimen/home_screen_vertical_margin"
+        android:layout_weight="1"
+        android:background="@drawable/home_classic_shape_corner"
         customer:itemSubType1Name="@string/home_item_classic_dizigui"
         customer:itemSubType2Name="@string/home_item_classic_three"
         customer:itemSubType3Name="@string/home_item_classic_daode"
-        customer:itemSubType4Name="@string/home_item_classic_ancient_poetry"/>
-
+        customer:itemSubType4Name="@string/home_item_classic_ancient_poetry"
+        customer:itemTypeIcon="@mipmap/ic_launcher"
+        customer:itemTypeName="@string/home_item_classic" />
 </LinearLayout>
