@@ -11,5 +11,6 @@ public class ShuFaKeTangMBRequest extends ShuFaKeTangRequest {
 
     public ShuFaKeTangMBRequest(){
         setRequestType(BusinessType.BT_Shu_Fa_Ke_Tang_MB.getValue());
+        mInstance = this;
     }
 }

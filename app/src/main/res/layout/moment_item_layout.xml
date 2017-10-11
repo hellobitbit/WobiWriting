@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginRight="2dp"
     android:orientation="vertical">
 
     <TextView
@@ -14,34 +15,44 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="66dp">
         <ImageView
             android:id="@+id/moment_icon"
+            android:layout_marginLeft="14dp"
+            android:layout_centerVertical="true"
             android:background="@mipmap/ic_launcher"
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
+            android:layout_width="45dp"
+            android:layout_height="45dp" />
         <TextView
             android:id="@+id/moment_name"
+            android:layout_marginLeft="11dp"
+            android:layout_marginTop="12dp"
             android:layout_toRightOf="@+id/moment_icon"
             android:layout_width="wrap_content"
-            android:text="@string/app_name"
+            android:text="马老师"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/moment_code"
             android:layout_toRightOf="@id/moment_icon"
             android:layout_below="@id/moment_name"
             android:text="373873879"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="11dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/moment_time"
             android:text="07:00"
+            android:layout_marginTop="14dp"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/moment_people_num"
             android:text="1371"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="15dp"
             android:layout_alignParentRight="true"
             android:layout_below="@id/moment_time"
             android:layout_width="wrap_content"
@@ -49,34 +60,37 @@
     </RelativeLayout>
 
     <View
-        android:background="@color/colorPrimary"
+        android:background="#ededed"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"/>
 
     <TextView
         android:id="@+id/moment_title"
+        android:textColor="#464545"
         android:text="please help me ~"
-        android:layout_marginTop="@dimen/screen_margin_size"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <ImageView
         android:id="@+id/moment_icon_big"
-        android:layout_marginTop="@dimen/screen_margin_size"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="20dp"
         android:background="#FF6A6A"
-        android:layout_width="150dp"
-        android:layout_height="150dp" />
+        android:layout_width="164dp"
+        android:layout_height="164dp" />
 
     <View
-        android:layout_marginTop="@dimen/customer_setting_bar_margin_size"
-        android:background="@color/colorPrimary"
+        android:layout_marginTop="16dp"
+        android:background="#ededed"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"/>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="53dp">
         <TextView
             android:id="@+id/like"
             android:text="30"

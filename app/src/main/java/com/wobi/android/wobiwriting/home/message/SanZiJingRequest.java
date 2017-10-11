@@ -11,5 +11,6 @@ public class SanZiJingRequest extends Request {
 
     public SanZiJingRequest(){
         setRequestType(BusinessType.BT_San_Zi_Jing.getValue());
+        mInstance = this;
     }
 }

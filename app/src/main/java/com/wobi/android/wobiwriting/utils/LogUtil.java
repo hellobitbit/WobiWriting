@@ -30,7 +30,7 @@ public class LogUtil {
     private static boolean LOGW_ON = DEBUG;
     private static boolean LOGE_ON = DEBUG;
     // 是否log写文件
-    private static boolean isWriteFile = true;
+    private static boolean isWriteFile = false;
 
     /**
      * 设置debug 开关

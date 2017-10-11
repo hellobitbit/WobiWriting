@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ededed">
+
+    <ImageView
+        android:background="@drawable/kewen_directory_poster"
+        android:layout_width="match_parent"
+        android:layout_height="210dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="13dp"
+        android:id="@+id/recycler_kewen_directory"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

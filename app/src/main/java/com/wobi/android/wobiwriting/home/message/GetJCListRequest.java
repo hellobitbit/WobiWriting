@@ -11,5 +11,6 @@ public class GetJCListRequest extends Request {
 
     public GetJCListRequest(){
         setRequestType(BusinessType.BT_Get_JC_List.getValue());
+        mInstance = this;
     }
 }

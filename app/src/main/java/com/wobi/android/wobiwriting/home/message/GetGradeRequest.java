@@ -11,5 +11,6 @@ public class GetGradeRequest extends Request {
 
     public GetGradeRequest(){
         setRequestType(BusinessType.BT_Get_Grade.getValue());
+        mInstance = this;
     }
 }

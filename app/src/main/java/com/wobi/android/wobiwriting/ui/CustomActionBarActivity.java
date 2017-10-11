@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.wobi.android.wobiwriting.R;
+import com.wobi.android.wobiwriting.utils.LogUtil;
 
 /**
  * Created by wangyingren on 2017/9/13.
@@ -55,7 +56,7 @@ public abstract class CustomActionBarActivity extends AppCompatActivity {
             }
 
             if (getActionBarRightTitleRes() == -1){
-                rightButton.setVisibility(View.INVISIBLE);
+                rightTitle.setVisibility(View.INVISIBLE);
             }else {
                 rightTitle.setVisibility(View.VISIBLE);
                 rightTitle.setText(getActionBarRightTitleRes());

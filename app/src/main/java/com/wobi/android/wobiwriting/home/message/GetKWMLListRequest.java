@@ -15,6 +15,7 @@ public class GetKWMLListRequest extends Request {
 
     public GetKWMLListRequest(){
         setRequestType(BusinessType.BT_Get_KWML_List.getValue());
+        mInstance = this;
     }
 
     public void setJcId(int jc_id){

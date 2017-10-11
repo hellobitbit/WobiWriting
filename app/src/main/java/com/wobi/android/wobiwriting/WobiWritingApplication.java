@@ -26,6 +26,7 @@ public class WobiWritingApplication extends Application{
     @Override
     public void onCreate(){
         super.onCreate();
+        useCachedBusinessServer();
         initNetworkManager();
         initImageLoader(getApplicationContext());
     }
@@ -62,4 +63,7 @@ public class WobiWritingApplication extends Application{
         });
     }
 
+    private void useCachedBusinessServer(){
+        HttpConfig.setBusinessServer(SharedPrefUtil.getBusinessUrl(WobiWritingApplication.this));
+    }
 }

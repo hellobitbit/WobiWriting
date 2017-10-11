@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">沃笔习字</string>
+    <string name="moments_search_hint">请输入沃比圈名称或者邀请码</string>
+
+    <string name="action_bar_right_title_confirm">确定</string>
+    <string name="action_bar_right_title_send">发送</string>
+
+    //main activity
+    <string name="home">首页</string>
+    <string name="moment">沃笔圈</string>
+    <string name="me">我的</string>
+
+    //me related
+    <string name="moment_num_title">圈子</string>
+    <string name="follow_num_title">关注</string>
+    <string name="wodou_num_title">沃豆</string>
+    <string name="share_the_app_to_others_title">把沃笔习字推荐给好友</string>
+    <string name="account_exit_title">退出此账号</string>
+    <string name="activity_feedback_title">用户反馈</string>
+    <string name="activity_feedback_content_hint">您好，请填写您的宝贵意见</string>
+    <string name="activity_feedback_assistant">小贴士:</string>
+    <string name="activity_feedback_assistant_content">感谢您对沃笔习字一直以来的支持\n您的建议我们会及时采纳的.</string>
+    <string name="activity_personal_info_title">我的信息</string>
+    <string name="activity_my_info_head_portrait">头像</string>
+    <string name="activity_my_info_name">名字</string>
+    <string name="activity_my_info_description">介绍</string>
+    <string name="activity_my_moment_title">我的圈子</string>
+    <string name="activity_my_wodou_title">充值中心</string>
+
+    //home related
+    <string name="home_item_speak">说文解字</string>
+    <string name="home_item_speak_word_source">字源</string>
+    <string name="home_item_speak_word_shape">字形演变</string>
+    <string name="home_item_speak_description">详细释义</string>
+    <string name="home_item_speak_story">国学故事</string>
+
+    <string name="home_item_writing">汉字书写</string>
+    <string name="home_item_writing_bishun">笔顺</string>
+    <string name="home_item_writing_blackbroad">板书书写</string>
+    <string name="home_item_writing_hard">硬笔书写</string>
+    <string name="home_item_writing_brush">毛笔书写</string>
+
+    <string name="home_item_writing_class">书法课堂</string>
+    <string name="home_item_writing_class_hard">年级同步硬笔</string>
+    <string name="home_item_writing_class_brush">年级同步毛笔</string>
+
+    <string name="home_item_classic">国学经典</string>
+    <string name="home_item_classic_dizigui">弟子规</string>
+    <string name="home_item_classic_three">三字经</string>
+    <string name="home_item_classic_daode">道德经</string>
+    <string name="home_item_classic_ancient_poetry">古诗</string>
+</resources>

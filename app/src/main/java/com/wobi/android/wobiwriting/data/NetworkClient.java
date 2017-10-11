@@ -1,5 +1,8 @@
 package com.wobi.android.wobiwriting.data;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.wobi.android.wobiwriting.data.dispatcher.ResponseDispatcher;
 import com.wobi.android.wobiwriting.data.heartbeat.HeartBeat;
 import com.wobi.android.wobiwriting.http.HttpConfig;
@@ -18,6 +21,7 @@ import okhttp3.Response;
 
 public class NetworkClient {
 
+    private Handler mSenderHandler = new Handler(Looper.getMainLooper());
     private static final String TAG = "NetworkClient";
     private final HttpRequestInterface httpRequestImp;
     private final HeartBeat heartBeat;
@@ -71,22 +75,20 @@ public class NetworkClient {
             @Override
             public void onResponse(Response response, int id) {
                 super.onResponse(response, id);
-
-                if (listener != null) {
-//                    try {
-////                        listener.onSucceed(response.body().string());
-////                        LogUtil.d(TAG, "onResponse  ," + response.body().string());
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-                }
+                // do nothing
             }
 
             @Override
             public Response parseNetworkResponse(Response response, int id) throws Exception {
-                int statusCode = response.code();
+                final int statusCode = response.code();
+                final String json = response.body().string();
                 if (statusCode == 200) {
-                    listener.onSucceed(response.body().string());
+                    mSenderHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.onSucceed(json);
+                        }
+                    });
                 }
                 return response;
             }

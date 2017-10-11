@@ -9,16 +9,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
 import com.wobi.android.wobiwriting.R;
+import com.wobi.android.wobiwriting.data.IResponseListener;
+import com.wobi.android.wobiwriting.data.NetDataManager;
+import com.wobi.android.wobiwriting.home.message.GetJCListRequest;
+import com.wobi.android.wobiwriting.home.message.GetJCListResponse;
 import com.wobi.android.wobiwriting.moments.CommunityListAdapter;
 import com.wobi.android.wobiwriting.moments.SendMomentActivity;
+import com.wobi.android.wobiwriting.moments.message.SearchCommunityByNameRequest;
+import com.wobi.android.wobiwriting.utils.LogUtil;
 
 /**
  * Created by wangyingren on 2017/9/9.
  */
 
 public class MomentsFragment extends Fragment implements View.OnClickListener{
-
+    private static final String TAG = "MomentsFragment";
+    private Gson gson = new Gson();
     private ListView mListView;
     private ImageView mSendMoment;
 
@@ -33,6 +41,7 @@ public class MomentsFragment extends Fragment implements View.OnClickListener{
         mListView = (ListView) view.findViewById(R.id.momentsList);
         mSendMoment = (ImageView)view.findViewById(R.id.sendMoment);
         mSendMoment.setOnClickListener(this);
+        searchCommunityListbyName("毛笔字");
     }
 
     @Override
@@ -50,5 +59,23 @@ public class MomentsFragment extends Fragment implements View.OnClickListener{
                 getActivity().startActivity(sendMomentIntent);
                 break;
         }
+    }
+
+    private void searchCommunityListbyName(String name){
+        SearchCommunityByNameRequest request = new SearchCommunityByNameRequest();
+        request.setKeyword(name);
+        String jsonBody = request.jsonToString();
+        NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
+            @Override
+            public void onSucceed(String response) {
+                LogUtil.d(TAG," response: "+response);
+
+            }
+
+            @Override
+            public void onFailed(String errorMessage) {
+                LogUtil.e(TAG," error: "+errorMessage);
+            }
+        });
     }
 }

@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.wobi.android.wobiwriting.R;
+import com.wobi.android.wobiwriting.home.model.Grade;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public abstract class AbstractSpinnerAdapter<T> extends BaseAdapter {
     private List<T> mObjects = new ArrayList<T>();
     private int mSelectItem = 0;
 
-    private LayoutInflater mInflater;
+    protected LayoutInflater mInflater;
 
     public AbstractSpinnerAdapter(Context context) {
         init(context);
@@ -57,33 +58,13 @@ public abstract class AbstractSpinnerAdapter<T> extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int pos) {
-        return mObjects.get(pos).toString();
+    public T getItem(int pos) {
+        return mObjects.get(pos);
     }
 
     @Override
     public long getItemId(int pos) {
         return pos;
-    }
-
-    @Override
-    public View getView(int pos, View convertView, ViewGroup arg2) {
-        ViewHolder viewHolder;
-
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.spiner_item_layout, null);
-            viewHolder = new ViewHolder();
-            viewHolder.mTextView = (TextView) convertView.findViewById(R.id.textView);
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-
-
-        Object item = getItem(pos);
-        viewHolder.mTextView.setText(item.toString());
-
-        return convertView;
     }
 
     public static class ViewHolder {

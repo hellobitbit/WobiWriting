@@ -31,7 +31,7 @@ public class MeFragment extends Fragment implements View.OnClickListener{
     }
 
     private void initView(View view){
-        FrameLayout userInfo = (FrameLayout)view.findViewById(R.id.user_info);
+        RelativeLayout userInfo = (RelativeLayout)view.findViewById(R.id.user_info);
 
         RelativeLayout shareApp = (RelativeLayout)view.findViewById(R.id.share_app);
         RelativeLayout userFeedback = (RelativeLayout)view.findViewById(R.id.user_feedback);

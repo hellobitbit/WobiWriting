@@ -76,11 +76,18 @@ public class CustomSettingBar extends RelativeLayout {
         ImageView leftIcon = (ImageView)findViewById(R.id.leftIcon);
         if (mHaveLeftIcon){
             leftIcon.setVisibility(VISIBLE);
+            if (mLeftIconId != 0){
+                leftIcon.setImageResource(mLeftIconId);
+            }
         }
 
         TextView leftView = (TextView)findViewById(R.id.leftText);
         if (mLeftTextValue != 0) {
             leftView.setText(mLeftTextValue);
+        }
+
+        if (mLeftTextColor != 0){
+            leftView.setTextColor(mLeftTextColor);
         }
     }
 

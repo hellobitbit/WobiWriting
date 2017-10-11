@@ -11,5 +11,6 @@ public class DiZiGuiRequest extends Request {
 
     public DiZiGuiRequest(){
         setRequestType(BusinessType.BT_Di_Zi_Gui.getValue());
+        mInstance = this;
     }
 }

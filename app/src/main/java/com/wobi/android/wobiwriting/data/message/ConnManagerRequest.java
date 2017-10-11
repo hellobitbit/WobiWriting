@@ -9,13 +9,9 @@ import com.wobi.android.wobiwriting.data.BusinessType;
 
 public class ConnManagerRequest extends Request {
 
-    protected static Gson gson = new Gson();
-
     public ConnManagerRequest(){
         setRequestType(BusinessType.BT_ConnManager.getValue());
+        mInstance =  this;
     }
 
-    public static String jsonToString(Request request){
-        return gson.toJson(request);
-    }
 }

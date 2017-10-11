@@ -6,21 +6,16 @@
     android:background="#FFFFFF">
 
     <FrameLayout
-        android:id="@+id/bottom_background"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_alignParentBottom="true"/>
-
-    <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_background"
-        android:layout_marginBottom="@dimen/home_screen_vertical_margin"/>
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="48dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="68dp"
+        android:background="@drawable/main_bottom_background"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
@@ -30,8 +25,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
-            customer:NoSelectedSrc="@mipmap/ic_launcher"
-            customer:SelectedSrc="@mipmap/ic_launcher_round"
+            customer:NoSelectedSrc="@drawable/shouye_normal"
+            customer:SelectedSrc="@drawable/shouye_selected"
             customer:isSelected="false"
             customer:textValue="@string/home"/>
 
@@ -41,8 +36,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
-            customer:NoSelectedSrc="@mipmap/ic_launcher"
-            customer:SelectedSrc="@mipmap/ic_launcher_round"
+            customer:NoSelectedSrc="@drawable/wobiquan_normal"
+            customer:SelectedSrc="@drawable/wobiquan_selected"
             customer:isSelected="false"
             customer:textValue="@string/moment"/>
 
@@ -53,8 +48,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
-            customer:NoSelectedSrc="@mipmap/ic_launcher"
-            customer:SelectedSrc="@mipmap/ic_launcher_round"
+            customer:NoSelectedSrc="@drawable/wode_normal"
+            customer:SelectedSrc="@drawable/wode_selected"
             customer:isSelected="false"
             customer:textValue="@string/me"/>
 

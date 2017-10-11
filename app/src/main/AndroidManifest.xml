@@ -12,15 +12,16 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
+    <!--android:roundIcon="@mipmap/ic_launcher_round"-->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:name=".WobiWritingApplication"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.MainActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,6 +31,7 @@
         <activity android:name=".home.SpeakCNActivity"/>
         <activity android:name=".home.CNClassicActivity"/>
         <activity android:name=".home.CalligraphyClassActivity"/>
+        <activity android:name=".home.KewenDirectoryActivity"/>
         <activity android:name=".moments.SendMomentActivity"/>
         <activity android:name=".moments.ImagePickerActivity"/>
         <activity android:name=".me.MyInformationActivity"/>

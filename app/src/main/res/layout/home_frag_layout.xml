@@ -3,8 +3,8 @@
     xmlns:customer="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="9dp"
     android:orientation="vertical">
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/home_screen_poster_height">
@@ -12,7 +12,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@mipmap/ic_launcher" />
+            android:background="@drawable/banner" />
 
         <TextView
             android:background="@drawable/home_grade_title_default_shape_corner"
@@ -39,7 +39,7 @@
         customer:itemSubType2Name="@string/home_item_speak_word_shape"
         customer:itemSubType3Name="@string/home_item_speak_description"
         customer:itemSubType4Name="@string/home_item_speak_story"
-        customer:itemTypeIcon="@mipmap/ic_launcher"
+        customer:itemTypeIcon="@drawable/shuowenjiezi"
         customer:itemTypeName="@string/home_item_speak" />
 
     <com.wobi.android.wobiwriting.views.HomeItemView
@@ -55,7 +55,7 @@
         customer:itemSubType2Name="@string/home_item_writing_blackbroad"
         customer:itemSubType3Name="@string/home_item_writing_hard"
         customer:itemSubType4Name="@string/home_item_writing_brush"
-        customer:itemTypeIcon="@mipmap/ic_launcher"
+        customer:itemTypeIcon="@drawable/hanzishuxie"
         customer:itemTypeName="@string/home_item_writing" />
 
     <com.wobi.android.wobiwriting.views.HomeItemView
@@ -69,7 +69,7 @@
         android:background="@drawable/home_calligraphy_shape_corner"
         customer:itemSubType1Name="@string/home_item_writing_class_hard"
         customer:itemSubType3Name="@string/home_item_writing_class_brush"
-        customer:itemTypeIcon="@mipmap/ic_launcher"
+        customer:itemTypeIcon="@drawable/shufaketang"
         customer:itemTypeName="@string/home_item_writing_class" />
 
     <com.wobi.android.wobiwriting.views.HomeItemView
@@ -85,6 +85,6 @@
         customer:itemSubType2Name="@string/home_item_classic_three"
         customer:itemSubType3Name="@string/home_item_classic_daode"
         customer:itemSubType4Name="@string/home_item_classic_ancient_poetry"
-        customer:itemTypeIcon="@mipmap/ic_launcher"
+        customer:itemTypeIcon="@drawable/guoxuejindian"
         customer:itemTypeName="@string/home_item_classic" />
 </LinearLayout>

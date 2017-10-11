@@ -3,40 +3,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/moments_search_bar"
         android:layout_width="match_parent"
         android:layout_alignParentTop="true"
-        android:background="#FF6A6A"
+        android:background="#ff5f5e"
         android:layout_height="48dp" >
+
+        <TextView
+            android:id="@+id/cancelSearch"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@android:color/white"
+            android:layout_width="57dp"
+            android:layout_height="match_parent" />
+
         <EditText
-            android:background="#FFFFFF"
-            android:padding="3dp"
-            android:drawableLeft="@mipmap/ic_launcher"
+            android:layout_toLeftOf="@id/cancelSearch"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/search_background_shape_corner"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textSize="13sp"
+            android:drawablePadding="7dp"
+            android:drawableLeft="@drawable/search_in_edittext"
             android:hint="@string/moments_search_hint"
-            android:layout_margin="@dimen/screen_margin_size"
+            android:textColorHint="#bcbcbc"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </FrameLayout>
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/momentsList"
         android:layout_below="@id/moments_search_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="@dimen/screen_margin_size"
-        android:layout_marginLeft="@dimen/screen_margin_size"
-        android:layout_marginRight="@dimen/screen_margin_size"/>
+        android:dividerHeight="12dp" />
 
     <ImageView
         android:clickable="true"
         android:id="@+id/sendMoment"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/camera_capture"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="15dp"
+        android:layout_marginRight="4dp"
         android:layout_marginBottom="50dp"
-        android:layout_width="48dp"
-        android:layout_height="48dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
