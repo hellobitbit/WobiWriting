@@ -7,52 +7,56 @@
 
     <RelativeLayout
         android:id="@+id/my_info_user_head_portrait_bar"
-        android:layout_marginTop="@dimen/customer_setting_bar_margin_size"
-        android:layout_marginLeft="@dimen/customer_setting_bar_margin_size"
+        android:layout_marginTop="16dp"
         android:layout_width="match_parent"
-        android:layout_height="108dp">
+        android:layout_height="67dp">
         <TextView
             android:text="@string/activity_my_info_head_portrait"
+            android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:layout_centerVertical="true"/>
         <ImageView
             android:id="@+id/my_info_user_head_portrait"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
             android:src="@mipmap/ic_launcher"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginRight="15dp"/>
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorPrimaryDark" />
+        android:layout_height="0.5dp"
+        android:background="#ffd5d4" />
 
     <com.wobi.android.wobiwriting.views.CustomSettingBar
         android:id="@+id/my_info_user_name_bar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="57dp"
+        customer:leftTextMarginLeft="20dp"
+        customer:rightIconMarginRight="14dp"
         customer:leftIconVisible="false"
         customer:leftTextValue="@string/activity_my_info_name" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorPrimaryDark" />
+        android:layout_height="0.5dp"
+        android:background="#ffd5d4" />
 
     <com.wobi.android.wobiwriting.views.CustomSettingBar
         android:id="@+id/my_info_user_description_bar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="57dp"
+        customer:rightIconMarginRight="14dp"
+        customer:leftTextMarginLeft="20dp"
         customer:leftIconVisible="false"
         customer:leftTextValue="@string/activity_my_info_description" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorPrimaryDark" />
+        android:layout_height="0.5dp"
+        android:background="#ffd5d4" />
 </LinearLayout>

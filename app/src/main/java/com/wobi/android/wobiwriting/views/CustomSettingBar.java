@@ -95,4 +95,14 @@ public class CustomSettingBar extends RelativeLayout {
         TextView rightTextView = (TextView)findViewById(R.id.rightText);
         rightTextView.setText(resId);
     }
+
+    public void setRightText(String text){
+        TextView rightTextView = (TextView)findViewById(R.id.rightText);
+        rightTextView.setText(text);
+    }
+
+    public String getRightText(){
+        TextView rightTextView = (TextView)findViewById(R.id.rightText);
+        return rightTextView.getText().toString();
+    }
 }

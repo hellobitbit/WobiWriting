@@ -10,12 +10,16 @@ import android.widget.RelativeLayout;
 
 import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.views.CustomDialog;
+import com.wobi.android.wobiwriting.views.CustomSettingBar;
 
 /**
  * Created by wangyingren on 2017/9/11.
  */
 
 public class MyInformationActivity extends CustomActionBarActivity implements View.OnClickListener{
+
+    private CustomSettingBar userNameBar;
+    private CustomSettingBar userDescriptionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +31,15 @@ public class MyInformationActivity extends CustomActionBarActivity implements Vi
 
     private void initViews(){
         RelativeLayout headPortraitBar = (RelativeLayout)findViewById(R.id.my_info_user_head_portrait_bar);
-        RelativeLayout userNameBar = (RelativeLayout)findViewById(R.id.my_info_user_name_bar);
-        RelativeLayout uderDescriptionBar = (RelativeLayout)findViewById(R.id.my_info_user_description_bar);
+        userNameBar = (CustomSettingBar)findViewById(R.id.my_info_user_name_bar);
+        userDescriptionBar = (CustomSettingBar)findViewById(R.id.my_info_user_description_bar);
+
+        userNameBar.setRightText("text1");
+        userDescriptionBar.setRightText("text2");
 
         headPortraitBar.setOnClickListener(this);
         userNameBar.setOnClickListener(this);
-        uderDescriptionBar.setOnClickListener(this);
+        userDescriptionBar.setOnClickListener(this);
     }
 
     @Override
@@ -59,11 +66,10 @@ public class MyInformationActivity extends CustomActionBarActivity implements Vi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.my_info_user_description_bar:
-                break;
-            case R.id.my_info_user_name_bar:
                 CustomDialog.Builder builder = new CustomDialog.Builder(this);
-                builder.setMessage("这个就是自定义的提示框");
-                builder.setTitle("提示");
+                builder.setMessage(userDescriptionBar.getRightText());
+                builder.setMessageType(CustomDialog.MessageType.EditText);
+                builder.setTitle("介绍修改");
                 builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -80,7 +86,29 @@ public class MyInformationActivity extends CustomActionBarActivity implements Vi
 
                 builder.create().show();
                 break;
+            case R.id.my_info_user_name_bar:
+                CustomDialog.Builder userNameBarBuilder = new CustomDialog.Builder(this);
+                userNameBarBuilder.setMessage(userNameBar.getRightText());
+                userNameBarBuilder.setMessageType(CustomDialog.MessageType.EditText);
+                userNameBarBuilder.setTitle("名字修改");
+                userNameBarBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        //设置你的操作事项
+                    }
+                });
+
+                userNameBarBuilder.setNegativeButton("取消",
+                        new android.content.DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                userNameBarBuilder.create().show();
+                break;
             case R.id.my_info_user_head_portrait_bar:
+
                 break;
         }
     }

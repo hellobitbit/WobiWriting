@@ -6,6 +6,11 @@
     <TextView
         android:id="@+id/assistant_content"
         android:text="@string/activity_feedback_assistant_content"
+        android:textColor="#8a8a8a"
+        android:paddingLeft="40dp"
+        android:paddingBottom="48dp"
+        android:paddingTop="18dp"
+        android:textSize="12dp"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -15,20 +20,25 @@
         android:layout_above="@id/assistant_content"
         android:textColor="@color/colorPrimary"
         android:text="@string/activity_feedback_assistant"
+        android:paddingLeft="24dp"
+        android:paddingTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <View
         android:id="@+id/space"
         android:layout_above="@id/assistant_title"
-        android:background="@color/colorPrimary"
+        android:background="#a3a3a3"
         android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:layout_height="0.5dp"/>
 
     <EditText
         android:layout_above="@id/space"
         android:id="@+id/user_feedback_content"
         android:gravity="left|top"
+        android:padding="24dp"
+        android:textSize="12dp"
+        android:textColorHint="#8a8a8a"
         android:hint="@string/activity_feedback_content_hint"
         android:layout_width="match_parent"
         android:background="@null"

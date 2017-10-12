@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,9 +30,15 @@ public class CustomDialog extends Dialog {
         super(context, themeResId);
     }
 
+    public static enum MessageType{
+        TextView,
+        EditText
+    }
+
     public static class Builder {
         private Context context;
         private String title;
+        private MessageType type;
         private String message;
         private String positiveButtonText;
         private String negativeButtonText;
@@ -40,6 +48,11 @@ public class CustomDialog extends Dialog {
 
         public Builder(Context context) {
             this.context = context;
+        }
+
+        public Builder setMessageType(MessageType type){
+            this.type =  type;
+            return this;
         }
 
         public Builder setMessage(String message) {
@@ -170,14 +183,25 @@ public class CustomDialog extends Dialog {
             }
             // set the content message
             if (message != null) {
-                ((TextView) layout.findViewById(R.id.message)).setText(message);
+                if (type ==  MessageType.EditText){
+                    ((TextView) layout.findViewById(R.id.message)).setVisibility(View.GONE);
+                    ((EditText) layout.findViewById(R.id.edit_message)).setVisibility(View.VISIBLE);
+                    ((EditText) layout.findViewById(R.id.edit_message)).setText(message);
+                    ((EditText) layout.findViewById(R.id.edit_message)).setSelection(message.length());
+                }else {
+                    ((TextView) layout.findViewById(R.id.message)).setVisibility(View.VISIBLE);
+                    ((TextView) layout.findViewById(R.id.message)).setText(message);
+                    ((EditText) layout.findViewById(R.id.edit_message)).setVisibility(View.GONE);
+                }
+
             } else if (contentView != null) {
                 // if no message set
                 // add the contentView to the dialog body
-                ((LinearLayout) layout.findViewById(R.id.content))
+                ((FrameLayout) layout.findViewById(R.id.content))
                         .removeAllViews();
-                ((LinearLayout) layout.findViewById(R.id.content))
-                        .addView(contentView, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
+                ((FrameLayout) layout.findViewById(R.id.content))
+                        .addView(contentView, new LayoutParams(LayoutParams.MATCH_PARENT,
+                                LayoutParams.MATCH_PARENT));
             }
             dialog.setContentView(layout);
             return dialog;
