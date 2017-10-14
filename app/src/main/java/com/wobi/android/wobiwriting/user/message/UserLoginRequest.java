@@ -12,6 +12,7 @@ public class UserLoginRequest extends UserRegisterBaseRequest {
 
     public UserLoginRequest(){
         setRequestType(BusinessType.BT_User_Login.getValue());
+        mInstance =  this;
     }
 
     public void setPassword(String password){

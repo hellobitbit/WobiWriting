@@ -12,7 +12,7 @@ public class UserGetInfoResponse extends Response {
 
     private String name; //用户名字
 
-    private int sex;   //0为男 1是女
+    private String sex;   //0为男 1是女
 
     private String city_code; //区域代码
 
@@ -20,9 +20,9 @@ public class UserGetInfoResponse extends Response {
 
     private String request_code; //邀请码
 
-    private int wobi_beans; //沃笔豆豆的数量
+    private String wobi_beans; //沃笔豆豆的数量
 
-    private int user_amount; //用户账户余额（只限圈主）
+    private String balance; //用户账户余额（只限圈主）
 
     private int community_count; // 加入和创建的圈子的总数
 
@@ -34,7 +34,7 @@ public class UserGetInfoResponse extends Response {
         return name;
     }
 
-    public int getSex(){
+    public String getSex(){
         return sex;
     }
 
@@ -50,12 +50,12 @@ public class UserGetInfoResponse extends Response {
         return request_code;
     }
 
-    public int getWobiBeans(){
+    public String getWobiBeans(){
         return wobi_beans;
     }
 
-    public int getUserAmount(){
-        return user_amount;
+    public String getBalance(){
+        return balance;
     }
 
     public int getCommunityCount(){

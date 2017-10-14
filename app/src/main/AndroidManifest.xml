@@ -39,6 +39,11 @@
         <activity android:name=".me.MyMomentActivity"/>
         <activity android:name=".me.MyFollowActivity"/>
         <activity android:name=".me.MyWodouActivity"/>
+        <activity android:name=".user.LoginActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".user.RegisterActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".user.GetVerifyCodeActivity"/>
     </application>
 
 </manifest>

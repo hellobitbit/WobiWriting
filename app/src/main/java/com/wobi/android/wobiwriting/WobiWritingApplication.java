@@ -13,6 +13,7 @@ import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.data.message.ConnManagerRequest;
 import com.wobi.android.wobiwriting.data.message.ConnManagerResponse;
 import com.wobi.android.wobiwriting.http.HttpConfig;
+import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
 
 /**
@@ -20,12 +21,14 @@ import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
  */
 
 public class WobiWritingApplication extends Application{
+    private static final String TAG = "WobiWritingApplication";
     private NetDataManager netDataManager;
     private Gson gson = new Gson();
 
     @Override
     public void onCreate(){
         super.onCreate();
+        HttpConfig.setSessionId(SharedPrefUtil.getSessionId(getApplicationContext()));
         useCachedBusinessServer();
         initNetworkManager();
         initImageLoader(getApplicationContext());
@@ -51,6 +54,7 @@ public class WobiWritingApplication extends Application{
         netDataManager.getBusinessServerAddress(new IResponseListener() {
             @Override
             public void onSucceed(String response) {
+                LogUtil.d(TAG," response: "+response);
                 ConnManagerResponse obj = gson.fromJson(response, ConnManagerResponse.class);
                 SharedPrefUtil.saveBusinessUrl(WobiWritingApplication.this, obj.getUrl());
                 HttpConfig.setBusinessServer(obj.getUrl());

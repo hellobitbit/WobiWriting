@@ -15,6 +15,7 @@ public class UserCommitRegisterInfoRequest extends UserRegisterBaseRequest {
 
     public UserCommitRegisterInfoRequest(){
         setRequestType(BusinessType.BT_User_Commit_Register_Info.getValue());
+        mInstance = this;
     }
 
     public void setPassword(String password){

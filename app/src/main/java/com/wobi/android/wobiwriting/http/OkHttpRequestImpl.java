@@ -18,6 +18,11 @@ public class OkHttpRequestImpl implements HttpRequestInterface {
     @Override
     public void doPostEventStringAsync(String bodyJson, HttpCallback callback) {
         LogUtil.d(TAG, "doPostEventStringAsync-bodyJson:" + bodyJson);
+        if (HttpConfig.getBusinessServer() == null
+                || HttpConfig.getBusinessServer().isEmpty()){
+            LogUtil.d(TAG, " return since have no business address");
+            return;
+        }
         DcsHttpManager.post()
                 .url(HttpConfig.getBusinessServer())
                 .content(bodyJson)
@@ -29,7 +34,7 @@ public class OkHttpRequestImpl implements HttpRequestInterface {
 
     @Override
     public void getBusinessServerAsync(String bodyJson, HttpCallback callback) {
-        LogUtil.d(TAG, "doPostEventStringAsync-bodyJson:" + bodyJson);
+        LogUtil.d(TAG, "getBusinessServerAsync-bodyJson:" + bodyJson);
         DcsHttpManager.post()
                 .url(HttpConfig.getManagerServerUrl())
                 .content(bodyJson)

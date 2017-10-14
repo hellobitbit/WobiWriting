@@ -28,13 +28,13 @@ public class HttpConfig {
     }
 
 
-    public static String accessToken = "";
+    public static String session_id = "";
 
-    public static String getAccessToken() {
-        return accessToken;
+    public static String getSessionId() {
+        return session_id;
     }
 
-    public static void setAccessToken(String accessToken) {
-        HttpConfig.accessToken = accessToken;
+    public static void setSessionId(String session_id) {
+        HttpConfig.session_id = session_id;
     }
 }

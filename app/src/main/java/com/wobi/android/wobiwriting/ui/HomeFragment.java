@@ -121,6 +121,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     }
 
     private void loadGradeInfo(){
+
         GetGradeRequest request = new GetGradeRequest();
         String jsonBody = request.jsonToString();
         NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {

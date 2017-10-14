@@ -10,5 +10,6 @@ public class UserVerifyPhoneRequest extends UserRegisterBaseRequest {
 
     public UserVerifyPhoneRequest(){
         setRequestType(BusinessType.BT_User_Verify_Phone.getValue());
+        mInstance = this;
     }
 }

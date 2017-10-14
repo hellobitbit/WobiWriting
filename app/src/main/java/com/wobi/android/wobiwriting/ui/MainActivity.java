@@ -1,5 +1,8 @@
 package com.wobi.android.wobiwriting.ui;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,16 +14,23 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.wobi.android.wobiwriting.R;
+import com.wobi.android.wobiwriting.user.GetVerifyCodeActivity;
+import com.wobi.android.wobiwriting.user.LoginActivity;
+import com.wobi.android.wobiwriting.utils.LogUtil;
+import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
+import com.wobi.android.wobiwriting.views.CustomDialog;
 import com.wobi.android.wobiwriting.views.TargetToolBar;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener{
-
+    private static final String TAG = "MainActivity";
     private static final String HOME_FRAG_TAG ="home_frag_tag";
     private static final String MOMENTS_FRAG_TAG ="moments_frag_tag";
     private static final String ME_FRAG_TAG ="me_frag_tag";
     private TargetToolBar mHomeBar;
     private TargetToolBar mMomentsBar;
     private TargetToolBar mMeBar;
+
+    private DialogInterface mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,11 +129,18 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 updateStatusDisplay();
                 break;
             case R.id.me:
+                if (mHomeBar.isSelected()){
+                    maybeShowLoginDialog(HOME_FRAG_TAG);
+                }else if (mMomentsBar.isSelected()){
+                    maybeShowLoginDialog(MOMENTS_FRAG_TAG);
+                }
                 showFragment(ME_FRAG_TAG);
                 mMeBar.setSelected();
                 mHomeBar.setNoSelected();
                 mMomentsBar.setNoSelected();
                 updateStatusDisplay();
+
+
                 break;
         }
     }
@@ -139,6 +156,54 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void maybeShowLoginDialog(final String tag){
+        if (SharedPrefUtil.getLoginInfo(getApplicationContext()).isEmpty()){
+            CustomDialog.Builder builder = new CustomDialog.Builder(this);
+            builder.setMessage("登录后才能使用此功能");
+            builder.setMessageType(CustomDialog.MessageType.TextView);
+            builder.setTitle("提示");
+            builder.setPositiveButton("去登陆", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.dismiss();
+                    mDialog = dialog;
+                    //设置你的操作事项
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivityForResult(intent,LoginActivity.REQUEST_CODE);
+                }
+            });
+
+            builder.setNegativeButton("取消",
+                    new android.content.DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            if (tag.equals(HOME_FRAG_TAG)){
+                                mHomeBar.performClick();
+                            }else if (tag.equals(MOMENTS_FRAG_TAG)){
+                                mMomentsBar.performClick();
+                            }
+                        }
+                    });
+            builder.setCancelable(false);
+            builder.create().show();
+
+        }else {
+            LogUtil.d(TAG, "maybeShowLoginDialog user has login");
+        }
+    }
+
+    // 回调方法，从第二个页面回来的时候会执行这个方法
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        LogUtil.d(TAG,"onActivityResult resultCode == "+resultCode+"  requestCode == "+requestCode);
+        // 根据上面发送过去的请求吗来区别
+        if (requestCode == LoginActivity.REQUEST_CODE
+                && resultCode == LoginActivity.RESULT_CODE_SUCCESS){
+            if (mDialog != null){
+                mDialog.dismiss();
+            }
         }
     }
 }

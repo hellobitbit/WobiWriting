@@ -9,13 +9,14 @@ import com.wobi.android.wobiwriting.data.message.Request;
 
 public class UserGetInfoRequest extends Request {
 
-    private String user_id; //用户id
+    private int user_id; //用户id
 
     public UserGetInfoRequest(){
         setRequestType(BusinessType.BT_User_Get_Info.getValue());
+        mInstance = this;
     }
 
-    public void setUserId(String user_id){
+    public void setUserId(int user_id){
         this.user_id = user_id;
     }
 }

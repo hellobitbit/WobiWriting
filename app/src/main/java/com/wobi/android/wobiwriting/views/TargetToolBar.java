@@ -68,6 +68,10 @@ public class TargetToolBar extends RelativeLayout{
         updateToolBarStatus();
     }
 
+    public boolean isSelected(){
+        return isSelected;
+    }
+
     private void updateToolBarStatus(){
         if (isSelected){
             mToolBarIcon.setImageResource(mSelectedIconId);

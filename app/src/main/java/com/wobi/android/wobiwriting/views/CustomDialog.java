@@ -39,6 +39,7 @@ public class CustomDialog extends Dialog {
         private Context context;
         private String title;
         private MessageType type;
+        private boolean flag;
         private String message;
         private String positiveButtonText;
         private String negativeButtonText;
@@ -52,6 +53,11 @@ public class CustomDialog extends Dialog {
 
         public Builder setMessageType(MessageType type){
             this.type =  type;
+            return this;
+        }
+
+        public Builder setCancelable(boolean flag){
+            this.flag = flag;
             return this;
         }
 
@@ -143,6 +149,7 @@ public class CustomDialog extends Dialog {
             View layout = inflater.inflate(R.layout.dialog_normal_layout, null);
             dialog.addContentView(layout, new LayoutParams(
                     LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+            dialog.setCancelable(flag);
             // set the dialog title
             ((TextView) layout.findViewById(R.id.title)).setText(title);
             // set the confirm button

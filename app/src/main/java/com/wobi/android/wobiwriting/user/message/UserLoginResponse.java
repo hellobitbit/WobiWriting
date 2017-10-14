@@ -8,15 +8,21 @@ import com.wobi.android.wobiwriting.data.message.Response;
 
 public class UserLoginResponse extends Response {
 
-    private int is_vip; // 0不是,1是
+    private boolean is_vip; // 0不是,1是
 
     private int login_result; // 登录结果,1为成功,2为失败
 
-    public int getIsVip(){
+    private String session_id;
+
+    public boolean getIsVip(){
         return is_vip;
     }
 
     public int getLoginResult(){
         return login_result;
+    }
+
+    public String getSession_id(){
+        return session_id;
     }
 }

@@ -10,5 +10,6 @@ public class UserGetVerifyCodeRequest extends UserRegisterBaseRequest {
 
     public UserGetVerifyCodeRequest(){
         setRequestType(BusinessType.BT_User_Get_Verify_Code.getValue());
+        mInstance = this;
     }
 }
