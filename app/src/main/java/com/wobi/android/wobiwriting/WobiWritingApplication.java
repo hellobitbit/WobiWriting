@@ -2,6 +2,12 @@ package com.wobi.android.wobiwriting;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.PixelFormat;
+import android.os.Handler;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
 
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -10,7 +16,6 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.wobi.android.wobiwriting.data.IResponseListener;
 import com.wobi.android.wobiwriting.data.NetDataManager;
-import com.wobi.android.wobiwriting.data.message.ConnManagerRequest;
 import com.wobi.android.wobiwriting.data.message.ConnManagerResponse;
 import com.wobi.android.wobiwriting.http.HttpConfig;
 import com.wobi.android.wobiwriting.utils.LogUtil;
@@ -25,9 +30,12 @@ public class WobiWritingApplication extends Application{
     private NetDataManager netDataManager;
     private Gson gson = new Gson();
 
+    private Handler handler = new Handler();
+
     @Override
     public void onCreate(){
         super.onCreate();
+//        displaySplash();
         HttpConfig.setSessionId(SharedPrefUtil.getSessionId(getApplicationContext()));
         useCachedBusinessServer();
         initNetworkManager();
@@ -69,5 +77,28 @@ public class WobiWritingApplication extends Application{
 
     private void useCachedBusinessServer(){
         HttpConfig.setBusinessServer(SharedPrefUtil.getBusinessUrl(WobiWritingApplication.this));
+    }
+
+    private void displaySplash(){
+
+        final WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        WindowManager.LayoutParams wmParams = new WindowManager.LayoutParams();
+        // 更多type：https://developer.android.com/reference/android/view/WindowManager.LayoutParams.html#TYPE_PHONE
+        wmParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY;
+        wmParams.format = PixelFormat.TRANSLUCENT;
+        // 更多falgs:https://developer.android.com/reference/android/view/WindowManager.LayoutParams.html#FLAG_NOT_FOCUSABLE
+        wmParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        wmParams.gravity = Gravity.LEFT | Gravity.TOP;
+        wmParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        wmParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        final View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.app_splash_layout, null);
+        wm.addView(view, wmParams);
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                wm.removeView(view);
+            }
+        }, 3000);
     }
 }

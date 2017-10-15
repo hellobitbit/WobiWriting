@@ -3,6 +3,7 @@ package com.wobi.android.wobiwriting.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.wobi.android.wobiwriting.home.CalligraphyClassActivity;
 import com.wobi.android.wobiwriting.home.KewenDirectoryActivity;
 import com.wobi.android.wobiwriting.home.SpeakCNActivity;
 import com.wobi.android.wobiwriting.home.adapters.AbstractSpinnerAdapter;
+import com.wobi.android.wobiwriting.home.adapters.BannerViewpagerAdapter;
 import com.wobi.android.wobiwriting.home.adapters.CustomSpinnerAdapter;
 import com.wobi.android.wobiwriting.home.message.GetGradeRequest;
 import com.wobi.android.wobiwriting.home.message.GetGradeResponse;
@@ -46,6 +48,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
 
     private List<Grade> mGradeList = new ArrayList<>();
     private List<JiaoCaiObject> mJCList = new ArrayList<>();
+    private ViewPager banner_viewpager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -84,6 +87,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
         cnClassic.setOnClickListener(this);
         calligraghyClass.setOnClickListener(this);
         textView.setOnClickListener(this);
+
+        banner_viewpager = (ViewPager) view.findViewById(R.id.banner_viewpager);
+        banner_viewpager.setAdapter(new BannerViewpagerAdapter(getActivity()));
     }
 
     @Override
@@ -120,24 +126,31 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     }
 
     private void loadGradeInfo(){
-
         GetGradeRequest request = new GetGradeRequest();
         String jsonBody = request.jsonToString();
         NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
             @Override
             public void onSucceed(String response) {
                 LogUtil.d(TAG," response: "+response);
-                GetGradeResponse getGradeResponse = gson.fromJson(response, GetGradeResponse.class);
-                mGradeList.clear();
-                mGradeList.addAll(getGradeResponse.getGradeList());
-                mAdapter.refreshData(mGradeList, 0);
-                mSelected = 0;
-                textView.setText(mGradeList.get(0).getGradeName());
+                try {
+                    GetGradeResponse getGradeResponse = gson.fromJson(response, GetGradeResponse.class);
+                    if (getGradeResponse != null && getGradeResponse.getHandleResult().equals("OK")) {
+                        mGradeList.clear();
+                        mGradeList.addAll(getGradeResponse.getGradeList());
+                        mAdapter.refreshData(mGradeList, 0);
+                        mSelected = 0;
+                        textView.setText(mGradeList.get(0).getGradeName());
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    showErrorMsg("获取年级信息异常");
+                }
             }
 
             @Override
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
+                showNetWorkException();
             }
         });
     }

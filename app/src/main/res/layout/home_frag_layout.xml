@@ -9,7 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/home_screen_poster_height">
 
+        <android.support.v4.view.ViewPager
+            android:id="@+id/banner_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
         <ImageView
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/banner" />

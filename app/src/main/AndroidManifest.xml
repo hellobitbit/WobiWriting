@@ -11,8 +11,8 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
-    <!--android:roundIcon="@mipmap/ic_launcher_round"-->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,14 +20,15 @@
         android:name=".WobiWritingApplication"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.MainActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden">
+        <activity android:name=".ui.GuideActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.MainActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity android:name=".home.SpeakCNActivity"/>
         <activity android:name=".home.CNClassicActivity"/>
         <activity android:name=".home.CalligraphyClassActivity"/>

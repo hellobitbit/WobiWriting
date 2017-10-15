@@ -15,6 +15,7 @@ public class SharedPrefUtil {
     private static final String USER_INFO = "user_info";
     private static final String SESSION_ID = "session_id";
     private static final String USER_PASSWORD = "user_password";
+    private static final String GUIDE_USED = "guide_used";
 
     public static void saveBusinessUrl(Context context, String url){
         SharedPreferences userSettings = context.
@@ -70,5 +71,19 @@ public class SharedPrefUtil {
         SharedPreferences userSettings = context.
                 getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
         return userSettings.getString(SESSION_ID,"");
+    }
+
+    public static void saveGuideState(Context context, boolean used){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = userSettings.edit();
+        editor.putBoolean(GUIDE_USED,used);
+        editor.commit();
+    }
+
+    public static boolean getGuideState(Context context){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        return userSettings.getBoolean(GUIDE_USED,false);
     }
 }

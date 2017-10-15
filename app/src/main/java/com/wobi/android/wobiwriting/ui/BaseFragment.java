@@ -18,6 +18,6 @@ public class BaseFragment extends Fragment {
     }
 
     public void showNetWorkException(){
-        showErrorMsg("网络异常");
+        showErrorMsg("网络异常,请检查网络");
     }
 }
