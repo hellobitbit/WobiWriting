@@ -36,10 +36,9 @@ import java.util.List;
  * Created by wangyingren on 2017/9/9.
  */
 
-public class HomeFragment extends Fragment implements View.OnClickListener,
+public class HomeFragment extends BaseFragment implements View.OnClickListener,
         AbstractSpinnerAdapter.IOnItemSelectListener{
     private static final String TAG = "HomeFragment";
-    private Gson gson = new Gson();
     private TextView textView;
     private SpinnerPopWindow mSpinnerPopWindow;
     private CustomSpinnerAdapter mAdapter;

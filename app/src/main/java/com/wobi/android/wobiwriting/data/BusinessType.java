@@ -41,7 +41,9 @@ public enum BusinessType {
     BT_Buy_Single_Video(31),                        /*  购买单个视频 */
     BT_Buy_VIP_Service(32),                             /*  购买VIP服务 */
     BT_Zi_Dong_Ti_Xian(33),                              /*  用户提现 */
-    BT_Upload_GPS_Pos(34);                               /*  上传GPS位置 */
+    BT_Upload_GPS_Pos(34),                               /*  上传GPS位置 */
+    BT_Search_Community_By_Request_Code(35),      /* 根据邀请码搜索圈子 */
+    BT_Search_Popular_Community(36);	          /* 搜索热门圈子 */
 
 
     private int mValue;

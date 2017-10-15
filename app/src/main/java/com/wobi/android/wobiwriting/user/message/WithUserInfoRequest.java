@@ -8,9 +8,9 @@ import com.wobi.android.wobiwriting.data.message.Request;
 
 public class WithUserInfoRequest extends Request {
 
-    private String user_id; // 用户的唯一id
+    private int user_id; // 用户的唯一id
 
-    public void setUserId(String user_id){
+    public void setUserId(int user_id){
         this.user_id = user_id;
     }
 }

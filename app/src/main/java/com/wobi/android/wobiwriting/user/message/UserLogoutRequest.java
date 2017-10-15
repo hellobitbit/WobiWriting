@@ -10,5 +10,6 @@ public class UserLogoutRequest extends WithUserInfoRequest {
 
     public UserLogoutRequest(){
         setRequestType(BusinessType.BT_User_Logout.getValue());
+        mInstance = this;
     }
 }

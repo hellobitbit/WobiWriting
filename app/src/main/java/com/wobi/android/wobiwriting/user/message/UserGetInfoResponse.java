@@ -61,4 +61,8 @@ public class UserGetInfoResponse extends Response {
     public int getCommunityCount(){
         return community_count;
     }
+
+    public String getWobi_beans(){
+        return wobi_beans;
+    }
 }

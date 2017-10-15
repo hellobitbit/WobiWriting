@@ -41,7 +41,7 @@
         android:layout_below="@id/moments_search_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="12dp" />
+        android:dividerHeight="12dp"/>
 
     <ImageView
         android:clickable="true"

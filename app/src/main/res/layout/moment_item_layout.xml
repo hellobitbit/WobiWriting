@@ -10,6 +10,7 @@
         android:text="热门圈子"
         android:gravity="center_vertical"
         android:visibility="gone"
+        android:textColor="@android:color/holo_red_light"
         android:layout_width="match_parent"
         android:layout_height="36dp" />
 
@@ -65,7 +66,7 @@
         android:layout_height="0.5dp"/>
 
     <TextView
-        android:id="@+id/moment_title"
+        android:id="@+id/moment_summary"
         android:textColor="#464545"
         android:text="please help me ~"
         android:layout_marginTop="12dp"
@@ -93,21 +94,21 @@
         android:layout_height="53dp">
         <TextView
             android:id="@+id/like"
-            android:text="30"
+            android:text="0"
             android:layout_weight="1"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="30dp" />
         <TextView
             android:id="@+id/comments"
-            android:text="350"
+            android:text="0"
             android:layout_weight="1"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="30dp" />
         <TextView
             android:id="@+id/forward"
-            android:text="101"
+            android:text="0"
             android:layout_weight="1"
             android:gravity="center"
             android:layout_width="match_parent"
