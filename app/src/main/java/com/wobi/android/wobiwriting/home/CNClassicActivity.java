@@ -40,8 +40,8 @@ public class CNClassicActivity extends BaseVideoActivity {
     private void initData(){
         mTitles.add(getResources().getString(R.string.home_item_classic_dizigui));
         mTitles.add(getResources().getString(R.string.home_item_classic_three));
-        mTitles.add(getResources().getString(R.string.home_item_classic_daode));
-        mTitles.add(getResources().getString(R.string.home_item_classic_ancient_poetry));
+//        mTitles.add(getResources().getString(R.string.home_item_classic_daode));
+//        mTitles.add(getResources().getString(R.string.home_item_classic_ancient_poetry));
     }
 
     @Override
@@ -60,8 +60,14 @@ public class CNClassicActivity extends BaseVideoActivity {
     }
 
     @Override
-    public void onItemClick(View view, int position) {
+    protected void onClickActionBarImageButton(){
+        startSearchActivity(CN_CLASSIC);
+    }
 
+    @Override
+    public void onItemClick(View view, int position) {
+        adapter.setSelected(position);
+        adapter.notifyDataSetChanged();
     }
 
     protected void initDirectory() {

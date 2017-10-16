@@ -10,5 +10,6 @@ public class ShuFaKeTangYBRequest extends ShuFaKeTangRequest {
 
     public ShuFaKeTangYBRequest(){
         setRequestType(BusinessType.BT_Shu_Fa_Ke_Tang_YB.getValue());
+        mInstance = this;
     }
 }

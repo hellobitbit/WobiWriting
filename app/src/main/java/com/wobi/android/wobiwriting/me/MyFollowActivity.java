@@ -9,20 +9,19 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.wobi.android.wobiwriting.R;
+import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 
 /**
  * Created by wangyingren on 2017/9/14.
  */
 
-public class MyFollowActivity extends AppCompatActivity {
-
-    private View mActionbarLayout;
+public class MyFollowActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_follow_layout);
-        setActionbar();
+        setCustomActionBar();
         initViews();
 
     }
@@ -31,15 +30,18 @@ public class MyFollowActivity extends AppCompatActivity {
 
     }
 
-    private void setActionbar(){
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null){
-            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            mActionbarLayout = LayoutInflater.from(this).inflate(
-                    R.layout.actionbar_my_follow_layout, null);
-            actionBar.setCustomView(mActionbarLayout);
-            ImageButton back = (ImageButton) mActionbarLayout.findViewById(R.id.actionbar_left_back);
-            TextView title = (TextView) mActionbarLayout.findViewById(R.id.actionbar_title);
-        }
+    @Override
+    protected int getActionBarTitle() {
+        return 0;
+    }
+
+    @Override
+    protected int getActionBarRightButtonRes() {
+        return 0;
+    }
+
+    @Override
+    protected int getActionBarRightTitleRes() {
+        return -1;
     }
 }

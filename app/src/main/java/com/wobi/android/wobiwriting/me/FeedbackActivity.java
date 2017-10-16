@@ -3,20 +3,20 @@ package com.wobi.android.wobiwriting.me;
 import android.os.Bundle;
 
 import com.wobi.android.wobiwriting.R;
-import com.wobi.android.wobiwriting.ui.CustomActionBarActivity;
+import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 
 /**
  * Created by wangyingren on 2017/9/14.
  */
 
-public class FeedbackActivity extends CustomActionBarActivity{
+public class FeedbackActivity extends ActionBarActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback_layout);
         initViews();
-
+        setCustomActionBar();
     }
 
     private void initViews(){

@@ -1,6 +1,7 @@
 package com.wobi.android.wobiwriting.views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -9,20 +10,33 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wobi.android.wobiwriting.R;
+import com.wobi.android.wobiwriting.ui.HomeFragment;
 
 /**
  * Created by wangyingren on 2017/9/16.
  */
 
 public class HomeItemView extends LinearLayout {
+    public static final String SUB_TYPE = "sub_type";
+    public static final String SUB_TYPE_1 = "sub_type_1";
+    public static final String SUB_TYPE_2 = "sub_type_2";
+    public static final String SUB_TYPE_3 = "sub_type_3";
+    public static final String SUB_TYPE_4 = "sub_type_4";
     private int mItemTypeNameRes;
     private int mItemSubType1NameRes;
     private int mItemSubType2NameRes;
     private int mItemSubType3NameRes;
     private int mItemSubType4NameRes;
     private int mItemTypeIconRes;
+    private LinearLayout mainLayout;
+    private TextView itemTypeName;
+    private TextView itemSubType1Name;
+    private TextView itemSubType2Name;
+    private TextView itemSubType3Name;
+    private TextView itemSubType4Name;
 
     public HomeItemView(Context context) {
         this(context, null);
@@ -54,12 +68,13 @@ public class HomeItemView extends LinearLayout {
         LayoutInflater inflater = (LayoutInflater)context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.home_item_bar_layout, this);
+        mainLayout = (LinearLayout)findViewById(R.id.mainLayout);
         ImageView itemTypeIcon = (ImageView)findViewById(R.id.home_item_type_icon);
-        TextView itemTypeName = (TextView)findViewById(R.id.home_item_type_name);
-        TextView itemSubType1Name = (TextView)findViewById(R.id.home_item_sub_type_name_1);
-        TextView itemSubType2Name = (TextView)findViewById(R.id.home_item_sub_type_name_2);
-        TextView itemSubType3Name = (TextView)findViewById(R.id.home_item_sub_type_name_3);
-        TextView itemSubType4Name = (TextView)findViewById(R.id.home_item_sub_type_name_4);
+        itemTypeName = (TextView)findViewById(R.id.home_item_type_name);
+        itemSubType1Name = (TextView)findViewById(R.id.home_item_sub_type_name_1);
+        itemSubType2Name = (TextView)findViewById(R.id.home_item_sub_type_name_2);
+        itemSubType3Name = (TextView)findViewById(R.id.home_item_sub_type_name_3);
+        itemSubType4Name = (TextView)findViewById(R.id.home_item_sub_type_name_4);
         View intervalBelow = findViewById(R.id.interval_below);
         View intervalAbove = findViewById(R.id.interval_above);
         itemTypeIcon.setImageResource(mItemTypeIconRes);
@@ -83,5 +98,77 @@ public class HomeItemView extends LinearLayout {
             itemSubType4Name.setVisibility(GONE);
             intervalBelow.setVisibility(GONE);
         }
+    }
+
+    public void setMainAndSub1Intent(final Intent intent, final boolean support){
+        mainLayout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (support) {
+                    intent.putExtra(SUB_TYPE, SUB_TYPE_1);
+                    getContext().startActivity(intent);
+                }else {
+                    showMessage();
+                }
+            }
+        });
+
+        itemSubType1Name.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (support) {
+                    intent.putExtra(SUB_TYPE, SUB_TYPE_1);
+                    getContext().startActivity(intent);
+                }else {
+                    showMessage();
+                }
+            }
+        });
+    }
+
+    public void setSub2Intent(final Intent intent, final boolean support){
+        itemSubType2Name.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (support){
+                    intent.putExtra(SUB_TYPE, SUB_TYPE_2);
+                    getContext().startActivity(intent);
+                }else {
+                    showMessage();
+                }
+            }
+        });
+    }
+
+    public void setSub3Intent(final Intent intent, final boolean support){
+        itemSubType3Name.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (support){
+                    intent.putExtra(SUB_TYPE, SUB_TYPE_3);
+                    getContext().startActivity(intent);
+                }else {
+                    showMessage();
+                }
+            }
+        });
+    }
+
+    public void setSub4Intent(final Intent intent, final boolean support){
+        itemSubType4Name.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (support){
+                    intent.putExtra(SUB_TYPE, SUB_TYPE_4);
+                    getContext().startActivity(intent);
+                }else {
+                    showMessage();
+                }
+            }
+        });
+    }
+
+    private void showMessage(){
+        Toast.makeText(getContext(),"当前版本不支持该功能", Toast.LENGTH_LONG).show();
     }
 }

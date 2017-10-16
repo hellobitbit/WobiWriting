@@ -21,6 +21,7 @@ public class TitlePickerAdapter extends RecyclerView.Adapter<TitlePickerAdapter.
     private final LayoutInflater mInflater;
     private List<String> mData;
     private OnRecyclerViewItemClickListener listener;
+    private int selectedPosition = 0;
 
     public interface OnRecyclerViewItemClickListener {
         void onItemClick(View view, int position);
@@ -30,10 +31,14 @@ public class TitlePickerAdapter extends RecyclerView.Adapter<TitlePickerAdapter.
         this.listener = listener;
     }
 
-    public TitlePickerAdapter(Context mContext, List<String> data) {
-        this.mContext = mContext;
+    public TitlePickerAdapter(Context context, List<String> data) {
+        this.mContext = context;
         mData = data;
         this.mInflater = LayoutInflater.from(mContext);
+    }
+
+    public void setSelected(int position){
+        selectedPosition = position;
     }
 
 
@@ -57,7 +62,6 @@ public class TitlePickerAdapter extends RecyclerView.Adapter<TitlePickerAdapter.
 
         private TextView title_view;
         private final View selectedLineView;
-        private int clickPosition;
 
         public SelectedTitleViewHolder(View itemView) {
             super(itemView);
@@ -67,22 +71,19 @@ public class TitlePickerAdapter extends RecyclerView.Adapter<TitlePickerAdapter.
 
         public void bind(int position) {
             //设置条目的点击事件
+            itemView.setTag(position);
             title_view.setOnClickListener(this);
             title_view.setText(mData.get(position));
-            //根据条目位置设置图片
-//            ImageItem item = mData.get(position);
-//            if (isAdded && position == getItemCount() - 1) {
-//                iv_img.setImageResource(R.drawable.selector_image_add);
-//                clickPosition = SendMomentActivity.IMAGE_ITEM_ADD;
-//            } else {
-//                ImagePicker.getInstance().getImageLoader().displayImage((Activity) mContext, item.path, iv_img, 0, 0);
-//                clickPosition = position;
-//            }
+            if (position == selectedPosition){
+                selectedLineView.setVisibility(View.VISIBLE);
+            }else {
+                selectedLineView.setVisibility(View.GONE);
+            }
         }
 
         @Override
         public void onClick(View v) {
-            if (listener != null) listener.onItemClick(v, clickPosition);
+            if (listener != null) listener.onItemClick(v, (Integer) itemView.getTag());
         }
     }
 }

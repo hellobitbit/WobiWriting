@@ -1,5 +1,6 @@
 package com.wobi.android.wobiwriting.home;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,7 +12,7 @@ import com.google.gson.Gson;
 import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.home.adapters.AbstractDirectoryAdapter;
 import com.wobi.android.wobiwriting.home.adapters.TitlePickerAdapter;
-import com.wobi.android.wobiwriting.ui.CustomActionBarActivity;
+import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +21,11 @@ import java.util.List;
  * Created by wangyingren on 2017/9/19.
  */
 
-public abstract class BaseVideoActivity extends CustomActionBarActivity
+public abstract class BaseVideoActivity extends ActionBarActivity
         implements TitlePickerAdapter.OnRecyclerViewItemClickListener{
-
-    private TitlePickerAdapter adapter;
+    static final int CN_CLASSIC = 0;
+    static final int CALLIGRAGHY_CLASS = 1;
+    protected TitlePickerAdapter adapter;
     protected List<String> mTitles = new ArrayList<>();
 
     protected AbstractDirectoryAdapter mAdapter;
@@ -36,7 +38,7 @@ public abstract class BaseVideoActivity extends CustomActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cn_classic_layout);
         initViews();
-
+        setCustomActionBar();
     }
 
     private void initViews() {
@@ -57,6 +59,10 @@ public abstract class BaseVideoActivity extends CustomActionBarActivity
         mVideoView.start();
         mVideoView.requestFocus();
 
+    }
+
+    protected void startSearchActivity(int type){
+        startActivity(new Intent(getApplicationContext(), SearchActivity.class));
     }
 
     protected abstract void initDirectory();

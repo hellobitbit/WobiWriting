@@ -35,7 +35,6 @@ public class WobiWritingApplication extends Application{
     @Override
     public void onCreate(){
         super.onCreate();
-//        displaySplash();
         HttpConfig.setSessionId(SharedPrefUtil.getSessionId(getApplicationContext()));
         useCachedBusinessServer();
         initNetworkManager();

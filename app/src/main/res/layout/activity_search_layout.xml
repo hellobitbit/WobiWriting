@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ededed">
+    <RelativeLayout
+        android:id="@+id/moments_search_bar"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:background="#ff5f5e"
+        android:layout_height="48dp" >
+
+        <TextView
+            android:id="@+id/cancelSearch"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@android:color/white"
+            android:layout_width="57dp"
+            android:layout_height="match_parent" />
+
+        <EditText
+            android:layout_toLeftOf="@id/cancelSearch"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/search_background_shape_corner"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textSize="13sp"
+            android:drawablePadding="7dp"
+            android:drawableLeft="@drawable/search_in_edittext"
+            android:hint="请输入需要查找的字"
+            android:textColorHint="#bcbcbc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+</LinearLayout>

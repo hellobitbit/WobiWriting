@@ -1,11 +1,10 @@
 package com.wobi.android.wobiwriting.me;
 
-import com.wobi.android.wobiwriting.ui.CustomActionBarActivity;
+import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.wobi.android.wobiwriting.R;
@@ -16,7 +15,7 @@ import com.wobi.android.wobiwriting.views.CustomSettingBar;
  * Created by wangyingren on 2017/9/11.
  */
 
-public class MyInformationActivity extends CustomActionBarActivity implements View.OnClickListener{
+public class MyInformationActivity extends ActionBarActivity implements View.OnClickListener{
 
     private CustomSettingBar userNameBar;
     private CustomSettingBar userDescriptionBar;
@@ -26,7 +25,7 @@ public class MyInformationActivity extends CustomActionBarActivity implements Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_information_layout);
         initViews();
-
+        setCustomActionBar();
     }
 
     private void initViews(){

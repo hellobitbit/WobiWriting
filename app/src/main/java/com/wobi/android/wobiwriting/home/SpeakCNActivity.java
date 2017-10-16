@@ -4,20 +4,20 @@ import android.os.Bundle;
 
 import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.data.NetDataManager;
-import com.wobi.android.wobiwriting.ui.CustomActionBarActivity;
+import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 
 /**
  * Created by wangyingren on 2017/9/11.
  */
 
-public class SpeakCNActivity extends CustomActionBarActivity {
+public class SpeakCNActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speak_cn_layout);
         initViews();
-
+        setCustomActionBar();
     }
 
     private void initViews() {

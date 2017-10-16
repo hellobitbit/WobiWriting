@@ -5,14 +5,19 @@
 
     <TextView
         android:id="@+id/title"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center" />
 
     <View
         android:id="@+id/selectedLine"
+        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="3dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_alignParentBottom="true"
         android:background="@android:color/white" />
 

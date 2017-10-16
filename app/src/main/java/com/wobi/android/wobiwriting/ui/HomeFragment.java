@@ -2,7 +2,6 @@ package com.wobi.android.wobiwriting.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +9,12 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.data.IResponseListener;
 import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.home.CNClassicActivity;
 import com.wobi.android.wobiwriting.home.CalligraphyClassActivity;
 import com.wobi.android.wobiwriting.home.KewenDirectoryActivity;
-import com.wobi.android.wobiwriting.home.SpeakCNActivity;
 import com.wobi.android.wobiwriting.home.adapters.AbstractSpinnerAdapter;
 import com.wobi.android.wobiwriting.home.adapters.BannerViewpagerAdapter;
 import com.wobi.android.wobiwriting.home.adapters.CustomSpinnerAdapter;
@@ -40,6 +37,8 @@ import java.util.List;
 
 public class HomeFragment extends BaseFragment implements View.OnClickListener,
         AbstractSpinnerAdapter.IOnItemSelectListener{
+    public static final String CN_CLASSIC = "cn_classic";
+    public static final String CALLIGRAGHY_CLASS = "calligraphy_class";
     private static final String TAG = "HomeFragment";
     private TextView textView;
     private SpinnerPopWindow mSpinnerPopWindow;
@@ -49,6 +48,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     private List<Grade> mGradeList = new ArrayList<>();
     private List<JiaoCaiObject> mJCList = new ArrayList<>();
     private ViewPager banner_viewpager;
+    private HomeItemView cnClassic;
+    private HomeItemView calligraghyClass;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -80,12 +81,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
 
     private void initView(View view){
         HomeItemView speckCN = (HomeItemView)view.findViewById(R.id.speak_chinese);
-        HomeItemView cnClassic = (HomeItemView)view.findViewById(R.id.chinese_classic);
-        HomeItemView calligraghyClass = (HomeItemView)view.findViewById(R.id.calligraghy_class);
+        cnClassic = (HomeItemView)view.findViewById(R.id.chinese_classic);
+        cnClassic.setTag(CN_CLASSIC);
+        Intent cnClassicIntent = new Intent(getActivity(), CNClassicActivity.class);
+        cnClassic.setMainAndSub1Intent(cnClassicIntent,true);
+        cnClassic.setSub2Intent(cnClassicIntent, true);
+        cnClassic.setSub3Intent(cnClassicIntent,false);
+        cnClassic.setSub4Intent(cnClassicIntent,false);
+
+        calligraghyClass = (HomeItemView)view.findViewById(R.id.calligraghy_class);
+        cnClassic.setTag(CALLIGRAGHY_CLASS);
         textView = (TextView)view.findViewById(R.id.dropdown);
         speckCN.setOnClickListener(this);
-        cnClassic.setOnClickListener(this);
-        calligraghyClass.setOnClickListener(this);
         textView.setOnClickListener(this);
 
         banner_viewpager = (ViewPager) view.findViewById(R.id.banner_viewpager);
@@ -98,14 +105,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
             case R.id.speak_chinese:
                 Intent kewenDirIntent = new Intent(getActivity(), KewenDirectoryActivity.class);
                 getActivity().startActivity(kewenDirIntent);
-                break;
-            case R.id.calligraghy_class:
-                Intent classIntent = new Intent(getActivity(), CalligraphyClassActivity.class);
-                getActivity().startActivity(classIntent);
-                break;
-            case R.id.chinese_classic:
-                Intent cnClassicIntent = new Intent(getActivity(), CNClassicActivity.class);
-                getActivity().startActivity(cnClassicIntent);
                 break;
             case R.id.dropdown:
                 showSpinWindow();
@@ -121,8 +120,17 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
 
     @Override
     public void onItemClick(int pos) {
-        mSelected = pos;
-        textView.setText(mGradeList.get(pos).getGradeName());
+        refreshGradeInfo(pos);
+    }
+
+    private void refreshGradeInfo(int position){
+        mSelected = position;
+        textView.setText(mGradeList.get(position).getGradeName());
+        Intent classIntent = new Intent(getActivity(), CalligraphyClassActivity.class);
+        classIntent.putExtra(CalligraphyClassActivity.GRADE_ID,
+                mGradeList.get(position).getGradeId());
+        calligraghyClass.setMainAndSub1Intent(classIntent,true);
+        calligraghyClass.setSub3Intent(classIntent,true);
     }
 
     private void loadGradeInfo(){
@@ -135,11 +143,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                 try {
                     GetGradeResponse getGradeResponse = gson.fromJson(response, GetGradeResponse.class);
                     if (getGradeResponse != null && getGradeResponse.getHandleResult().equals("OK")) {
-                        mGradeList.clear();
-                        mGradeList.addAll(getGradeResponse.getGradeList());
-                        mAdapter.refreshData(mGradeList, 0);
-                        mSelected = 0;
-                        textView.setText(mGradeList.get(0).getGradeName());
+                        if (getGradeResponse.getGradeList() != null){
+                            mGradeList.clear();
+                            mGradeList.addAll(getGradeResponse.getGradeList());
+                            refreshGradeInfo(0);
+                        }else {
+                            showErrorMsg("没有年级信息");
+                        }
+                    }else {
+                        showErrorMsg("获取年级信息失败");
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -171,6 +183,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
             @Override
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
+                showNetWorkException();
             }
         });
     }

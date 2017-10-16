@@ -14,7 +14,7 @@ import com.lzy.imagepicker.ui.ImagePreviewDelActivity;
 import com.lzy.imagepicker.view.CropImageView;
 import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.imageloader.GlideImageLoader;
-import com.wobi.android.wobiwriting.ui.CustomActionBarActivity;
+import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +22,7 @@ import java.util.List;
  * Created by wangyingren on 2017/9/17.
  */
 
-public class SendMomentActivity extends CustomActionBarActivity implements
+public class SendMomentActivity extends ActionBarActivity implements
         ImagePickerAdapter.OnRecyclerViewItemClickListener{
 
     public static final int IMAGE_ITEM_ADD = -1;
@@ -37,6 +37,7 @@ public class SendMomentActivity extends CustomActionBarActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_moment_layout);
+        setCustomActionBar();
         //最好放到 Application oncreate执行
         initImagePicker();
         initWidget();
