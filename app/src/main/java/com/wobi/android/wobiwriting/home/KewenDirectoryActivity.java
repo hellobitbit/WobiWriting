@@ -1,6 +1,5 @@
 package com.wobi.android.wobiwriting.home;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,9 +9,13 @@ import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.data.IResponseListener;
 import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.home.adapters.KewenDirectoryAdapter;
+import com.wobi.android.wobiwriting.home.message.GetJCListRequest;
+import com.wobi.android.wobiwriting.home.message.GetJCListResponse;
 import com.wobi.android.wobiwriting.home.message.GetKWMLListRequest;
 import com.wobi.android.wobiwriting.home.message.GetKWMLListResponse;
+import com.wobi.android.wobiwriting.home.model.JiaoCaiObject;
 import com.wobi.android.wobiwriting.home.model.KeWenDirectory;
+import com.wobi.android.wobiwriting.ui.BaseActivity;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -22,17 +25,20 @@ import java.util.List;
  * Created by wangyingren on 2017/10/5.
  */
 
-public class KewenDirectoryActivity extends Activity {
+public class KewenDirectoryActivity extends BaseActivity {
+    public static final String GRADE_ID = "grade_id";
     private static final String TAG = "KewenDirectoryActivity";
-    private Gson gson = new Gson();
     private List<KeWenDirectory> mDirectories =  new ArrayList<>();
+    private List<JiaoCaiObject> mJCList = new ArrayList<>();
     private KewenDirectoryAdapter mAdapter;
+    private String grade_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kewen_directory_layout);
-        loadKWMLList();
+        grade_id = getIntent().getStringExtra(GRADE_ID);
+        loadJCList();
         initViews();
 
     }
@@ -51,10 +57,10 @@ public class KewenDirectoryActivity extends Activity {
         recyclerView.setAdapter(mAdapter);
     }
 
-    private void loadKWMLList(){
+    private void loadKWMLList(int jcId){
         GetKWMLListRequest request = new GetKWMLListRequest();
-        request.setGradeId("11");
-        request.setJcId(1);
+        request.setGradeId(grade_id);
+        request.setJcId(jcId);
         String jsonBody = request.jsonToString();
         NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
             @Override
@@ -72,6 +78,27 @@ public class KewenDirectoryActivity extends Activity {
             @Override
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
+            }
+        });
+    }
+
+    private void loadJCList(){
+        GetJCListRequest request = new GetJCListRequest();
+        String jsonBody = request.jsonToString();
+        NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
+            @Override
+            public void onSucceed(String response) {
+                LogUtil.d(TAG," response: "+response);
+                GetJCListResponse getJCListResponse = gson.fromJson(response, GetJCListResponse.class);
+                mJCList.clear();
+                mJCList.addAll(getJCListResponse.getJcList());
+                loadKWMLList(mJCList.get(0).getId());
+            }
+
+            @Override
+            public void onFailed(String errorMessage) {
+                LogUtil.e(TAG," error: "+errorMessage);
+                showNetWorkException();
             }
         });
     }

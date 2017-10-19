@@ -15,15 +15,13 @@ import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.home.CNClassicActivity;
 import com.wobi.android.wobiwriting.home.CalligraphyClassActivity;
 import com.wobi.android.wobiwriting.home.KewenDirectoryActivity;
+import com.wobi.android.wobiwriting.home.SpeakCNActivity;
 import com.wobi.android.wobiwriting.home.adapters.AbstractSpinnerAdapter;
 import com.wobi.android.wobiwriting.home.adapters.BannerViewpagerAdapter;
 import com.wobi.android.wobiwriting.home.adapters.CustomSpinnerAdapter;
 import com.wobi.android.wobiwriting.home.message.GetGradeRequest;
 import com.wobi.android.wobiwriting.home.message.GetGradeResponse;
-import com.wobi.android.wobiwriting.home.message.GetJCListRequest;
-import com.wobi.android.wobiwriting.home.message.GetJCListResponse;
 import com.wobi.android.wobiwriting.home.model.Grade;
-import com.wobi.android.wobiwriting.home.model.JiaoCaiObject;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.views.HomeItemView;
 import com.wobi.android.wobiwriting.views.SpinnerPopWindow;
@@ -37,8 +35,6 @@ import java.util.List;
 
 public class HomeFragment extends BaseFragment implements View.OnClickListener,
         AbstractSpinnerAdapter.IOnItemSelectListener{
-    public static final String CN_CLASSIC = "cn_classic";
-    public static final String CALLIGRAGHY_CLASS = "calligraphy_class";
     private static final String TAG = "HomeFragment";
     private TextView textView;
     private SpinnerPopWindow mSpinnerPopWindow;
@@ -46,10 +42,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     private int mSelected = -1;
 
     private List<Grade> mGradeList = new ArrayList<>();
-    private List<JiaoCaiObject> mJCList = new ArrayList<>();
     private ViewPager banner_viewpager;
     private HomeItemView cnClassic;
     private HomeItemView calligraghyClass;
+    private HomeItemView chinese_writing;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -62,7 +58,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
         loadGradeInfo();
-        loadJCList();
 
         mAdapter = new CustomSpinnerAdapter(getActivity());
         mAdapter.refreshData(mGradeList, 0);
@@ -82,7 +77,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     private void initView(View view){
         HomeItemView speckCN = (HomeItemView)view.findViewById(R.id.speak_chinese);
         cnClassic = (HomeItemView)view.findViewById(R.id.chinese_classic);
-        cnClassic.setTag(CN_CLASSIC);
+        chinese_writing = (HomeItemView)view.findViewById(R.id.chinese_writing);
         Intent cnClassicIntent = new Intent(getActivity(), CNClassicActivity.class);
         cnClassic.setMainAndSub1Intent(cnClassicIntent,true);
         cnClassic.setSub2Intent(cnClassicIntent, true);
@@ -90,8 +85,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
         cnClassic.setSub4Intent(cnClassicIntent,false);
 
         calligraghyClass = (HomeItemView)view.findViewById(R.id.calligraghy_class);
-        cnClassic.setTag(CALLIGRAGHY_CLASS);
         textView = (TextView)view.findViewById(R.id.dropdown);
+        speckCN.setOnClickListener(this);
         speckCN.setOnClickListener(this);
         textView.setOnClickListener(this);
 
@@ -104,11 +99,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
         switch (v.getId()){
             case R.id.speak_chinese:
                 Intent kewenDirIntent = new Intent(getActivity(), KewenDirectoryActivity.class);
+                kewenDirIntent.putExtra(KewenDirectoryActivity.GRADE_ID,
+                        mGradeList.get(mSelected).getGradeId());
                 getActivity().startActivity(kewenDirIntent);
                 break;
             case R.id.dropdown:
                 showSpinWindow();
-
         }
     }
 
@@ -126,11 +122,20 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     private void refreshGradeInfo(int position){
         mSelected = position;
         textView.setText(mGradeList.get(position).getGradeName());
+
         Intent classIntent = new Intent(getActivity(), CalligraphyClassActivity.class);
         classIntent.putExtra(CalligraphyClassActivity.GRADE_ID,
                 mGradeList.get(position).getGradeId());
         calligraghyClass.setMainAndSub1Intent(classIntent,true);
         calligraghyClass.setSub3Intent(classIntent,true);
+
+        Intent cnWritingIntent = new Intent(getActivity(), SpeakCNActivity.class);
+        cnWritingIntent.putExtra(SpeakCNActivity.GRADE_ID,
+                mGradeList.get(position).getGradeId());
+        chinese_writing.setMainAndSub1Intent(cnWritingIntent,true);
+        chinese_writing.setSub2Intent(cnWritingIntent,true);
+        chinese_writing.setSub3Intent(cnWritingIntent,true);
+        chinese_writing.setSub4Intent(cnWritingIntent,true);
     }
 
     private void loadGradeInfo(){
@@ -157,27 +162,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                     e.printStackTrace();
                     showErrorMsg("获取年级信息异常");
                 }
-            }
-
-            @Override
-            public void onFailed(String errorMessage) {
-                LogUtil.e(TAG," error: "+errorMessage);
-                showNetWorkException();
-            }
-        });
-    }
-
-    private void loadJCList(){
-        GetJCListRequest request = new GetJCListRequest();
-        String jsonBody = request.jsonToString();
-        NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
-            @Override
-            public void onSucceed(String response) {
-                LogUtil.d(TAG," response: "+response);
-                GetJCListResponse getJCListResponse = gson.fromJson(response, GetJCListResponse.class);
-                mJCList.clear();
-                mJCList.addAll(getJCListResponse.getJcList());
-
             }
 
             @Override

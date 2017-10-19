@@ -13,17 +13,21 @@ import com.wobi.android.wobiwriting.utils.LogUtil;
 
 public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
     private static String TAG = "SpaceItemDecoration";
-    private int mRightSpace, mTopSpace;
+    private int mLeftSpace, mTopSpace;
 
-    public SpaceItemDecoration(Context context, int rightSpace, int topSpace) {
-        mRightSpace = dip2px(context, rightSpace);
+    public SpaceItemDecoration(Context context, int leftSpace, int topSpace) {
+        mLeftSpace = dip2px(context, leftSpace);
         mTopSpace =  dip2px(context, topSpace);
     }
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         int pos = parent.getChildAdapterPosition(view);
-        outRect.right = mRightSpace;
+        if (pos != 0){
+            outRect.left = mLeftSpace;
+        }else {
+            outRect.left = 0;
+        }
 
         if (pos != 0) {
             outRect.top = mTopSpace;

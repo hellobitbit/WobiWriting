@@ -12,9 +12,11 @@ import com.wobi.android.wobiwriting.R;
 
 public abstract class ActionBarActivity extends BaseActivity {
 
+    private TextView title;
+
     public void setCustomActionBar(){
         ImageButton back = (ImageButton) findViewById(R.id.actionbar_left_back);
-        TextView title = (TextView) findViewById(R.id.actionbar_title);
+        title = (TextView) findViewById(R.id.actionbar_title);
         if (getActionBarTitle() > 0){
             title.setText(getActionBarTitle());
         }else {
@@ -43,6 +45,13 @@ public abstract class ActionBarActivity extends BaseActivity {
             rightTitle.setText(getActionBarRightTitleRes());
         }
 
+        title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickActionBarTitle();
+            }
+        });
+
         rightTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,6 +67,12 @@ public abstract class ActionBarActivity extends BaseActivity {
         });
     }
 
+    public void updateTitleText(String text){
+        if (title != null){
+            title.setText(text);
+        }
+    }
+
     protected abstract int getActionBarTitle();
 
     protected abstract int getActionBarRightButtonRes();
@@ -71,5 +86,9 @@ public abstract class ActionBarActivity extends BaseActivity {
     protected void onClickActionBarImageButton(){
         //subclass impl if needs
 
+    }
+
+    protected void onClickActionBarTitle(){
+        //subclass impl if needs
     }
 }

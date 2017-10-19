@@ -90,7 +90,7 @@ public class WobiWritingApplication extends Application{
         wmParams.gravity = Gravity.LEFT | Gravity.TOP;
         wmParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
         wmParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        final View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.app_splash_layout, null);
+        final View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.app_overlay_layout, null);
         wm.addView(view, wmParams);
 
         handler.postDelayed(new Runnable() {

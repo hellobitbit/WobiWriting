@@ -1,5 +1,7 @@
 package com.wobi.android.wobiwriting.home;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +17,12 @@ import com.wobi.android.wobiwriting.home.message.DiZiGuiResponse;
 import com.wobi.android.wobiwriting.home.message.SanZiJingRequest;
 import com.wobi.android.wobiwriting.home.message.SanZiJingResponse;
 import com.wobi.android.wobiwriting.home.model.CNClassicCourse;
+import com.wobi.android.wobiwriting.ui.MainActivity;
+import com.wobi.android.wobiwriting.user.LoginActivity;
 import com.wobi.android.wobiwriting.utils.LogUtil;
+import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
+import com.wobi.android.wobiwriting.views.CustomDialog;
+import com.wobi.android.wobiwriting.views.HomeItemView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +39,16 @@ public class CNClassicActivity extends BaseVideoActivity {
     protected void onCreate(Bundle savedInstanceState) {
         initData();
         super.onCreate(savedInstanceState);
-
+        String type = getIntent().getStringExtra(HomeItemView.SUB_TYPE);
         initDirectory();
-        loadDiZiGui();
+        if (HomeItemView.SUB_TYPE_1.equals(type)){
+            loadDiZiGui();
+            adapter.setSelected(0);
+        }else if (HomeItemView.SUB_TYPE_2.equals(type)){
+            loadSanZiJing();
+            adapter.setSelected(1);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     private void initData(){
@@ -68,6 +82,11 @@ public class CNClassicActivity extends BaseVideoActivity {
     public void onItemClick(View view, int position) {
         adapter.setSelected(position);
         adapter.notifyDataSetChanged();
+        if (position == 0){
+            loadDiZiGui();
+        }else if (position == 1){
+            loadSanZiJing();
+        }
     }
 
     protected void initDirectory() {
@@ -86,7 +105,20 @@ public class CNClassicActivity extends BaseVideoActivity {
             @Override
             public void onItemClick(View view, int position) {
                 LogUtil.d(TAG," position == "+position);
-                play(mDirectories.get(position).getJieduUrl());
+                if (SharedPrefUtil.getLoginInfo(getApplicationContext()).isEmpty()){
+                    if (position == 0){
+                        mAdapter.setSelected(position);
+                        mAdapter.notifyDataSetChanged();
+                        play(mDirectories.get(position).getJieduUrl());
+                    }else {
+                        checkLogin();
+                    }
+                }else {
+                    mAdapter.setSelected(position);
+                    mAdapter.notifyDataSetChanged();
+                    play(mDirectories.get(position).getJieduUrl());
+                }
+
             }
         });
     }

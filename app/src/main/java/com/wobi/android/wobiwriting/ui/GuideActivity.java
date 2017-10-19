@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.jaeger.library.StatusBarUtil;
 import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.ui.adpaters.GuideViewpagerAdapter;
 import com.wobi.android.wobiwriting.utils.LogUtil;
@@ -37,6 +38,7 @@ public class GuideActivity extends BaseActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
         setContentView(R.layout.activity_guide_layout);
+        StatusBarUtil.setTransparent(this);
         initViews();
 
     }
@@ -104,6 +106,7 @@ public class GuideActivity extends BaseActivity {
     private void JumpToMainActivity(){
         SharedPrefUtil.saveGuideState(getApplicationContext(), true);
         startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        overridePendingTransition(0, 0);
         finish();
     }
 

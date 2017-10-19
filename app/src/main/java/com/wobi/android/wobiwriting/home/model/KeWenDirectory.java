@@ -12,7 +12,7 @@ public class KeWenDirectory {
 
     private String kewen;
 
-    private String kwurl; // 课文url
+    private String kw_url; // 课文url
 
     public int getId(){
         return id;
@@ -27,6 +27,6 @@ public class KeWenDirectory {
     }
 
     public String getKwUrl(){
-        return kwurl;
+        return kw_url;
     }
 }

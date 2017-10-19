@@ -1,5 +1,6 @@
 package com.wobi.android.wobiwriting.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +14,9 @@ import com.wobi.android.wobiwriting.home.message.ShuFaKeTangMBRequest;
 import com.wobi.android.wobiwriting.home.message.ShuFaKeTangResponse;
 import com.wobi.android.wobiwriting.home.message.ShuFaKeTangYBRequest;
 import com.wobi.android.wobiwriting.home.model.CalligraphyClassCourse;
+import com.wobi.android.wobiwriting.user.LoginActivity;
 import com.wobi.android.wobiwriting.utils.LogUtil;
+import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
 import com.wobi.android.wobiwriting.views.HomeItemView;
 
 import java.util.ArrayList;
@@ -51,9 +54,13 @@ public class CalligraphyClassActivity extends BaseVideoActivity{
 
         if (HomeItemView.SUB_TYPE_1.equals(type)){
             loadCalligraphyClassInfoForYB();
+            adapter.setSelected(0);
         }else if (HomeItemView.SUB_TYPE_3.equals(type)){
             loadCalligraphyClassInfoForBrush();
+            adapter.setSelected(1);
         }
+
+        adapter.notifyDataSetChanged();
     }
 
     private void initData(){
@@ -85,6 +92,11 @@ public class CalligraphyClassActivity extends BaseVideoActivity{
     public void onItemClick(View view, int position) {
         adapter.setSelected(position);
         adapter.notifyDataSetChanged();
+        if (position == 0){
+            loadCalligraphyClassInfoForYB();
+        }else if (position == 1){
+            loadCalligraphyClassInfoForBrush();
+        }
     }
 
     protected void initDirectory() {
@@ -102,7 +114,20 @@ public class CalligraphyClassActivity extends BaseVideoActivity{
         mAdapter.setOnItemClickListener(new ClassCourseDirectoryAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
+                LogUtil.d(TAG," position == "+position);
+                if (SharedPrefUtil.getLoginInfo(getApplicationContext()).isEmpty()){
+                    if (position == 0){
+                        mAdapter.setSelected(position);
+                        mAdapter.notifyDataSetChanged();
+                        play(mDirectories.get(position).getVideoUrl());
+                    }else {
+                        checkLogin();
+                    }
+                }else {
+                    mAdapter.setSelected(position);
+                    mAdapter.notifyDataSetChanged();
+                    play(mDirectories.get(position).getVideoUrl());
+                }
             }
         });
     }

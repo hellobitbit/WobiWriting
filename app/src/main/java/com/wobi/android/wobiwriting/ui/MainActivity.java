@@ -1,6 +1,7 @@
 package com.wobi.android.wobiwriting.ui;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,9 +9,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.user.LoginActivity;
@@ -32,7 +37,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+//        initStatusBar();
         initViews();
         performClickHome();
 
@@ -116,7 +121,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 mHomeBar.setSelected();
                 mMeBar.setNoSelected();
                 mMomentsBar.setNoSelected();
-                updateStatusDisplay();
+                updateStatusDisplay(R.color.gray);
                 prevTag = HOME_FRAG_TAG;
                 break;
             case R.id.moments:
@@ -124,7 +129,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 mMomentsBar.setSelected();
                 mMeBar.setNoSelected();
                 mHomeBar.setNoSelected();
-                updateStatusDisplay();
+                updateStatusDisplay(R.color.colorPrimaryDark);
                 prevTag = MOMENTS_FRAG_TAG;
                 break;
             case R.id.me:
@@ -132,18 +137,18 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 mMeBar.setSelected();
                 mHomeBar.setNoSelected();
                 mMomentsBar.setNoSelected();
-                updateStatusDisplay();
+                updateStatusDisplay(R.color.colorPrimaryDark);
                 updateMeFragmentState();
                 break;
         }
     }
 
-    private void updateStatusDisplay(){
+    private void updateStatusDisplay(int resId){
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Window window = getWindow();
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+                window.setStatusBarColor(getResources().getColor(resId));
                 //底部导航栏
                 //window.setNavigationBarColor(activity.getResources().getColor(colorResId));
             }
@@ -161,6 +166,26 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 && resultCode == LoginActivity.RESULT_CODE_SUCCESS){
             updateMeFragmentState();
         }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus){
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus){
+//            display();
+        }
+    }
+
+    private void displayPopupWindowTips(int imageResId){
+        View layout = getLayoutInflater().inflate(R.layout.app_overlay_layout, null);
+        final PopupWindow pop = new PopupWindow(layout,
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT,
+                true);
+        layout.setBackgroundResource(imageResId);
+        pop.setClippingEnabled(false);
+        pop.setBackgroundDrawable(new ColorDrawable(0xffffff));//支持点击Back虚拟键退出
+        pop.showAtLocation(findViewById(R.id.container), Gravity.TOP|Gravity.START, 0, 0);
     }
 
     private void updateMeFragmentState(){
@@ -186,5 +211,30 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     void startLoginActivity(int request_code){
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivityForResult(intent,request_code);
+    }
+
+    /**
+     * 状态栏处理：解决全屏切换非全屏页面被压缩问题
+     */
+    public void initStatusBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+            // 获取状态栏高度
+            int statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+            View rectView = new View(this);
+            // 绘制一个和状态栏一样高的矩形，并添加到视图中
+            LinearLayout.LayoutParams params
+                    = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, statusBarHeight);
+            rectView.setLayoutParams(params);
+            //设置状态栏颜色
+            rectView.setBackgroundColor(getResources().getColor(R.color.gray));
+            // 添加矩形View到布局中
+            ViewGroup decorView = (ViewGroup) getWindow().getDecorView();
+            decorView.addView(rectView);
+            ViewGroup rootView = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
+            rootView.setFitsSystemWindows(true);
+            rootView.setClipToPadding(true);
+        }
     }
 }

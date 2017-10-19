@@ -13,6 +13,7 @@ public class GetSZInfoRequest extends Request {
 
     public GetSZInfoRequest(){
         setRequestType(BusinessType.BT_Get_SZ_Info.getValue());
+        mInstance = this;
     }
 
     public void setSz(String sz){

@@ -8,7 +8,7 @@ public class JiaoCaiObject {
 
     private String edu_school;
 
-    private String id;
+    private int id;
 
     private String sort;
 
@@ -18,7 +18,7 @@ public class JiaoCaiObject {
         return edu_school;
     }
 
-    public String getId(){
+    public int getId(){
         return id;
     }
 

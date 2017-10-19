@@ -24,7 +24,7 @@
             android:background="@drawable/home_grade_title_default_shape_corner"
             android:id="@+id/dropdown"
             android:gravity="center"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="6dp"
             android:clickable="true"
             android:textColor="@android:color/white"
             android:text="一年级（上）"
