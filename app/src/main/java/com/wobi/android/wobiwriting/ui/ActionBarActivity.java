@@ -13,9 +13,10 @@ import com.wobi.android.wobiwriting.R;
 public abstract class ActionBarActivity extends BaseActivity {
 
     private TextView title;
+    private ImageButton back;
 
     public void setCustomActionBar(){
-        ImageButton back = (ImageButton) findViewById(R.id.actionbar_left_back);
+        back = (ImageButton) findViewById(R.id.actionbar_left_back);
         title = (TextView) findViewById(R.id.actionbar_title);
         if (getActionBarTitle() > 0){
             title.setText(getActionBarTitle());
@@ -31,14 +32,14 @@ public abstract class ActionBarActivity extends BaseActivity {
         });
         ImageButton rightButton = (ImageButton) findViewById(R.id.actionbar_right_button);
         TextView rightTitle = (TextView) findViewById(R.id.actionbar_right_title);
-        if (getActionBarRightButtonRes() == -1){
+        if (getActionBarRightButtonRes() <= 0){
             rightButton.setVisibility(View.INVISIBLE);
         }else {
             rightButton.setVisibility(View.VISIBLE);
             rightButton.setImageResource(getActionBarRightButtonRes());
         }
 
-        if (getActionBarRightTitleRes() == -1){
+        if (getActionBarRightTitleRes() <= 0){
             rightTitle.setVisibility(View.INVISIBLE);
         }else {
             rightTitle.setVisibility(View.VISIBLE);
@@ -71,6 +72,19 @@ public abstract class ActionBarActivity extends BaseActivity {
         if (title != null){
             title.setText(text);
         }
+    }
+
+    public void updateImageResource(int resId){
+        if (back != null){
+            back.setImageResource(resId);
+        }
+    }
+
+    public String getTitleText(){
+        if (title != null){
+            return title.getText().toString();
+        }
+        return "";
     }
 
     protected abstract int getActionBarTitle();

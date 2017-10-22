@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     android:background="#ededed">
 
+    <include layout="@layout/actionbar_layout"/>
+
     <ImageView
         android:background="@drawable/kewen_directory_poster"
         android:layout_width="match_parent"

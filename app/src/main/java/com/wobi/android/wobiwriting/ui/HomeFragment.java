@@ -46,6 +46,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     private HomeItemView cnClassic;
     private HomeItemView calligraghyClass;
     private HomeItemView chinese_writing;
+    private HomeItemView speckCN;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -75,7 +76,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     }
 
     private void initView(View view){
-        HomeItemView speckCN = (HomeItemView)view.findViewById(R.id.speak_chinese);
+        speckCN = (HomeItemView)view.findViewById(R.id.speak_chinese);
         cnClassic = (HomeItemView)view.findViewById(R.id.chinese_classic);
         chinese_writing = (HomeItemView)view.findViewById(R.id.chinese_writing);
         Intent cnClassicIntent = new Intent(getActivity(), CNClassicActivity.class);
@@ -86,7 +87,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
 
         calligraghyClass = (HomeItemView)view.findViewById(R.id.calligraghy_class);
         textView = (TextView)view.findViewById(R.id.dropdown);
-        speckCN.setOnClickListener(this);
+
         speckCN.setOnClickListener(this);
         textView.setOnClickListener(this);
 
@@ -98,10 +99,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.speak_chinese:
-                Intent kewenDirIntent = new Intent(getActivity(), KewenDirectoryActivity.class);
-                kewenDirIntent.putExtra(KewenDirectoryActivity.GRADE_ID,
-                        mGradeList.get(mSelected).getGradeId());
-                getActivity().startActivity(kewenDirIntent);
+                if (mGradeList.size() > 0) {
+                    Intent intent = new Intent(getActivity(), SpeakCNActivity.class);
+                    intent.putExtra(SpeakCNActivity.GRADE_ID,
+                            mGradeList.get(mSelected).getGradeId());
+                    intent.putExtra(SpeakCNActivity.SPEAK_TYPE,
+                            SpeakCNActivity.SpeakType.SWJZ.getValue());
+                    getActivity().startActivity(intent);
+                }else {
+                    showNetWorkException();
+                }
                 break;
             case R.id.dropdown:
                 showSpinWindow();
@@ -129,13 +136,33 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
         calligraghyClass.setMainAndSub1Intent(classIntent,true);
         calligraghyClass.setSub3Intent(classIntent,true);
 
-        Intent cnWritingIntent = new Intent(getActivity(), SpeakCNActivity.class);
-        cnWritingIntent.putExtra(SpeakCNActivity.GRADE_ID,
+        Intent bishunIntent = new Intent(getActivity(), SpeakCNActivity.class);
+        bishunIntent.putExtra(SpeakCNActivity.GRADE_ID,
                 mGradeList.get(position).getGradeId());
-        chinese_writing.setMainAndSub1Intent(cnWritingIntent,true);
-        chinese_writing.setSub2Intent(cnWritingIntent,true);
-        chinese_writing.setSub3Intent(cnWritingIntent,true);
-        chinese_writing.setSub4Intent(cnWritingIntent,true);
+        bishunIntent.putExtra(SpeakCNActivity.SPEAK_TYPE,
+                SpeakCNActivity.SpeakType.BISHUN.getValue());
+        chinese_writing.setMainAndSub1Intent(bishunIntent,true);
+
+        Intent banshuIntent = new Intent(getActivity(), SpeakCNActivity.class);
+        banshuIntent.putExtra(SpeakCNActivity.GRADE_ID,
+                mGradeList.get(position).getGradeId());
+        banshuIntent.putExtra(SpeakCNActivity.SPEAK_TYPE,
+                SpeakCNActivity.SpeakType.BANSHU.getValue());
+        chinese_writing.setSub2Intent(banshuIntent,true);
+
+        Intent yingbiIntent = new Intent(getActivity(), SpeakCNActivity.class);
+        yingbiIntent.putExtra(SpeakCNActivity.GRADE_ID,
+                mGradeList.get(position).getGradeId());
+        yingbiIntent.putExtra(SpeakCNActivity.SPEAK_TYPE,
+                SpeakCNActivity.SpeakType.YINGBI.getValue());
+        chinese_writing.setSub3Intent(yingbiIntent,true);
+
+        Intent maobiIntent = new Intent(getActivity(), SpeakCNActivity.class);
+        maobiIntent.putExtra(SpeakCNActivity.GRADE_ID,
+                mGradeList.get(position).getGradeId());
+        maobiIntent.putExtra(SpeakCNActivity.SPEAK_TYPE,
+                SpeakCNActivity.SpeakType.MAOBI.getValue());
+        chinese_writing.setSub4Intent(maobiIntent,true);
     }
 
     private void loadGradeInfo(){

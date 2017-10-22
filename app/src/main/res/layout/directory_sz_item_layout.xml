@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="41dp"
+    android:layout_height="41dp">
+
+    <TextView
+        android:gravity="center"
+        android:background="@drawable/kewen_directory_sz_backgroud_normal"
+        android:id="@+id/directory_sz_item_text"
+        android:textSize="12sp"
+        android:textColor="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</RelativeLayout>

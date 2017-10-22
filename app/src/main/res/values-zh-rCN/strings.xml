@@ -14,6 +14,7 @@
     <string name="moment_num_title">圈子</string>
     <string name="follow_num_title">关注</string>
     <string name="wodou_num_title">沃豆</string>
+    <string name="default_user_description">规范汉语习字 弘扬民族文化</string>
     <string name="share_the_app_to_others_title">把沃笔习字推荐给好友</string>
     <string name="account_exit_title">退出此账号</string>
     <string name="activity_feedback_title">用户反馈</string>
@@ -49,4 +50,19 @@
     <string name="home_item_classic_three">三字经</string>
     <string name="home_item_classic_daode">道德经</string>
     <string name="home_item_classic_ancient_poetry">古诗</string>
+
+    //user register login
+    <string name="user_register_login_title">欢迎来到沃笔习字</string>
+    <string name="user_login_label">登录</string>
+    <string name="user_register_label">注册</string>
+    <string name="user_login_to_register_label">没账号？去注册</string>
+    <string name="user_register_to_login_label">有账号？去登录</string>
+    <string name="user_phone_hint">请输入您的电话号码</string>
+    <string name="user_password_hint">请输入您的密码</string>
+    <string name="user_confirm_password_hint">请再次输入您的密码</string>
+    <string name="user_request_code_hint">请输入您的邀请码</string>
+    <string name="user_get_verify_code_title">短信验证码</string>
+    <string name="user_get_verify_code_hint">请输入短信验证码</string>
+    <string name="user_get_verify_code_send">请发送短信验证码至</string>
+    <string name="user_get_verify_code_has_been_send">短信验证码已发送至</string>
 </resources>

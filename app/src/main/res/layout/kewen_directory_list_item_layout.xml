@@ -1,34 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:id="@+id/kewen_directory_normal_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="2dp"
+    android:layout_marginRight="2dp"
     android:background="#ffffff">
 
     <ImageView
         android:id="@+id/directory_icon"
-        android:layout_marginLeft="12dp"
-        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="43dp"
+        android:layout_marginLeft="12dp"
         android:src="@drawable/kewen_directory_icon" />
 
     <TextView
         android:id="@+id/directory_title"
-        android:layout_centerVertical="true"
-        android:textColor="#b0b0b0"
-        android:layout_toRightOf="@id/directory_icon"
-        android:layout_marginLeft="11dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="43dp"
+        android:gravity="center"
+        android:layout_marginLeft="11dp"
+        android:layout_toRightOf="@id/directory_icon"
+        android:textColor="#b0b0b0" />
 
     <ImageView
         android:id="@+id/directory_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="43dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="13dp"
-        android:layout_centerVertical="true"
+        android:src="@drawable/directory_arrow_down" />
+
+    <RelativeLayout
+        android:layout_below="@id/directory_icon"
+        android:visibility="gone"
+        android:layout_alignLeft="@id/directory_title"
+        android:id="@+id/sz_layout"
+        android:paddingBottom="9dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/directory_arrow_right_default" />
+        android:layout_height="50dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/directory_sz_list_recycler"
+            android:layout_width="wrap_content"
+            android:layout_height="41dp"
+            android:choiceMode="singleChoice"
+            android:divider="@null"
+            android:fadingEdge="none"
+            android:scrollbarStyle="outsideOverlay" />
+
+    </RelativeLayout>
+
 
 </RelativeLayout>

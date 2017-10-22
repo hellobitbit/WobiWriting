@@ -32,6 +32,7 @@
             android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity android:name=".home.SearchActivity"/>
         <activity android:name=".home.SpeakCNActivity"/>
+        <activity android:name=".home.ListenAndWritingActivity"/>
         <activity android:name=".home.CNClassicActivity"/>
         <activity android:name=".home.CalligraphyClassActivity"/>
         <activity android:name=".home.KewenDirectoryActivity"/>

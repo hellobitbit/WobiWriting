@@ -27,7 +27,7 @@ public class ClassicDirectoryAdapter extends AbstractDirectoryAdapter<CNClassicC
     @Override
     public AbstractDirectoryAdapter.DirectoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new AbstractDirectoryAdapter.DirectoryViewHolder(mInflater.
-                inflate(R.layout.kewen_directory_list_item_layout,
+                inflate(R.layout.class_classic_list_item_layout,
                         parent, false));
     }
 

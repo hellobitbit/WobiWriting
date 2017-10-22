@@ -9,13 +9,19 @@
     <FrameLayout
         android:background="#ededed"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
-
+        android:layout_height="196dp">
+        <com.wobi.android.wobiwriting.ui.CustomVideoVIew
+            android:id="@+id/speak_videoView"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </FrameLayout>
 
     <RelativeLayout
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
         android:layout_width="match_parent"
-        android:layout_height="66dp">
+        android:layout_height="80dp">
 
         <android.support.v7.widget.RecyclerView
             android:layout_centerHorizontal="true"
@@ -30,11 +36,14 @@
             android:scrollbarStyle="outsideOverlay" />
 
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:background="#ededed"
         android:layout_height="6dp"/>
+
     <RelativeLayout
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="35dp">
 
@@ -57,8 +66,163 @@
         android:background="@android:color/holo_red_light"/>
 
     <RelativeLayout
+        android:paddingTop="5dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="201.5dp">
 
+        <TextView
+            android:id="@+id/pinyin_label"
+            android:text="拼音"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:textColor="#bdbdbd"
+            android:layout_width="80dp"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:id="@+id/pinyin_content"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:id="@+id/sz_label"
+            android:text="生字"
+            android:layout_below="@id/pinyin_label"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:textColor="#bdbdbd"
+            android:layout_width="80dp"
+            android:layout_height="62dp" />
+
+        <TextView
+            android:id="@+id/sz_content"
+            android:layout_below="@id/pinyin_label"
+            android:padding="3dp"
+            android:textSize="35sp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/speak_sz_display_background"
+            android:layout_width="62dp"
+            android:layout_height="62dp" />
+
+        <TextView
+            android:id="@+id/bushou_label"
+            android:layout_marginTop="8dp"
+            android:text="部首"
+            android:layout_below="@id/sz_label"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:textColor="#bdbdbd"
+            android:layout_width="80dp"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:id="@+id/bushou_content"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/sz_label"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:id="@+id/zxjg_label"
+            android:text="字形结构"
+            android:layout_below="@id/bushou_label"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:textColor="#bdbdbd"
+            android:layout_width="80dp"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:id="@+id/zxjg_content"
+            android:layout_below="@id/bushou_label"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:id="@+id/zuci_label"
+            android:text="组词"
+            android:layout_below="@id/zxjg_label"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:textColor="#bdbdbd"
+            android:layout_width="80dp"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:id="@+id/zuci_content"
+            android:layout_below="@id/zxjg_label"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+
+        <ImageView
+            android:src="@drawable/speak_listen_writing_img"
+            android:id="@+id/listenAndWriting"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="61dp"
+            android:layout_marginRight="9dp">
+
+            <TextView
+                android:ems="1"
+                android:textSize="8sp"
+                android:textColor="@android:color/black"
+                android:gravity="center"
+                android:text="名人名言"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+            <View
+                android:layout_marginLeft="6dp"
+                android:layout_gravity="center_vertical"
+                android:background="#bdbdbd"
+                android:layout_width="0.5dp"
+                android:layout_height="31dp"/>
+
+            <TextView
+                android:layout_marginLeft="6dp"
+                android:ems="1"
+                android:textSize="8sp"
+                android:textColor="#bdbdbd"
+                android:text="学如逆水行舟,不进则退"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="#ededed"
+        android:layout_height="6dp"/>
+    <TextView
+        android:textColor="#bdbdbd"
+        android:textSize="16sp"
+        android:text="历史名家五体字欣赏"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"/>
 </LinearLayout>

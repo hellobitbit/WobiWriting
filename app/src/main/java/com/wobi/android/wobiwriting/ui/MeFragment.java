@@ -201,6 +201,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
                     SharedPrefUtil.saveLoginInfo(getActivity(),"");
                     SharedPrefUtil.saveSessionId(getActivity(),"");
                     SharedPrefUtil.saveLoginPassword(getActivity(),"");
+                    SharedPrefUtil.saveKewenDirectoryPosition(getActivity(), 0);
+                    SharedPrefUtil.saveSZPosition(getActivity(), 0);
                     refreshLoginState();
                 }else {
                     showErrorMsg("退出失败");

@@ -1,7 +1,6 @@
 package com.wobi.android.wobiwriting.home.adapters;
 
 import android.content.Context;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -28,7 +27,7 @@ public class ClassCourseDirectoryAdapter extends AbstractDirectoryAdapter<Callig
     @Override
     public AbstractDirectoryAdapter.DirectoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new AbstractDirectoryAdapter.DirectoryViewHolder(mInflater.
-                inflate(R.layout.kewen_directory_list_item_layout,
+                inflate(R.layout.class_classic_list_item_layout,
                 parent, false));
     }
 
