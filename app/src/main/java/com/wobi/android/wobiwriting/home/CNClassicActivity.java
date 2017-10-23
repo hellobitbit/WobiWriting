@@ -97,7 +97,7 @@ public class CNClassicActivity extends BaseVideoActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerView.addItemDecoration(new SpaceItemDecoration(getApplicationContext(), 4, 9));
+        recyclerView.addItemDecoration(new SpaceItemDecoration(getApplicationContext(), 0, 9));
         mAdapter = new ClassicDirectoryAdapter(getApplicationContext(),mDirectories);
         recyclerView.setAdapter(mAdapter);
 

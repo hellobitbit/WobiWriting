@@ -128,13 +128,13 @@ public class SpeakCNActivity extends ActionBarActivity
         listen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ListenAndWritingActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ListenActivity.class);
                 ListenSerializableMap map =  new ListenSerializableMap();
                 map.setTitle(getTitleText());
                 map.setSzList(szList);
                 map.setSzInfoResponseMap(szInfoResponseMap);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(ListenAndWritingActivity.KEWEN_DATA, map);
+                bundle.putSerializable(ListenActivity.KEWEN_DATA, map);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

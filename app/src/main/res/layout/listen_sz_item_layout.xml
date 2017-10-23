@@ -1,132 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/sz_item_parent"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="50dp">
 
-    <RelativeLayout
-        android:id="@+id/listen_sz_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/ordinal_number"
-            android:layout_marginLeft="10dp"
-            android:textColor="@android:color/holo_red_light"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-        <LinearLayout
-            android:id="@+id/pinyin_layout"
-            android:layout_toRightOf="@id/ordinal_number"
-            android:layout_centerVertical="true"
-            android:orientation="vertical"
-            android:layout_width="55dp"
-            android:layout_height="match_parent">
-            <TextView
-                android:id="@+id/pinyin"
-                android:textColor="#bebebe"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/word"
-                android:layout_marginTop="2dp"
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/zuci"
-            android:layout_marginLeft="75dp"
-            android:textColor="#bebebe"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:visibility="gone"
+    <TextView
+        android:id="@+id/ordinal_number"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
-        android:id="@+id/listen_sz_control_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:id="@+id/play_control"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-            <ImageView
-                android:src="@drawable/listen_writing_speak"
-                android:layout_gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_marginLeft="7dp"
-                android:text="播放"
-                android:textColor="@android:color/holo_red_light"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+        android:gravity="center"
+        android:textColor="@android:color/holo_red_light" />
 
-            <TextView
-                android:id="@+id/sz_num"
-                android:layout_marginLeft="2dp"
-                android:text="播放"
-                android:textColor="#bebebe"
-                android:textSize="12sp"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/pinyin_layout"
+        android:layout_width="55dp"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/ordinal_number"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/play_num_control"
-            android:orientation="horizontal"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-            <ImageView
-                android:id="@+id/play_num_control_icon"
-                android:src="@drawable/play_num_control_icon1"
-                android:layout_gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/play_num_control_text"
-                android:layout_marginLeft="7dp"
-                android:text="播放一遍"
-                android:textColor="@android:color/holo_red_light"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/pinyin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#bebebe" />
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/word"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
 
-        <LinearLayout
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/play_num_control"
-            android:id="@+id/play_sequence_control"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-            <ImageView
-                android:id="@+id/play_sequence_control_icon"
-                android:src="@drawable/listen_shunxu_icon"
-                android:layout_gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/play_sequence_control_text"
-                android:layout_marginLeft="7dp"
-                android:text="顺序播放"
-                android:textColor="@android:color/holo_red_light"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-    </RelativeLayout>
-</FrameLayout>
+    <TextView
+        android:id="@+id/zuci"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="75dp"
+        android:gravity="center"
+        android:textColor="#bebebe" />
+</RelativeLayout>
