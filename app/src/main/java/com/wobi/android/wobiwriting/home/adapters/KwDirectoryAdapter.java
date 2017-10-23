@@ -171,6 +171,7 @@ public class KwDirectoryAdapter extends RecyclerView.Adapter<KwDirectoryAdapter.
                     directory_arrow.setImageResource(R.drawable.directory_arrow_right_red);
                 }else {
                     title_view.setTextColor(Color.parseColor("#fc5c59"));
+                    directory_arrow.setImageResource(R.drawable.directory_arrow_down_red);
                 }
             }else {
                 title_view.setTextColor(Color.parseColor("#b0b0b0"));
@@ -186,7 +187,7 @@ public class KwDirectoryAdapter extends RecyclerView.Adapter<KwDirectoryAdapter.
                     directory_arrow.setImageResource(R.drawable.directory_arrow_right_red);
                 }else {
                     title_view.setTextColor(Color.parseColor("#fc5c59"));
-                    directory_arrow.setImageResource(R.drawable.directory_arrow_down);
+                    directory_arrow.setImageResource(R.drawable.directory_arrow_down_red);
                 }
                 directory_icon.setImageResource(R.drawable.directory_icon_red_open);
             }else {
@@ -229,7 +230,9 @@ public class KwDirectoryAdapter extends RecyclerView.Adapter<KwDirectoryAdapter.
                             szListMap.put(kwUrl,getSZListResponse.getSzList());
                             szList.clear();
                             szList.addAll(getSZListResponse.getSzList());
+                            mSZAdapter.setSelected(SharedPrefUtil.getSZPosition(mContext));
                             mSZAdapter.notifyDataSetChanged();
+                            directory_sz_list_recycler.smoothScrollToPosition(SharedPrefUtil.getSZPosition(mContext));
                         }else {
                             showErrorMsg("该课文暂没生字哦");
                         }
