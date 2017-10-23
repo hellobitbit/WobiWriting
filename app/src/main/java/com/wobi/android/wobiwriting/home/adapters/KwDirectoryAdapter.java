@@ -49,7 +49,7 @@ public class KwDirectoryAdapter extends RecyclerView.Adapter<KwDirectoryAdapter.
     public interface OnRecyclerViewItemClickListener {
         void onItemClick(View view, int position);
 
-        void onSZItemClick();
+        void onSZItemClick(List<String> sz_list, int position);
     }
 
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
@@ -156,7 +156,7 @@ public class KwDirectoryAdapter extends RecyclerView.Adapter<KwDirectoryAdapter.
                     mSZAdapter.setSelected(position);
                     mSZAdapter.notifyDataSetChanged();
                     if (listener != null){
-                        listener.onSZItemClick();
+                        listener.onSZItemClick(szList, position);
                     }
                 }
             });

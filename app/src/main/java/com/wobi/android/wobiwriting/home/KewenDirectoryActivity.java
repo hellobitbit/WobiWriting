@@ -17,7 +17,7 @@ import com.wobi.android.wobiwriting.home.message.GetKWMLListRequest;
 import com.wobi.android.wobiwriting.home.message.GetKWMLListResponse;
 import com.wobi.android.wobiwriting.home.model.JiaoCaiObject;
 import com.wobi.android.wobiwriting.home.model.KeWenDirectory;
-import com.wobi.android.wobiwriting.ui.ActionBarActivity;
+import com.wobi.android.wobiwriting.ui.BaseActivity;
 import com.wobi.android.wobiwriting.user.LoginActivity;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
@@ -31,28 +31,27 @@ import java.util.List;
  * Created by wangyingren on 2017/10/5.
  */
 
-public class KewenDirectoryActivity extends ActionBarActivity
+public class KewenDirectoryActivity extends BaseActivity
         implements KwDirectoryAdapter.OnRecyclerViewItemClickListener{
-    public static final String GRADE_ID = "grade_id";
     private static final String TAG = "KewenDirectoryActivity";
-    private static final int REQUEST_CODE = 1006;
-    private List<KeWenDirectory> mOriginDirectories =  new ArrayList<>();
+    private static final int LOGIN_REQUEST_CODE = 1006;
+    private static final int SPEAK_REQUEST_CODE = 1007;
     private List<KeWenDirectory> mDirectories =  new ArrayList<>();
     private List<JiaoCaiObject> mJCList = new ArrayList<>();
     private KwDirectoryAdapter mAdapter;
     private String grade_id;
     private RecyclerView recyclerView;
 
+    private int speakTypeValue = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kewen_directory_layout);
-        grade_id = getIntent().getStringExtra(GRADE_ID);
+        grade_id = getIntent().getStringExtra(SpeakCNActivity.GRADE_ID);
+        speakTypeValue = getIntent().getIntExtra(SpeakCNActivity.SPEAK_TYPE, 0);
         loadJCList();
         initViews();
-        setCustomActionBar();
-        updateTitleText("课文目录");
-        updateImageResource(R.drawable.listen_writing_exit);
         updateSelectedKewen();
     }
 
@@ -69,6 +68,13 @@ public class KewenDirectoryActivity extends ActionBarActivity
         mAdapter = new KwDirectoryAdapter(getApplicationContext(),mDirectories);
         mAdapter.setOnItemClickListener(this);
         recyclerView.setAdapter(mAdapter);
+
+        findViewById(R.id.exit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void updateSelectedKewen(){
@@ -90,7 +96,6 @@ public class KewenDirectoryActivity extends ActionBarActivity
                 if (getKWMLListResponse != null && getKWMLListResponse.getHandleResult().equals("OK")){
                     if (getKWMLListResponse.getKwmlList()!=null
                             && !getKWMLListResponse.getKwmlList().isEmpty()){
-                        mOriginDirectories = getKWMLListResponse.getKwmlList();
                         mDirectories.clear();
                         mDirectories.addAll(getKWMLListResponse.getKwmlList());
                         updateUI();
@@ -159,9 +164,13 @@ public class KewenDirectoryActivity extends ActionBarActivity
     }
 
     @Override
-    public void onSZItemClick() {
-        setResult(0);
-        finish();
+    public void onSZItemClick(List<String> szList, int position) {
+        Intent intent = new Intent(getApplicationContext(), SpeakCNActivity.class);
+        intent.putExtra(SpeakCNActivity.KEWEN_TITLE,mDirectories.get(mAdapter.getClicked()).getKewen());
+        intent.putExtra(SpeakCNActivity.SPEAK_TYPE, speakTypeValue);
+        intent.putStringArrayListExtra(SpeakCNActivity.SZ_LIST, (ArrayList<String>) szList);
+
+        startActivityForResult(intent, SPEAK_REQUEST_CODE);
     }
 
     private void updateKewenList(int position){
@@ -176,21 +185,6 @@ public class KewenDirectoryActivity extends ActionBarActivity
         mAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    protected int getActionBarTitle() {
-        return 0;
-    }
-
-    @Override
-    protected int getActionBarRightButtonRes() {
-        return 0;
-    }
-
-    @Override
-    protected int getActionBarRightTitleRes() {
-        return 0;
-    }
-
     protected void checkLogin(){
         CustomDialog.Builder builder = new CustomDialog.Builder(this);
         builder.setMessage("登录后才能使用此功能");
@@ -201,7 +195,7 @@ public class KewenDirectoryActivity extends ActionBarActivity
                 dialog.dismiss();
                 //设置你的操作事项
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivityForResult(intent,REQUEST_CODE);
+                startActivityForResult(intent,LOGIN_REQUEST_CODE);
             }
         });
 
@@ -220,9 +214,11 @@ public class KewenDirectoryActivity extends ActionBarActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         LogUtil.d(TAG,"onActivityResult resultCode == "+resultCode+"  requestCode == "+requestCode);
         // 根据上面发送过去的请求吗来区别
-        if (requestCode == REQUEST_CODE
+        if (requestCode == LOGIN_REQUEST_CODE
                 && resultCode == LoginActivity.RESULT_CODE_SUCCESS){
             mAdapter.notifyDataSetChanged();
+        }else if (requestCode == SPEAK_REQUEST_CODE){
+
         }
     }
 }

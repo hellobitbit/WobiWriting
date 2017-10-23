@@ -4,13 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ededed">
-
-    <include layout="@layout/actionbar_layout"/>
-
-    <ImageView
-        android:background="@drawable/kewen_directory_poster"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="210dp" />
+        android:layout_height="210dp">
+
+        <ImageView
+            android:background="@drawable/kewen_directory_poster"
+            android:layout_width="match_parent"
+            android:layout_height="210dp" />
+
+        <ImageButton
+            android:id="@+id/exit"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:background="@null"
+            android:src="@drawable/back_arrow" />
+    </FrameLayout>
 
     <android.support.v7.widget.RecyclerView
         android:layout_marginTop="13dp"

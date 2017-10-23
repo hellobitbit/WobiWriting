@@ -100,7 +100,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
         switch (v.getId()){
             case R.id.speak_chinese:
                 if (mGradeList.size() > 0) {
-                    Intent intent = new Intent(getActivity(), SpeakCNActivity.class);
+                    Intent intent = new Intent(getActivity(), KewenDirectoryActivity.class);
                     intent.putExtra(SpeakCNActivity.GRADE_ID,
                             mGradeList.get(mSelected).getGradeId());
                     intent.putExtra(SpeakCNActivity.SPEAK_TYPE,
@@ -136,28 +136,28 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
         calligraghyClass.setMainAndSub1Intent(classIntent,true);
         calligraghyClass.setSub3Intent(classIntent,true);
 
-        Intent bishunIntent = new Intent(getActivity(), SpeakCNActivity.class);
+        Intent bishunIntent = new Intent(getActivity(), KewenDirectoryActivity.class);
         bishunIntent.putExtra(SpeakCNActivity.GRADE_ID,
                 mGradeList.get(position).getGradeId());
         bishunIntent.putExtra(SpeakCNActivity.SPEAK_TYPE,
                 SpeakCNActivity.SpeakType.BISHUN.getValue());
         chinese_writing.setMainAndSub1Intent(bishunIntent,true);
 
-        Intent banshuIntent = new Intent(getActivity(), SpeakCNActivity.class);
+        Intent banshuIntent = new Intent(getActivity(), KewenDirectoryActivity.class);
         banshuIntent.putExtra(SpeakCNActivity.GRADE_ID,
                 mGradeList.get(position).getGradeId());
         banshuIntent.putExtra(SpeakCNActivity.SPEAK_TYPE,
                 SpeakCNActivity.SpeakType.BANSHU.getValue());
         chinese_writing.setSub2Intent(banshuIntent,true);
 
-        Intent yingbiIntent = new Intent(getActivity(), SpeakCNActivity.class);
+        Intent yingbiIntent = new Intent(getActivity(), KewenDirectoryActivity.class);
         yingbiIntent.putExtra(SpeakCNActivity.GRADE_ID,
                 mGradeList.get(position).getGradeId());
         yingbiIntent.putExtra(SpeakCNActivity.SPEAK_TYPE,
                 SpeakCNActivity.SpeakType.YINGBI.getValue());
         chinese_writing.setSub3Intent(yingbiIntent,true);
 
-        Intent maobiIntent = new Intent(getActivity(), SpeakCNActivity.class);
+        Intent maobiIntent = new Intent(getActivity(), KewenDirectoryActivity.class);
         maobiIntent.putExtra(SpeakCNActivity.GRADE_ID,
                 mGradeList.get(position).getGradeId());
         maobiIntent.putExtra(SpeakCNActivity.SPEAK_TYPE,
