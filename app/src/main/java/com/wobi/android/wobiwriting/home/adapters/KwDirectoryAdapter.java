@@ -175,7 +175,7 @@ public class KwDirectoryAdapter extends RecyclerView.Adapter<KwDirectoryAdapter.
             }else {
                 title_view.setTextColor(Color.parseColor("#b0b0b0"));
                 directory_icon.setImageResource(R.drawable.directory_icon_red_closed);
-                directory_arrow.setImageResource(R.drawable.directory_arrow_down);
+                directory_arrow.setImageResource(R.drawable.directory_arrow_down_red);
             }
         }
 
@@ -204,6 +204,7 @@ public class KwDirectoryAdapter extends RecyclerView.Adapter<KwDirectoryAdapter.
                     szList.clear();
                     szList.addAll(szListMap.get(mDirectories.get(position).getKwUrl()));
                     mSZAdapter.notifyDataSetChanged();
+                    directory_sz_list_recycler.smoothScrollToPosition(SharedPrefUtil.getSZPosition(mContext));
                 }else {
                     loadSZList(mDirectories.get(position).getKwUrl());
                 }

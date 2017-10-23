@@ -174,8 +174,11 @@ public class KewenDirectoryActivity extends BaseActivity
     }
 
     private void updateKewenList(int position){
-        SharedPrefUtil.saveKewenDirectoryPosition(getApplicationContext(),position);
-        SharedPrefUtil.saveSZPosition(getApplicationContext(), 0);
+        if (mAdapter.getSelected() != position){
+            SharedPrefUtil.saveKewenDirectoryPosition(getApplicationContext(),position);
+            SharedPrefUtil.saveSZPosition(getApplicationContext(), 0);
+        }
+
         mAdapter.setSelected(position);
         if (position == mAdapter.getClicked()){
             mAdapter.resetClicked();
@@ -218,7 +221,7 @@ public class KewenDirectoryActivity extends BaseActivity
                 && resultCode == LoginActivity.RESULT_CODE_SUCCESS){
             mAdapter.notifyDataSetChanged();
         }else if (requestCode == SPEAK_REQUEST_CODE){
-
+            mAdapter.notifyDataSetChanged();
         }
     }
 }

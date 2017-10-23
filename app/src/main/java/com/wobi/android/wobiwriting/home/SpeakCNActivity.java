@@ -240,6 +240,7 @@ public class SpeakCNActivity extends ActionBarActivity
     private void switchSz(int position){
         mSZAdapter.setSelected(position);
         mSZAdapter.notifyDataSetChanged();
+        SharedPrefUtil.saveSZPosition(getApplicationContext(), position);
         if (szInfoResponseMap.containsKey(szList.get(position))){
             updateSzRelatedUI(szInfoResponseMap.get(szList.get(position)));
             currentSzInfo = szInfoResponseMap.get(szList.get(position));
