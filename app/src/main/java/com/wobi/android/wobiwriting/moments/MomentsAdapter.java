@@ -75,6 +75,7 @@ public class MomentsAdapter extends RecyclerView.Adapter<MomentsAdapter.Selected
         private final TextView favor;
         private final TextView comments;
         private final TextView forward;
+        private final TextView moment_type;
 
         public SelectedSZViewHolder(View itemView) {
             super(itemView);
@@ -91,10 +92,17 @@ public class MomentsAdapter extends RecyclerView.Adapter<MomentsAdapter.Selected
             comments = (TextView)itemView.findViewById(R.id.comments);
             forward = (TextView)itemView.findViewById(R.id.forward);
 
+            moment_type = (TextView)itemView.findViewById(R.id.moment_type);
         }
 
         public void bind(int position) {
             //设置条目的点击事件
+            if (position == 0){
+                moment_type.setVisibility(View.VISIBLE);
+            }else {
+                moment_type.setVisibility(View.GONE);
+            }
+            itemView.setOnClickListener(this);
             itemView.setTag(position);
             moment_name.setText(communityInfos.get(position).getCommunity_name());
             moment_code.setText("邀请码："+communityInfos.get(position).getRequest_code());

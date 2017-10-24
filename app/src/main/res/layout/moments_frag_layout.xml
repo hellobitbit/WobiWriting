@@ -20,6 +20,7 @@
             android:layout_height="match_parent" />
 
         <EditText
+            android:id="@+id/searchBar"
             android:layout_toLeftOf="@id/cancelSearch"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="8dp"
@@ -28,20 +29,16 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textSize="13sp"
+            android:singleLine="true"
+            android:maxLength="50"
             android:drawablePadding="7dp"
+            android:imeOptions="actionSearch"
             android:drawableLeft="@drawable/search_in_edittext"
             android:hint="@string/moments_search_hint"
             android:textColorHint="#bcbcbc"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </RelativeLayout>
-
-   <!-- <ListView
-        android:id="@+id/momentsList"
-        android:layout_below="@id/moments_search_bar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:dividerHeight="12dp"/>-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/momentsRecycler"

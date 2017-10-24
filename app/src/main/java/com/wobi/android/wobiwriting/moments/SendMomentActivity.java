@@ -1,10 +1,12 @@
 package com.wobi.android.wobiwriting.moments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 
 import com.lzy.imagepicker.ImagePicker;
@@ -179,5 +181,13 @@ public class SendMomentActivity extends ActionBarActivity implements
     @Override
     protected int getActionBarRightTitleRes() {
         return -1;
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        // 隐藏软键盘
+        imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
     }
 }
