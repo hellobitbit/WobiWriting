@@ -1,10 +1,12 @@
 package com.wobi.android.wobiwriting.moments.model;
 
+import java.io.Serializable;
+
 /**
  * Created by wangyingren on 2017/9/11.
  */
 
-public class CommunityInfo {
+public class CommunityInfo implements Serializable{
 
     private String address;
     private String city_code;

@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +21,12 @@ import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.data.IResponseListener;
 import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.home.SpaceItemDecoration;
+import com.wobi.android.wobiwriting.moments.MomentDetailActivity;
 import com.wobi.android.wobiwriting.moments.MomentsAdapter;
 import com.wobi.android.wobiwriting.moments.SendMomentActivity;
+import com.wobi.android.wobiwriting.moments.message.SearchCommunityByCodeResponse;
 import com.wobi.android.wobiwriting.moments.message.SearchCommunityByNameRequest;
-import com.wobi.android.wobiwriting.moments.message.SearchCommunityByRequestCodeRequest;
+import com.wobi.android.wobiwriting.moments.message.SearchCommunityByCodeRequest;
 import com.wobi.android.wobiwriting.moments.message.SearchPopularCommunityRequest;
 import com.wobi.android.wobiwriting.moments.message.SearchPopularCommunityResponse;
 import com.wobi.android.wobiwriting.moments.model.CommunityInfo;
@@ -43,6 +47,8 @@ public class MomentsFragment extends BaseFragment implements View.OnClickListene
         MomentsAdapter.OnRecyclerViewItemClickListener {
     private static final String TAG = "MomentsFragment";
     private ImageView mSendMoment;
+    private List<CommunityInfo> popularCommunityInfos = new ArrayList<>();
+    private List<CommunityInfo> searchCommunityInfos = new ArrayList<>();
     private List<CommunityInfo> communityInfos = new ArrayList<>();
     private MomentsAdapter momentsAdapter;
     private DisplayType displayType = DisplayType.Popular;
@@ -98,17 +104,47 @@ public class MomentsFragment extends BaseFragment implements View.OnClickListene
                 return false;
             }
         });
+
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                LogUtil.i(TAG, searchBar.getText().toString());
+                if (count == 0){
+                    communityInfos.clear();
+                    communityInfos.addAll(popularCommunityInfos);
+                    momentsAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        searchBar.setOnFocusChangeListener(new android.view.View.
+                OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    // 此处为得到焦点时的处理内容
+                } else {
+                    // 此处为失去焦点时的处理内容
+                }
+            }
+        });
     }
 
     private void startSearch() {
         String key = searchBar.getText().toString();
         LogUtil.d(TAG, "search key = "+key);
-
-        if (isNumeric(key)){
-            searchCommunityListByRequestCode(key);
-        }else {
-            searchCommunityListByName(key);
-        }
+//        searchCommunityListByName(key);
+        searchCommunityListByRequestCode(key);
+        hideSoftware();
     }
 
     @Override
@@ -147,6 +183,8 @@ public class MomentsFragment extends BaseFragment implements View.OnClickListene
                             || searchPopularCommunityResponse.getCommunityList().size() == 0){
                         showErrorMsg("当前不存在圈子");
                     }else {
+                        popularCommunityInfos.clear();
+                        popularCommunityInfos.addAll(searchPopularCommunityResponse.getCommunityList());
                         communityInfos.clear();
                         communityInfos.addAll(searchPopularCommunityResponse.getCommunityList());
                         momentsAdapter.notifyDataSetChanged();
@@ -185,14 +223,29 @@ public class MomentsFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void searchCommunityListByRequestCode(String request_code){
-        SearchCommunityByRequestCodeRequest request = new SearchCommunityByRequestCodeRequest();
+        SearchCommunityByCodeRequest request = new SearchCommunityByCodeRequest();
         request.setRequest_code(request_code);
         String jsonBody = request.jsonToString();
         NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
             @Override
             public void onSucceed(String response) {
                 LogUtil.d(TAG," response: "+response);
-
+                SearchCommunityByCodeResponse communityByCodeResponse = gson.fromJson(response,
+                        SearchCommunityByCodeResponse.class);
+                if (communityByCodeResponse != null && communityByCodeResponse.getHandleResult().equals("OK")){
+                    if (communityByCodeResponse.getCommunityList() == null
+                            || communityByCodeResponse.getCommunityList().size() == 0){
+                        showErrorMsg("当前没有该圈子，请输入其他关键词");
+                    }else {
+                        searchCommunityInfos.clear();
+                        searchCommunityInfos.addAll(communityByCodeResponse.getCommunityList());
+                        communityInfos.clear();
+                        communityInfos.addAll(communityByCodeResponse.getCommunityList());
+                        momentsAdapter.notifyDataSetChanged();
+                    }
+                }else {
+                    showErrorMsg("搜索异常");
+                }
             }
 
             @Override
@@ -207,7 +260,9 @@ public class MomentsFragment extends BaseFragment implements View.OnClickListene
     public void onItemClick(View view, int position) {
         boolean guestUser = SharedPrefUtil.getLoginInfo(getActivity()).isEmpty();
         if (!guestUser ){
-//            updateKewenList(position);
+            Intent intent = new Intent(getActivity(), MomentDetailActivity.class);
+            intent.putExtra(MomentDetailActivity.COMMUNITY_INFO,communityInfos.get(position));
+            getActivity().startActivity(intent);
         }else {
             checkLogin();
         }

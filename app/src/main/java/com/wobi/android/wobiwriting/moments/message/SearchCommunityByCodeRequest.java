@@ -7,11 +7,11 @@ import com.wobi.android.wobiwriting.data.message.Request;
  * Created by wangyingren on 2017/10/24.
  */
 
-public class SearchCommunityByRequestCodeRequest extends Request {
+public class SearchCommunityByCodeRequest extends Request {
 
     private String request_code;
 
-    public SearchCommunityByRequestCodeRequest(){
+    public SearchCommunityByCodeRequest(){
         setRequestType(BusinessType.BT_Search_Community_By_Request_Code.getValue());
         mInstance = this;
     }

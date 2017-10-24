@@ -38,6 +38,7 @@
         <activity android:name=".home.KewenDirectoryActivity"/>
         <activity android:name=".moments.SendMomentActivity"/>
         <activity android:name=".moments.ImagePickerActivity"/>
+        <activity android:name=".moments.MomentDetailActivity"/>
         <activity android:name=".me.MyInformationActivity"/>
         <activity android:name=".me.FeedbackActivity"/>
         <activity android:name=".me.MyMomentActivity"/>
