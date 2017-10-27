@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.wobi.android.wobiwriting.R;
+import com.wobi.android.wobiwriting.me.MyInformationActivity;
 import com.wobi.android.wobiwriting.user.LoginActivity;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.views.TargetToolBar;
@@ -165,6 +166,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         if (requestCode == LoginActivity.REQUEST_CODE
                 && resultCode == LoginActivity.RESULT_CODE_SUCCESS){
             updateMeFragmentState();
+        }else if (requestCode == MyInformationActivity.REQUEST_CODE){
+            updateMeFragmentState();
         }
     }
 
@@ -210,6 +213,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     void startLoginActivity(int request_code){
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivityForResult(intent,request_code);
+    }
+
+    void startUserInfoActivity(Intent intent, int request_code){
         startActivityForResult(intent,request_code);
     }
 

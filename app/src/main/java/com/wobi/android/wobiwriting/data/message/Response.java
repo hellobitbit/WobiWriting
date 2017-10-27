@@ -8,7 +8,7 @@ public class Response {
 
     private int request_type;
     private String handle_result;
-    private String user_id;// 用户的唯一ID
+//    private String user_id;// 用户的唯一ID
 
     public int getRequestType(){
         return this.request_type;
@@ -18,7 +18,7 @@ public class Response {
         return this.handle_result;
     }
 
-    public String getUserId(){
-        return user_id;
-    }
+//    public String getUserId(){
+//        return user_id;
+//    }
 }

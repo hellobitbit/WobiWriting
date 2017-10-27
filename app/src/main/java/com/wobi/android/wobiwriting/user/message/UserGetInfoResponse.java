@@ -2,11 +2,13 @@ package com.wobi.android.wobiwriting.user.message;
 
 import com.wobi.android.wobiwriting.data.message.Response;
 
+import java.io.Serializable;
+
 /**
  * Created by wangyingren on 2017/9/23.
  */
 
-public class UserGetInfoResponse extends Response {
+public class UserGetInfoResponse extends Response implements Serializable{
 
     private String phone_number;//用户手机，用户名
 
@@ -26,12 +28,18 @@ public class UserGetInfoResponse extends Response {
 
     private int community_count; // 加入和创建的圈子的总数
 
+    private int user_id;// 用户的唯一ID
+
     public String getPhoneNumber(){
         return phone_number;
     }
 
     public String getName(){
         return name;
+    }
+
+    public void setName(String name){
+        this.name = name;
     }
 
     public String getSex(){
@@ -64,5 +72,9 @@ public class UserGetInfoResponse extends Response {
 
     public String getWobi_beans(){
         return wobi_beans;
+    }
+
+    public int getUserId(){
+        return user_id;
     }
 }

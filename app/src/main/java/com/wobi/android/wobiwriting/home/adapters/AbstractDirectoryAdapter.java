@@ -76,7 +76,7 @@ public abstract class AbstractDirectoryAdapter<T> extends
                         directory_arrow.setImageResource(R.drawable.directory_arrow_right_default);
                     }
                 }else {
-                    title_view.setTextColor(Color.parseColor("#fc5c59"));
+                    title_view.setTextColor(Color.parseColor("#b0b0b0"));
                     directory_arrow.setImageResource(R.drawable.directory_arrow_right_red);
                     directory_icon.setImageResource(R.drawable.directory_icon_red_closed);
                 }

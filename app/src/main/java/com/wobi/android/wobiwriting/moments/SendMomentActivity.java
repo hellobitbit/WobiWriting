@@ -186,8 +186,6 @@ public class SendMomentActivity extends ActionBarActivity implements
     @Override
     public void onDestroy(){
         super.onDestroy();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        // 隐藏软键盘
-        imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+        hideSoftware();
     }
 }

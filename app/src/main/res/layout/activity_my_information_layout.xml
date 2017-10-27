@@ -14,7 +14,7 @@
         android:layout_height="67dp">
         <TextView
             android:text="@string/activity_my_info_head_portrait"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="12dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -57,8 +57,8 @@
         customer:leftIconVisible="false"
         customer:leftTextValue="@string/activity_my_info_description" />
 
-    <View
+   <!-- <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="#ffd5d4" />
+        android:background="#ffd5d4" /> -->
 </LinearLayout>

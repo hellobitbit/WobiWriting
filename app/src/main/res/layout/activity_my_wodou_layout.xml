@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/actionbar_layout"/>
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="#ededed"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:id="@+id/code_icon"
+            android:layout_marginLeft="12dp"
+            android:src="@drawable/pay_screen_code_icon"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/code_title"
+            android:textColor="@android:color/black"
+            android:text="邀请码："
+            android:layout_marginLeft="7dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/code_icon"/>
+
+        <EditText
+            android:layout_toRightOf="@id/code_title"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:hint="请输入您的圈子二维码"
+            android:singleLine="true"
+            android:maxLength="30"
+            android:textSize="14sp"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="#ededed"/>
+
+    <RelativeLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:background="@drawable/taocan_1_background"
+            android:layout_centerInParent="true"
+            android:layout_width="320dp"
+            android:layout_height="117.4dp" />
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:textSize="10sp"
+            android:text="-已有2017人购买-"
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="购买"
+            android:background="@drawable/purchase_text_background"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="31dp"
+            android:layout_marginBottom="27dp"
+            android:textColor="#feae3b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:background="@drawable/taocan_2_background"
+            android:layout_centerInParent="true"
+            android:layout_width="320dp"
+            android:layout_height="117.4dp" />
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:textSize="10sp"
+            android:text="-已有2017人购买-"
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="购买"
+            android:background="@drawable/purchase_text_background"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="31dp"
+            android:layout_marginBottom="27dp"
+            android:textColor="#f86041"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:background="@drawable/taocan_3_background"
+            android:layout_centerInParent="true"
+            android:layout_width="320dp"
+            android:layout_height="117.4dp" />
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:textSize="10sp"
+            android:text="-已有2017人购买-"
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="购买"
+            android:background="@drawable/purchase_text_background"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="31dp"
+            android:layout_marginBottom="27dp"
+            android:textColor="#c760f5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:background="@drawable/taocan_4_background"
+            android:layout_centerInParent="true"
+            android:layout_width="320dp"
+            android:layout_height="117.4dp" />
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:textSize="10sp"
+            android:text="-已有2017人购买-"
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="购买"
+            android:background="@drawable/purchase_text_background"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="31dp"
+            android:layout_marginBottom="27dp"
+            android:textColor="#228dfd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"/>
+    </RelativeLayout>
+
+</LinearLayout>

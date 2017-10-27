@@ -165,12 +165,13 @@ public class KwDirectoryAdapter extends RecyclerView.Adapter<KwDirectoryAdapter.
 
         private void updateSzInfoDisplayWhenLogin(int position){
             if (selectedPosition == position){
-                directory_icon.setImageResource(R.drawable.directory_icon_red_open);
                 if (clickedPosition == position){
-                    title_view.setTextColor(mContext.getResources().getColor(android.R.color.black));
+                    directory_icon.setImageResource(R.drawable.directory_icon_red_open);
+                    title_view.setTextColor(Color.parseColor("#fc5c59"));
                     directory_arrow.setImageResource(R.drawable.directory_arrow_right_red);
                 }else {
-                    title_view.setTextColor(Color.parseColor("#fc5c59"));
+                    title_view.setTextColor(Color.parseColor("#b0b0b0"));
+                    directory_icon.setImageResource(R.drawable.directory_icon_red_closed);
                     directory_arrow.setImageResource(R.drawable.directory_arrow_down_red);
                 }
             }else {

@@ -49,6 +49,10 @@
         <activity android:name=".user.RegisterActivity"
             android:launchMode="singleTask"/>
         <activity android:name=".user.GetVerifyCodeActivity"/>
+
+        <activity android:name=".wxapi.WXEntryActivity"
+            android:launchMode="singleTop"
+            android:exported="true"/>
     </application>
 
 </manifest>

@@ -1,6 +1,8 @@
 package com.wobi.android.wobiwriting.ui;
 
+import android.content.Context;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -28,6 +30,7 @@ public abstract class ActionBarActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+                hideSoftware();
             }
         });
         ImageButton rightButton = (ImageButton) findViewById(R.id.actionbar_right_button);
@@ -104,5 +107,11 @@ public abstract class ActionBarActivity extends BaseActivity {
 
     protected void onClickActionBarTitle(){
         //subclass impl if needs
+    }
+
+    protected void hideSoftware(){
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        // 隐藏软键盘
+        imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
     }
 }

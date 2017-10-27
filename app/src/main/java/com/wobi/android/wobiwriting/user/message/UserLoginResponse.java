@@ -14,6 +14,8 @@ public class UserLoginResponse extends Response {
 
     private String session_id;
 
+    private String user_id;// 用户的唯一ID
+
     public boolean getIsVip(){
         return is_vip;
     }
@@ -24,5 +26,9 @@ public class UserLoginResponse extends Response {
 
     public String getSession_id(){
         return session_id;
+    }
+
+    public String getUserId(){
+        return user_id;
     }
 }

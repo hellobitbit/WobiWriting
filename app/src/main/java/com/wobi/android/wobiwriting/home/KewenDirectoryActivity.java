@@ -80,6 +80,7 @@ public class KewenDirectoryActivity extends BaseActivity
     private void updateSelectedKewen(){
         int position = SharedPrefUtil.getKewenDirectoryPosition(getApplicationContext());
         mAdapter.setSelected(position);
+        mAdapter.setClicked(position);
         mAdapter.notifyDataSetChanged();
     }
 

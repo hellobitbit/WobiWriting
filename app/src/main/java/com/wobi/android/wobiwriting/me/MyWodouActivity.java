@@ -14,7 +14,7 @@ public class MyWodouActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_moment_layout);
+        setContentView(R.layout.activity_my_wodou_layout);
         initViews();
         setCustomActionBar();
 

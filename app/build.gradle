@@ -37,4 +37,5 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.lzy.widget:imagepicker:0.6.1'
     compile 'com.jaeger.statusbaruitl:library:1.0.0'
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'
 }

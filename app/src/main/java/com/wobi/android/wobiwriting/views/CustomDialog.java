@@ -146,7 +146,7 @@ public class CustomDialog extends Dialog {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             // instantiate the dialog with the custom Theme
             final CustomDialog dialog = new CustomDialog(context, R.style.Dialog);
-            View layout = inflater.inflate(R.layout.dialog_normal_layout, null);
+            final View layout = inflater.inflate(R.layout.dialog_normal_layout, null);
             dialog.addContentView(layout, new LayoutParams(
                     LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
             dialog.setCancelable(flag);
@@ -160,6 +160,11 @@ public class CustomDialog extends Dialog {
                     ((Button) layout.findViewById(R.id.positiveButton))
                             .setOnClickListener(new View.OnClickListener() {
                                 public void onClick(View v) {
+//                                    if (type ==  MessageType.EditText){
+//                                        message = ((EditText) layout.findViewById(R.id.edit_message)).getText().toString();
+//                                    }else {
+//                                        message = ((TextView) layout.findViewById(R.id.message)).getText().toString();
+//                                    }
                                     positiveButtonClickListener.onClick(dialog,
                                             DialogInterface.BUTTON_POSITIVE);
                                 }

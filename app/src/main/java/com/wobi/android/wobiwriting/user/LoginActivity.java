@@ -94,6 +94,7 @@ public class LoginActivity extends AccountBaseActivity{
                 UserGetInfoResponse userGetInfoResponse = gson.fromJson(response, UserGetInfoResponse.class);
                 if (userGetInfoResponse.getHandleResult().equals("OK")){
                     SharedPrefUtil.saveLoginInfo(getApplicationContext(),response);
+                    SharedPrefUtil.saveLoginPassword(getApplicationContext(), password_edit.getText().toString());
                     //保存登录信息
                     setResult(RESULT_CODE_SUCCESS);
                     showErrorMsg("登录成功");

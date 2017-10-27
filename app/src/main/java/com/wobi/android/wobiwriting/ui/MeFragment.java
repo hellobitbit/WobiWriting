@@ -14,7 +14,13 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.data.IResponseListener;
 import com.wobi.android.wobiwriting.data.NetDataManager;
@@ -38,6 +44,7 @@ import com.wobi.android.wobiwriting.views.CustomDialog;
 public class MeFragment extends BaseFragment implements View.OnClickListener{
 
     private static final String TAG = "MeFragment";
+    private final String W_APPID = "wx811d8d46a1d5cb01";
     private ImageView user_icon;
     private TextView user_name;
     private TextView user_description;
@@ -47,6 +54,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
     private UserGetInfoResponse userInfoResponse;
 
     private DialogInterface mLoginTipsDialog;
+    private IWXAPI api;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -88,6 +96,12 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
         refreshLoginState();
+        regToWx();
+    }
+
+    private void regToWx() {
+        api = WXAPIFactory.createWXAPI(getActivity(), W_APPID, true);
+        api.registerApp(W_APPID);
     }
 
     @Override
@@ -105,15 +119,19 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
                 break;
             case R.id.user_info:
                 Intent personalInfo = new Intent(getActivity(), MyInformationActivity.class);
-                getActivity().startActivity(personalInfo);
+                personalInfo.putExtra(MyInformationActivity.USER_INFO,userInfoResponse);
+//                getActivity().startActivity(personalInfo);
+                MainActivity mainActivity = (MainActivity)getActivity();
+                mainActivity.startUserInfoActivity(personalInfo, MyInformationActivity.REQUEST_CODE);
                 break;
             case R.id.moments_num_layout:
                 Intent moments = new Intent(getActivity(), MyMomentActivity.class);
                 getActivity().startActivity(moments);
                 break;
             case R.id.follow_num_layout:
-                Intent follow = new Intent(getActivity(), MyFollowActivity.class);
-                getActivity().startActivity(follow);
+                showErrorMsg("该版本未有此功能，敬请期待");
+//                Intent follow = new Intent(getActivity(), MyFollowActivity.class);
+//                getActivity().startActivity(follow);
                 break;
             case R.id.wodou_num_layout:
                 Intent wodou = new Intent(getActivity(), MyWodouActivity.class);
@@ -133,7 +151,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
             } else {
                 user_name.setText(response.getName());
             }
-
+            user_description.setText("无");
             if (response.getSex().equals("0")) {
                 //men
                 user_icon.setImageResource(R.drawable.default_man_headphoto);
@@ -193,7 +211,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
 
     private void sendLogoutRequest(){
         UserLogoutRequest request = new UserLogoutRequest();
-        request.setUserId(Integer.parseInt(userInfoResponse.getUserId()));
+        request.setUserId(userInfoResponse.getUserId());
         String jsonBody = request.jsonToString();
         NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
             @Override
@@ -280,10 +298,10 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
 
                         break;
                     case R.id.weixin:
-
+                        weiChat(0);
                         break;
                     case R.id.pengyouquan:
-
+                        weiChat(1);
                         break;
                     case R.id.qq:
 
@@ -308,5 +326,30 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
         ColorDrawable dw = new ColorDrawable(0x30000000);
         popWindow.setBackgroundDrawable(dw);
         popWindow.showAtLocation(parent, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+    }
+
+    // 0-分享给朋友  1-分享到朋友圈
+    private void weiChat(int flag) {
+        if (!api.isWXAppInstalled()) {
+            showErrorMsg("您还未安装微信");
+            return;
+        }
+
+        //创建一个WXWebPageObject对象，用于封装要发送的Url
+        WXWebpageObject webpage = new WXWebpageObject();
+        webpage.webpageUrl = "http://www.wobi365.com／";
+        //创建一个WXMediaMessage对象
+        WXMediaMessage msg = new WXMediaMessage(webpage);
+        msg.title = "沃笔习字";
+        msg.description = "规范汉语习字，弘扬民族文化";
+
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = String.valueOf(System.currentTimeMillis());//transaction字段用于唯一标识一个请求，这个必须有，否则会出错
+        req.message = msg;
+
+        //表示发送给朋友圈  WXSceneTimeline  表示发送给朋友  WXSceneSession
+        req.scene = flag == 0 ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
+
+        api.sendReq(req);
     }
 }

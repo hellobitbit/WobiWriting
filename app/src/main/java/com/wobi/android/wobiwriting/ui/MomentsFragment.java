@@ -159,8 +159,9 @@ public class MomentsFragment extends BaseFragment implements View.OnClickListene
                 boolean guestUser = SharedPrefUtil.getLoginInfo(getActivity()).isEmpty();
                 if (!guestUser){
                     hideSoftware();
-                    Intent sendMomentIntent = new Intent(getActivity(), SendMomentActivity.class);
-                    getActivity().startActivity(sendMomentIntent);
+//                    Intent sendMomentIntent = new Intent(getActivity(), SendMomentActivity.class);
+//                    getActivity().startActivity(sendMomentIntent);
+                    showErrorMsg("该版本未有此功能，敬请期待");
                 }else {
                     checkLogin();
                 }
