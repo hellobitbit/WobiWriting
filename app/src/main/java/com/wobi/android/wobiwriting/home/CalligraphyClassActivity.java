@@ -119,14 +119,16 @@ public class CalligraphyClassActivity extends BaseVideoActivity{
                     if (position == 0){
                         mAdapter.setSelected(position);
                         mAdapter.notifyDataSetChanged();
-                        play(mDirectories.get(position).getVideoUrl());
+                        play(mDirectories.get(position).getVideoUrl(),
+                                mDirectories.get(position).getCourseName());
                     }else {
                         checkLogin();
                     }
                 }else {
                     mAdapter.setSelected(position);
                     mAdapter.notifyDataSetChanged();
-                    play(mDirectories.get(position).getVideoUrl());
+                    play(mDirectories.get(position).getVideoUrl(),
+                            mDirectories.get(position).getCourseName());
                 }
             }
         });

@@ -109,14 +109,16 @@ public class CNClassicActivity extends BaseVideoActivity {
                     if (position == 0){
                         mAdapter.setSelected(position);
                         mAdapter.notifyDataSetChanged();
-                        play(mDirectories.get(position).getJieduUrl());
+                        play(mDirectories.get(position).getJieduUrl(),
+                                mDirectories.get(position).getCourseName());
                     }else {
                         checkLogin();
                     }
                 }else {
                     mAdapter.setSelected(position);
                     mAdapter.notifyDataSetChanged();
-                    play(mDirectories.get(position).getJieduUrl());
+                    play(mDirectories.get(position).getJieduUrl(),
+                            mDirectories.get(position).getCourseName());
                 }
 
             }

@@ -3,6 +3,9 @@ package com.wobi.android.wobiwriting.home.message;
 import com.wobi.android.wobiwriting.data.message.Response;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by wangyingren on 2017/9/23.
@@ -50,20 +53,65 @@ public class GetSZInfoResponse extends Response implements Serializable {
         return author1;
     }
 
+    public List<String> getAuthor1List(){
+        List<String> authors = new ArrayList<>();
+        if (author1 != null && !author1.isEmpty()){
+            String[] authorArray = author1.split("/");
+            authors.addAll(Arrays.asList(authorArray));
+        }
+        return authors;
+    }
+
     public String getAuthor2(){
         return author2;
+    }
+
+    public List<String> getAuthor2List(){
+        List<String> authors = new ArrayList<>();
+        if (author2 != null && !author2.isEmpty()){
+            String[] authorArray = author2.split("/");
+            authors.addAll(Arrays.asList(authorArray));
+        }
+        return authors;
     }
 
     public String getAuthor3(){
         return author3;
     }
 
+    public List<String> getAuthor3List(){
+        List<String> authors = new ArrayList<>();
+        if (author3 != null && !author3.isEmpty()){
+            String[] authorArray = author3.split("/");
+            authors.addAll(Arrays.asList(authorArray));
+        }
+        return authors;
+    }
+
     public String getAuthor4(){
         return author4;
     }
 
+    public List<String> getAuthor4List(){
+        List<String> authors = new ArrayList<>();
+        if (author4 != null && !author4.isEmpty()){
+            String[] authorArray = author4.split("/");
+            authors.addAll(Arrays.asList(authorArray));
+        }
+        return authors;
+    }
+
     public String getAuthor5(){
         return  author5;
+    }
+
+    public List<String> getAuthor5List(){
+        List<String> authors = new ArrayList<>();
+        if (author5 != null && !author5.isEmpty()){
+            String[] authorArray = author5.split("/");
+            authors.addAll(Arrays.asList(authorArray));
+        }
+        return authors;
     }
 
     public String getBanshu_url(){

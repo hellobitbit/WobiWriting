@@ -31,10 +31,13 @@
         <activity android:name=".ui.MainActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity android:name=".home.SearchActivity"/>
-        <activity android:name=".home.SpeakCNActivity"/>
+        <activity android:name=".home.SpeakCNActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
         <activity android:name=".home.ListenActivity"/>
-        <activity android:name=".home.CNClassicActivity"/>
-        <activity android:name=".home.CalligraphyClassActivity"/>
+        <activity android:name=".home.CNClassicActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name=".home.CalligraphyClassActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
         <activity android:name=".home.KewenDirectoryActivity"/>
         <activity android:name=".moments.SendMomentActivity"/>
         <activity android:name=".moments.ImagePickerActivity"/>

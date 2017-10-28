@@ -4,6 +4,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -55,6 +56,13 @@ public class ListenActivity extends ActionBarActivity
     private ImageView play_sequence_control_icon;
     private ImageView play_num_control_icon;
     private MediaPlayer mPlayer;
+
+    private String url = "";
+    private int count = 0;
+
+    private int currentPosition = 0;
+
+    private List<String> playLists = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,11 +223,11 @@ public class ListenActivity extends ActionBarActivity
     private void updatePlayControlUI(){
         if (playType == PlayType.Play){
             //must modify the icon
-            play_control_icon.setImageResource(R.drawable.listen_writing_speak);
+            play_control_icon.setImageResource(R.drawable.media_stop);
             play_control_label.setText("停止");
             startPlay();
         }else if (playType == PlayType.Stop){
-            play_control_icon.setImageResource(R.drawable.listen_writing_speak);
+            play_control_icon.setImageResource(R.drawable.media_start);
             play_control_label.setText("播放");
             stopPlay();
         }
@@ -276,18 +284,43 @@ public class ListenActivity extends ActionBarActivity
             @Override
             public void onCompletion(MediaPlayer mp) {
                 LogUtil.d(TAG," mediaplayer onCompletion");
+                if (currentPosition < playLists.size()-1){
+                    currentPosition++;
+                    playStreaming(playLists.get(currentPosition));
+                }else {
+                    currentPosition = 0;
+                    playLists.clear();
+                    play_control.performClick();
+                }
             }
         });
     }
 
     private void startPlay(){
-        GetSZInfoResponse szInfo = szInfoResponses.get(0);
-        String url = szInfo.getZuci_url()+szInfo.getZuci2()+".mp3";
-        playStreaming(url);
+        for (GetSZInfoResponse szInfo: szInfoResponses){
+            if (!TextUtils.isEmpty(szInfo.getZuci1())){
+                String url = szInfo.getZuci_url()+szInfo.getZuci1()+".mp3";
+                playLists.add(url);
+            }
+
+            if (!TextUtils.isEmpty(szInfo.getZuci2())){
+                String url = szInfo.getZuci_url()+szInfo.getZuci2()+".mp3";
+                playLists.add(url);
+            }
+
+            if (!TextUtils.isEmpty(szInfo.getZuci3())){
+                String url = szInfo.getZuci_url()+szInfo.getZuci3()+".mp3";
+                playLists.add(url);
+            }
+        }
+        if (playLists.size() > 0){
+            playStreaming(playLists.get(currentPosition));
+        }
     }
 
     private void stopPlay(){
-
+        count = 0;
+        url = "";
     }
 
     private void playStreaming(String url){

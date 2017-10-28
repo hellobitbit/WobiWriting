@@ -69,4 +69,9 @@
     <style name="TranslucentTheme" parent="AppTheme">
         <!--在Android 4.4之前的版本上运行，直接跟随系统主题-->
     </style>
+
+    <style name="Universal.Widget.ProgressBar" parent="@android:style/Widget.ProgressBar">
+        <item name="android:indeterminateDrawable">@drawable/uvv_progress_rotate</item>
+        <item name="android:indeterminateDuration">1000</item>
+    </style>
 </resources>

@@ -2,12 +2,15 @@ package com.wobi.android.wobiwriting.home;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.MediaController;
-import android.widget.VideoView;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
 import com.wobi.android.wobiwriting.R;
@@ -16,6 +19,8 @@ import com.wobi.android.wobiwriting.home.adapters.TitlePickerAdapter;
 import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 import com.wobi.android.wobiwriting.user.LoginActivity;
 import com.wobi.android.wobiwriting.utils.LogUtil;
+import com.wobi.android.wobiwriting.video.UniversalMediaController;
+import com.wobi.android.wobiwriting.video.UniversalVideoView;
 import com.wobi.android.wobiwriting.views.CustomDialog;
 
 import java.util.ArrayList;
@@ -26,7 +31,7 @@ import java.util.List;
  */
 
 public abstract class BaseVideoActivity extends ActionBarActivity
-        implements TitlePickerAdapter.OnRecyclerViewItemClickListener{
+        implements TitlePickerAdapter.OnRecyclerViewItemClickListener {
     static final int CN_CLASSIC = 0;
     static final int CALLIGRAGHY_CLASS = 1;
     private static final String TAG = "BaseVideoActivity";
@@ -37,7 +42,15 @@ public abstract class BaseVideoActivity extends ActionBarActivity
     protected AbstractDirectoryAdapter mAdapter;
 
     protected Gson gson = new Gson();
-    private VideoView mVideoView;
+    UniversalVideoView mVideoView;
+    UniversalMediaController mMediaController;
+    private FrameLayout mVideoLayout;
+
+    private int mSeekPosition;
+    private int cachedHeight;
+    private boolean isFullscreen;
+    private RecyclerView titleRecycler;
+    private RelativeLayout custom_action_bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +61,7 @@ public abstract class BaseVideoActivity extends ActionBarActivity
     }
 
     private void initViews() {
-        RecyclerView titleRecycler = (RecyclerView)findViewById(R.id.titleRecycler);
+        titleRecycler = (RecyclerView)findViewById(R.id.titleRecycler);
         adapter = new TitlePickerAdapter(this, mTitles);
         adapter.setOnItemClickListener(this);
 
@@ -56,15 +69,83 @@ public abstract class BaseVideoActivity extends ActionBarActivity
         titleRecycler.setHasFixedSize(true);
         titleRecycler.setAdapter(adapter);
 
-        mVideoView = (VideoView)findViewById(R.id.videoView);
-        mVideoView.setMediaController(new MediaController(this));
+        custom_action_bar = (RelativeLayout)findViewById(R.id.custom_action_bar);
+        mVideoLayout = (FrameLayout)findViewById(R.id.video_layout);
+        mVideoView = (UniversalVideoView)findViewById(R.id.videoView);
+        mMediaController = (UniversalMediaController) findViewById(R.id.media_controller);
+        mVideoView.setMediaController(mMediaController);
+        setVideoAreaSize();
+
+        mVideoView.setVideoViewCallback(new UniversalVideoView.VideoViewCallback() {
+            @Override
+            public void onScaleChange(boolean isFullscreen) {
+                BaseVideoActivity.this.isFullscreen = isFullscreen;
+                if (isFullscreen) {
+                    ViewGroup.LayoutParams layoutParams = mVideoLayout.getLayoutParams();
+                    layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                    layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+                    mVideoLayout.setLayoutParams(layoutParams);
+                    //设置全屏时,无关的View消失,以便为视频控件和控制器控件留出最大化的位置
+                    titleRecycler.setVisibility(View.GONE);
+                    custom_action_bar.setVisibility(View.GONE);
+                } else {
+                    ViewGroup.LayoutParams layoutParams = mVideoLayout.getLayoutParams();
+                    layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                    layoutParams.height = cachedHeight;
+                    mVideoLayout.setLayoutParams(layoutParams);
+                    titleRecycler.setVisibility(View.VISIBLE);
+                    custom_action_bar.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onPause(MediaPlayer mediaPlayer) { // 视频暂停
+                LogUtil.d(TAG, "onPause UniversalVideoView callback");
+            }
+
+            @Override
+            public void onStart(MediaPlayer mediaPlayer) { // 视频开始播放或恢复播放
+                LogUtil.d(TAG, "onStart UniversalVideoView callback");
+            }
+
+            @Override
+            public void onBufferingStart(MediaPlayer mediaPlayer) {// 视频开始缓冲
+                LogUtil.d(TAG, "onBufferingStart UniversalVideoView callback");
+            }
+
+            @Override
+            public void onBufferingEnd(MediaPlayer mediaPlayer) {// 视频结束缓冲
+                LogUtil.d(TAG, "onBufferingEnd UniversalVideoView callback");
+            }
+
+        });
     }
 
-    protected void play(String url){
+    /**
+     * 置视频区域大小
+     */
+    private void setVideoAreaSize() {
+        mVideoLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                int width = mVideoLayout.getWidth();
+                cachedHeight = (int) (width * 405f / 720f);
+//                cachedHeight = (int) (width * 3f / 4f);
+//                cachedHeight = (int) (width * 9f / 16f);
+                ViewGroup.LayoutParams videoLayoutParams = mVideoLayout.getLayoutParams();
+                videoLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                videoLayoutParams.height = cachedHeight;
+                mVideoLayout.setLayoutParams(videoLayoutParams);
+            }
+        });
+    }
+
+    protected void play(String url, String title){
         mVideoView.setVideoURI(Uri.parse(url));
         mVideoView.start();
         mVideoView.requestFocus();
 
+        mMediaController.setTitle(title);
     }
 
     protected void startSearchActivity(int type){
@@ -103,6 +184,15 @@ public abstract class BaseVideoActivity extends ActionBarActivity
         if (requestCode == REQUEST_CODE
                 && resultCode == LoginActivity.RESULT_CODE_SUCCESS){
             mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (BaseVideoActivity.this.isFullscreen) {
+            mVideoView.setFullscreen(false);
+        } else {
+            super.onBackPressed();
         }
     }
 

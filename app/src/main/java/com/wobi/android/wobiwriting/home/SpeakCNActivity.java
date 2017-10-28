@@ -1,30 +1,39 @@
 package com.wobi.android.wobiwriting.home;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.MediaController;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.data.IResponseListener;
 import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.home.adapters.SpeakSZAdapter;
 import com.wobi.android.wobiwriting.home.adapters.SpeakTypeAdapter;
+import com.wobi.android.wobiwriting.home.adapters.WutiziInfoAdapter;
+import com.wobi.android.wobiwriting.home.adapters.WutiziTypeAdapter;
 import com.wobi.android.wobiwriting.home.message.GetSZInfoRequest;
 import com.wobi.android.wobiwriting.home.message.GetSZInfoResponse;
 import com.wobi.android.wobiwriting.home.model.ListenSerializableMap;
 import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
+import com.wobi.android.wobiwriting.video.UniversalMediaController;
+import com.wobi.android.wobiwriting.video.UniversalVideoView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by wangyingren on 2017/9/11.
@@ -37,6 +46,7 @@ public class SpeakCNActivity extends ActionBarActivity
     public static final String SZ_LIST ="sz_list";
     public static final String KEWEN_TITLE ="kewen_title";
     private static final String TAG = "SpeakCNActivity";
+    private static final String SEEK_POSITION_KEY = "SEEK_POSITION_KEY";
     private static final String VIDEO_SUFFIX = ".mp4";
     private ArrayList<String> szList = new ArrayList<>();
     private HashMap<String, GetSZInfoResponse> szInfoResponseMap = new HashMap<>();
@@ -45,8 +55,22 @@ public class SpeakCNActivity extends ActionBarActivity
     private RecyclerView szListRecycler;
     private SpeakSZAdapter mSZAdapter;
     private int speakTypeValue = 0;
-    private VideoView speak_videoView;
     private GetSZInfoResponse currentSzInfo;
+
+    private UniversalVideoView mVideoView;
+    private UniversalMediaController mMediaController;
+    private FrameLayout mVideoLayout;
+    private int mSeekPosition;
+    private int cachedHeight;
+    private boolean isFullscreen;
+    private RelativeLayout speak_custom_action_bar;
+    private String kewenTitle;
+    private RecyclerView wutiInfoRecycler;
+    private WutiziInfoAdapter wutiziInfoAdapter;
+    private List<String> wuzitiTypeList = new ArrayList<>();
+
+    private RecyclerView wutiTypeRecycler;
+    private WutiziTypeAdapter wutiziAdapter;
 
     public enum SpeakType{
         SWJZ(0),
@@ -72,7 +96,7 @@ public class SpeakCNActivity extends ActionBarActivity
         setContentView(R.layout.activity_speak_cn_layout);
         speakTypeValue = getIntent().getIntExtra(SPEAK_TYPE, 0);
         szList = getIntent().getStringArrayListExtra(SZ_LIST);
-        String kewenTitle = getIntent().getStringExtra(KEWEN_TITLE);
+        kewenTitle = getIntent().getStringExtra(KEWEN_TITLE);
         initViews();
         setCustomActionBar();
         updateTitleText(kewenTitle);
@@ -127,8 +151,44 @@ public class SpeakCNActivity extends ActionBarActivity
             }
         });
 
-        speak_videoView = (VideoView)findViewById(R.id.speak_videoView);
-        speak_videoView.setMediaController(new MediaController(this));
+        wuzitiTypeList.add("楷书");
+        wuzitiTypeList.add("行书");
+        wuzitiTypeList.add("草书");
+        wuzitiTypeList.add("隶书");
+        wuzitiTypeList.add("篆书");
+
+        wutiTypeRecycler = (RecyclerView)findViewById(R.id.wutiTypeRecycler);
+        wutiziAdapter = new WutiziTypeAdapter(this, wuzitiTypeList);
+        wutiziAdapter.setOnItemClickListener(new WutiziTypeAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                wutiziAdapter.setSelected(position);
+                wutiziAdapter.notifyDataSetChanged();
+                if (wutiziInfoAdapter != null){
+                    wutiziInfoAdapter.setSelected(position);
+                    wutiziInfoAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+        wutiTypeRecycler.setLayoutManager(new GridLayoutManager(this, wuzitiTypeList.size()));
+        wutiTypeRecycler.setHasFixedSize(true);
+        wutiTypeRecycler.setAdapter(wutiziAdapter);
+
+        initWutiInfoRecycler();
+
+        initVideo();
+    }
+
+    private void initWutiInfoRecycler(){
+        wutiInfoRecycler = (RecyclerView)findViewById(R.id.wutiInfoRecycler);
+        wutiziInfoAdapter = new WutiziInfoAdapter(this);
+        //设置布局管理器
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
+        linearLayoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
+        wutiInfoRecycler.setLayoutManager(linearLayoutManager1);
+        wutiInfoRecycler.setHasFixedSize(true);
+        wutiInfoRecycler.setAdapter(wutiziInfoAdapter);
     }
 
     @Override
@@ -179,7 +239,14 @@ public class SpeakCNActivity extends ActionBarActivity
         ((TextView)findViewById(R.id.zxjg_content)).setText(szInfoResponse.getZxjg());
         ((TextView)findViewById(R.id.zuci_content)).setText(szInfoResponse.getZuci());
 
+        refreshWutizi(szInfoResponse);
         refreshVideoPlay(szInfoResponse);
+    }
+
+    private void refreshWutizi(GetSZInfoResponse szInfoResponse){
+        wutiziInfoAdapter.setSzInfo(szInfoResponse);
+        wutiziInfoAdapter.setSelected(wutiziAdapter.getSelected());
+        wutiziInfoAdapter.notifyDataSetChanged();
     }
 
     private void refreshVideoPlay(GetSZInfoResponse szInfoResponse){
@@ -204,10 +271,11 @@ public class SpeakCNActivity extends ActionBarActivity
 
     private void play(String url){
         LogUtil.d(TAG," play url = "+url);
-        speak_videoView.setVideoURI(Uri.parse(url));
-        speak_videoView.start();
-        speak_videoView.requestFocus();
+        mVideoView.setVideoURI(Uri.parse(url));
+        mVideoView.start();
+        mVideoView.requestFocus();
 
+        mMediaController.setTitle(kewenTitle);
     }
 
     @Override
@@ -246,6 +314,108 @@ public class SpeakCNActivity extends ActionBarActivity
             currentSzInfo = szInfoResponseMap.get(szList.get(position));
         }else {
             loadSZInfo(szList.get(position));
+        }
+    }
+
+    private void initVideo(){
+        speak_custom_action_bar = (RelativeLayout)findViewById(R.id.speak_custom_action_bar);
+        mVideoLayout = (FrameLayout)findViewById(R.id.video_layout);
+        mVideoView = (UniversalVideoView)findViewById(R.id.videoView);
+        mMediaController = (UniversalMediaController) findViewById(R.id.media_controller);
+        mVideoView.setMediaController(mMediaController);
+        setVideoAreaSize();
+
+        mVideoView.setVideoViewCallback(new UniversalVideoView.VideoViewCallback() {
+            @Override
+            public void onScaleChange(boolean isFullscreen) {
+                SpeakCNActivity.this.isFullscreen = isFullscreen;
+                if (isFullscreen) {
+                    ViewGroup.LayoutParams layoutParams = mVideoLayout.getLayoutParams();
+                    layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                    layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+                    mVideoLayout.setLayoutParams(layoutParams);
+                    //设置全屏时,无关的View消失,以便为视频控件和控制器控件留出最大化的位置
+                    speak_custom_action_bar.setVisibility(View.GONE);
+                } else {
+                    ViewGroup.LayoutParams layoutParams = mVideoLayout.getLayoutParams();
+                    layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                    layoutParams.height = cachedHeight;
+                    mVideoLayout.setLayoutParams(layoutParams);
+                    speak_custom_action_bar.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onPause(MediaPlayer mediaPlayer) { // 视频暂停
+                LogUtil.d(TAG, "onPause UniversalVideoView callback");
+            }
+
+            @Override
+            public void onStart(MediaPlayer mediaPlayer) { // 视频开始播放或恢复播放
+                LogUtil.d(TAG, "onStart UniversalVideoView callback");
+            }
+
+            @Override
+            public void onBufferingStart(MediaPlayer mediaPlayer) {// 视频开始缓冲
+                LogUtil.d(TAG, "onBufferingStart UniversalVideoView callback");
+            }
+
+            @Override
+            public void onBufferingEnd(MediaPlayer mediaPlayer) {// 视频结束缓冲
+                LogUtil.d(TAG, "onBufferingEnd UniversalVideoView callback");
+            }
+
+        });
+    }
+
+    /**
+     * 置视频区域大小
+     */
+    private void setVideoAreaSize() {
+        mVideoLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                int width = mVideoLayout.getWidth();
+                cachedHeight = mVideoLayout.getHeight();
+                ViewGroup.LayoutParams videoLayoutParams = mVideoLayout.getLayoutParams();
+                videoLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                videoLayoutParams.height = cachedHeight;
+                mVideoLayout.setLayoutParams(videoLayoutParams);
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (SpeakCNActivity.this.isFullscreen) {
+            mVideoView.setFullscreen(false);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        LogUtil.d(TAG, "onSaveInstanceState Position=" + mVideoView.getCurrentPosition());
+        outState.putInt(SEEK_POSITION_KEY, mSeekPosition);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle outState) {
+        super.onRestoreInstanceState(outState);
+        mSeekPosition = outState.getInt(SEEK_POSITION_KEY);
+        LogUtil.d(TAG, "onRestoreInstanceState Position=" + mSeekPosition);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LogUtil.d(TAG, "onPause ");
+        if (mVideoView != null && mVideoView.isPlaying()) {
+            mSeekPosition = mVideoView.getCurrentPosition();
+            Log.d(TAG, "onPause mSeekPosition=" + mSeekPosition);
+            mVideoView.pause();
         }
     }
 }
