@@ -18,7 +18,7 @@ public class CommunityInfo implements Serializable{
     private int is_auth;
     private String request_code;
     private String summary;
-    private String user_id;
+    private int user_id;
 
     public String getAddress(){
         return address;
@@ -60,7 +60,7 @@ public class CommunityInfo implements Serializable{
         return summary;
     }
 
-    public String getUser_id(){
+    public int getUser_id(){
         return user_id;
     }
 }

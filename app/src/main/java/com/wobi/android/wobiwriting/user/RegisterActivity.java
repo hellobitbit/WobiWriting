@@ -74,9 +74,9 @@ public class RegisterActivity extends AccountBaseActivity{
     private void register(){
         if (password_edit.getText().toString().isEmpty()
                 || phone_edit.getText().toString().isEmpty()
-                || confirm_password_edit.getText().toString().isEmpty()
-                || request_code_edit.getText().toString().isEmpty()){
-            showErrorMsg("输入不能为空");
+                || confirm_password_edit.getText().toString().isEmpty()){
+//                || request_code_edit.getText().toString().isEmpty()){
+            showErrorMsg("电话或者密码输入不能为空");
             return;
         }
 

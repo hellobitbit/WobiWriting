@@ -6,10 +6,10 @@ import com.wobi.android.wobiwriting.moments.model.CommunityInfo;
 import java.util.List;
 
 /**
- * Created by wangyingren on 2017/10/14.
+ * Created by wangyingren on 2017/10/25.
  */
 
-public class SearchPopularCommunityResponse extends Response {
+public class SearchCommunityResultResponse extends Response {
 
     private List<CommunityInfo> community_list;
 

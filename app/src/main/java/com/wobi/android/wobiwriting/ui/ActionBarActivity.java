@@ -16,6 +16,7 @@ public abstract class ActionBarActivity extends BaseActivity {
 
     private TextView title;
     private ImageButton back;
+    private TextView rightTitle;
 
     public void setCustomActionBar(){
         back = (ImageButton) findViewById(R.id.actionbar_left_back);
@@ -34,7 +35,7 @@ public abstract class ActionBarActivity extends BaseActivity {
             }
         });
         ImageButton rightButton = (ImageButton) findViewById(R.id.actionbar_right_button);
-        TextView rightTitle = (TextView) findViewById(R.id.actionbar_right_title);
+        rightTitle = (TextView) findViewById(R.id.actionbar_right_title);
         if (getActionBarRightButtonRes() <= 0){
             rightButton.setVisibility(View.INVISIBLE);
         }else {
@@ -74,6 +75,13 @@ public abstract class ActionBarActivity extends BaseActivity {
     public void updateTitleText(String text){
         if (title != null){
             title.setText(text);
+        }
+    }
+
+    public void updateRightText(String text){
+        if (rightTitle != null){
+            rightTitle.setText(text);
+            rightTitle.setVisibility(View.VISIBLE);
         }
     }
 

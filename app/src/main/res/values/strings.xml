@@ -28,6 +28,11 @@
     <string name="activity_my_moment_title">我的圈子</string>
     <string name="activity_my_wodou_title">充值中心</string>
 
+    // moment related
+    <string name="moment_name_label">圈名</string>
+    <string name="moment_position_label">地址</string>
+    <string name="moment_permission_label">权限</string>
+
     //home related
     <string name="home_item_speak">说文解字</string>
     <string name="home_item_speak_word_source">字源</string>

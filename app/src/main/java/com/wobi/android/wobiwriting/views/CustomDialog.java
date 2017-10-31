@@ -41,6 +41,7 @@ public class CustomDialog extends Dialog {
         private MessageType type;
         private boolean flag;
         private String message;
+        private String hint;
         private String positiveButtonText;
         private String negativeButtonText;
         private View contentView;
@@ -63,6 +64,11 @@ public class CustomDialog extends Dialog {
 
         public Builder setMessage(String message) {
             this.message = message;
+            return this;
+        }
+
+        public Builder setHint(String hint) {
+            this.hint = hint;
             return this;
         }
 
@@ -160,11 +166,6 @@ public class CustomDialog extends Dialog {
                     ((Button) layout.findViewById(R.id.positiveButton))
                             .setOnClickListener(new View.OnClickListener() {
                                 public void onClick(View v) {
-//                                    if (type ==  MessageType.EditText){
-//                                        message = ((EditText) layout.findViewById(R.id.edit_message)).getText().toString();
-//                                    }else {
-//                                        message = ((TextView) layout.findViewById(R.id.message)).getText().toString();
-//                                    }
                                     positiveButtonClickListener.onClick(dialog,
                                             DialogInterface.BUTTON_POSITIVE);
                                 }
@@ -199,6 +200,7 @@ public class CustomDialog extends Dialog {
                     ((TextView) layout.findViewById(R.id.message)).setVisibility(View.GONE);
                     ((EditText) layout.findViewById(R.id.edit_message)).setVisibility(View.VISIBLE);
                     ((EditText) layout.findViewById(R.id.edit_message)).setText(message);
+                    ((EditText) layout.findViewById(R.id.edit_message)).setHint(hint);
                     ((EditText) layout.findViewById(R.id.edit_message)).setSelection(message.length());
                 }else {
                     ((TextView) layout.findViewById(R.id.message)).setVisibility(View.VISIBLE);

@@ -43,7 +43,8 @@ public enum BusinessType {
     BT_Zi_Dong_Ti_Xian(33),                              /*  用户提现 */
     BT_Upload_GPS_Pos(34),                               /*  上传GPS位置 */
     BT_Search_Community_By_Request_Code(35),      /* 根据邀请码搜索圈子 */
-    BT_Search_Popular_Community(36);	          /* 搜索热门圈子 */
+    BT_Search_Popular_Community(36),	          /* 搜索热门圈子 */
+    BT_Search_Community_By_Keyword(37);          /* 跟据关键字搜索圈子,关键字是圈子名或邀请码 */
 
 
     private int mValue;

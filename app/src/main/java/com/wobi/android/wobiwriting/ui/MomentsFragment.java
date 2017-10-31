@@ -23,12 +23,11 @@ import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.home.SpaceItemDecoration;
 import com.wobi.android.wobiwriting.moments.MomentDetailActivity;
 import com.wobi.android.wobiwriting.moments.MomentsAdapter;
-import com.wobi.android.wobiwriting.moments.SendMomentActivity;
-import com.wobi.android.wobiwriting.moments.message.SearchCommunityByCodeResponse;
+import com.wobi.android.wobiwriting.moments.message.SearchCommunityByKeywordRequest;
+import com.wobi.android.wobiwriting.moments.message.SearchCommunityResultResponse;
 import com.wobi.android.wobiwriting.moments.message.SearchCommunityByNameRequest;
 import com.wobi.android.wobiwriting.moments.message.SearchCommunityByCodeRequest;
 import com.wobi.android.wobiwriting.moments.message.SearchPopularCommunityRequest;
-import com.wobi.android.wobiwriting.moments.message.SearchPopularCommunityResponse;
 import com.wobi.android.wobiwriting.moments.model.CommunityInfo;
 import com.wobi.android.wobiwriting.user.LoginActivity;
 import com.wobi.android.wobiwriting.utils.LogUtil;
@@ -143,7 +142,7 @@ public class MomentsFragment extends BaseFragment implements View.OnClickListene
         String key = searchBar.getText().toString();
         LogUtil.d(TAG, "search key = "+key);
 //        searchCommunityListByName(key);
-        searchCommunityListByRequestCode(key);
+        searchCommunityListByKeyword(key);
         hideSoftware();
     }
 
@@ -176,8 +175,8 @@ public class MomentsFragment extends BaseFragment implements View.OnClickListene
             @Override
             public void onSucceed(String response) {
                 LogUtil.d(TAG," response: "+response);
-                SearchPopularCommunityResponse searchPopularCommunityResponse = gson.
-                        fromJson(response,SearchPopularCommunityResponse.class);
+                SearchCommunityResultResponse searchPopularCommunityResponse = gson.
+                        fromJson(response,SearchCommunityResultResponse.class);
                 if (searchPopularCommunityResponse != null
                         && searchPopularCommunityResponse.getHandleResult().equals("OK")){
                     if (searchPopularCommunityResponse.getCommunityList() == null
@@ -231,8 +230,42 @@ public class MomentsFragment extends BaseFragment implements View.OnClickListene
             @Override
             public void onSucceed(String response) {
                 LogUtil.d(TAG," response: "+response);
-                SearchCommunityByCodeResponse communityByCodeResponse = gson.fromJson(response,
-                        SearchCommunityByCodeResponse.class);
+                SearchCommunityResultResponse communityByCodeResponse = gson.fromJson(response,
+                        SearchCommunityResultResponse.class);
+                if (communityByCodeResponse != null && communityByCodeResponse.getHandleResult().equals("OK")){
+                    if (communityByCodeResponse.getCommunityList() == null
+                            || communityByCodeResponse.getCommunityList().size() == 0){
+                        showErrorMsg("当前没有该圈子，请输入其他关键词");
+                    }else {
+                        searchCommunityInfos.clear();
+                        searchCommunityInfos.addAll(communityByCodeResponse.getCommunityList());
+                        communityInfos.clear();
+                        communityInfos.addAll(communityByCodeResponse.getCommunityList());
+                        momentsAdapter.notifyDataSetChanged();
+                    }
+                }else {
+                    showErrorMsg("搜索异常");
+                }
+            }
+
+            @Override
+            public void onFailed(String errorMessage) {
+                LogUtil.e(TAG," error: "+errorMessage);
+                showNetWorkException();
+            }
+        });
+    }
+
+    private void searchCommunityListByKeyword(String keyword){
+        SearchCommunityByKeywordRequest request = new SearchCommunityByKeywordRequest();
+        request.setKeyword(keyword);
+        String jsonBody = request.jsonToString();
+        NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
+            @Override
+            public void onSucceed(String response) {
+                LogUtil.d(TAG," response: "+response);
+                SearchCommunityResultResponse communityByCodeResponse = gson.fromJson(response,
+                        SearchCommunityResultResponse.class);
                 if (communityByCodeResponse != null && communityByCodeResponse.getHandleResult().equals("OK")){
                     if (communityByCodeResponse.getCommunityList() == null
                             || communityByCodeResponse.getCommunityList().size() == 0){

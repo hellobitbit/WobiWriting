@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
@@ -26,8 +25,7 @@ import com.wobi.android.wobiwriting.data.IResponseListener;
 import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.data.message.Response;
 import com.wobi.android.wobiwriting.me.FeedbackActivity;
-import com.wobi.android.wobiwriting.me.MyFollowActivity;
-import com.wobi.android.wobiwriting.me.MyMomentActivity;
+import com.wobi.android.wobiwriting.moments.MyMomentActivity;
 import com.wobi.android.wobiwriting.me.MyWodouActivity;
 import com.wobi.android.wobiwriting.me.MyInformationActivity;
 import com.wobi.android.wobiwriting.user.LoginActivity;

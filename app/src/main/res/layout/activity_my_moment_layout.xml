@@ -5,4 +5,30 @@
 
     <include layout="@layout/actionbar_layout"/>
 
+    <LinearLayout
+        android:id="@+id/new_moment_layout"
+        android:paddingLeft="12dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/new_moment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="新建圈子"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/momentsRecycler"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>
