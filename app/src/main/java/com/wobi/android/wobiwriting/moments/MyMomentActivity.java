@@ -11,24 +11,29 @@ import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.data.IResponseListener;
 import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.home.SpaceItemDecoration;
+import com.wobi.android.wobiwriting.me.MyInformationActivity;
 import com.wobi.android.wobiwriting.moments.ModifyMomentActivity;
 import com.wobi.android.wobiwriting.moments.NewMomentActivity;
 import com.wobi.android.wobiwriting.moments.NewOrModifyMomentBaseActivity;
 import com.wobi.android.wobiwriting.moments.adapters.PersonalMomentsAdapter;
 import com.wobi.android.wobiwriting.moments.message.GetAllProvincesRequest;
 import com.wobi.android.wobiwriting.moments.message.GetAllProvincesResponse;
+import com.wobi.android.wobiwriting.moments.message.GetProvinceCityAreaRequest;
 import com.wobi.android.wobiwriting.moments.message.SearchCommunityResultResponse;
 import com.wobi.android.wobiwriting.moments.message.SearchJoinedCommunityRequest;
 import com.wobi.android.wobiwriting.moments.message.SearchOwnedCommunityRequest;
 import com.wobi.android.wobiwriting.moments.model.CommunityInfo;
+import com.wobi.android.wobiwriting.moments.model.MomentData;
 import com.wobi.android.wobiwriting.moments.model.Province;
 import com.wobi.android.wobiwriting.ui.ActionBarActivity;
+import com.wobi.android.wobiwriting.user.LoginActivity;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +50,7 @@ public class MyMomentActivity extends ActionBarActivity {
     private List<CommunityInfo> communityInfos = new ArrayList<>();
 
     private Map<String, String> provinceMap = new HashMap<>();
+    private Map<Integer, CommunityInfo> communityIds = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +70,7 @@ public class MyMomentActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), NewMomentActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, NewMomentActivity.REQUEST_CODE);
             }
         });
 
@@ -80,7 +86,12 @@ public class MyMomentActivity extends ActionBarActivity {
         momentsAdapter.setOnItemClickListener(new PersonalMomentsAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
+                Intent intent = new Intent(getApplicationContext(), MomentDescriptionActivity.class);
+                MomentData momentData = new MomentData();
+                momentData.setCommunityInfo(communityInfos.get(position));
+                momentData.setProvinceMap(provinceMap);
+                intent.putExtra(MomentDescriptionActivity.MOMENT_DATA,momentData);
+                startActivityForResult(intent, MomentDescriptionActivity.REQUEST_CODE);
             }
         });
         momentsRecycler.setAdapter(momentsAdapter);
@@ -153,8 +164,12 @@ public class MyMomentActivity extends ActionBarActivity {
                     || searchResponse.getCommunityList().size() == 0){
 //                showErrorMsg("当前不存在圈子");
             }else {
-                communityInfos.clear();
-                communityInfos.addAll(searchResponse.getCommunityList());
+                for (CommunityInfo communityInfo: searchResponse.getCommunityList()){
+                    if (!communityIds.containsKey(communityInfo.getId())){
+                        communityIds.put(communityInfo.getId(), communityInfo);
+                        communityInfos.add(communityInfo);
+                    }
+                }
                 momentsAdapter.notifyDataSetChanged();
             }
         }else {
@@ -193,5 +208,38 @@ public class MyMomentActivity extends ActionBarActivity {
                 LogUtil.e(TAG," error: "+errorMessage);
             }
         });
+    }
+
+    // 回调方法，从第二个页面回来的时候会执行这个方法
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        LogUtil.d(TAG,"onActivityResult resultCode == "+resultCode+"  requestCode == "+requestCode);
+        // 根据上面发送过去的请求吗来区别
+        if (requestCode == NewMomentActivity.REQUEST_CODE
+                && resultCode == NewMomentActivity.RESULT_CODE_SUCCESS){
+            searchOwnedCommunity();
+        }else if (requestCode == MomentDescriptionActivity.REQUEST_CODE
+                && resultCode == MomentDescriptionActivity.RESULT_CODE_SUCCESS){
+            int community_id = data.getIntExtra(MomentDescriptionActivity.RESULT_COMMUNITY_ID, -1);
+            if (community_id != -1) {
+                CommunityInfo communityInfo = communityIds.get(community_id);
+                communityInfos.remove(communityInfo);
+                momentsAdapter.notifyDataSetChanged();
+            }
+
+            CommunityInfo info = (CommunityInfo) data.getSerializableExtra("data");
+            if (info != null){
+                CommunityInfo target = communityIds.get(info.getId());
+                if (communityInfos.contains(target)){
+                    target.setCommunity_name(info.getCommunity_name());
+                    target.setAddress(info.getAddress());
+                    target.setIs_auth(info.getIs_auth());
+                    target.setCity_code(info.getCity_code());
+                    target.setSummary(info.getSummary());
+                }
+                momentsAdapter.notifyDataSetChanged();
+            }
+        }
+
     }
 }

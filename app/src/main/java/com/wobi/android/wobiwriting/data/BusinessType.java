@@ -44,7 +44,9 @@ public enum BusinessType {
     BT_Upload_GPS_Pos(34),                               /*  上传GPS位置 */
     BT_Search_Community_By_Request_Code(35),      /* 根据邀请码搜索圈子 */
     BT_Search_Popular_Community(36),	          /* 搜索热门圈子 */
-    BT_Search_Community_By_Keyword(37);          /* 跟据关键字搜索圈子,关键字是圈子名或邀请码 */
+    BT_Search_Community_By_Keyword(37),          /* 跟据关键字搜索圈子,关键字是圈子名或邀请码 */
+    BT_Get_WXPay_Result(38),			/* 获取微信支付的支付结果 */
+    BT_Get_Province_City_Area(39);			/* 获取所有省市区 */
 
 
     private int mValue;

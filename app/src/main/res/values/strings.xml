@@ -33,6 +33,11 @@
     <string name="moment_position_label">地址</string>
     <string name="moment_permission_label">权限</string>
 
+    <string name="modify_moment_name">修改圈子昵称</string>
+    <string name="moment_request_code">圈子邀请码</string>
+    <string name="exit_moment">退出圈子</string>
+    <string name="moment_make_money">圈子盈利</string>
+
     //home related
     <string name="home_item_speak">说文解字</string>
     <string name="home_item_speak_word_source">字源</string>

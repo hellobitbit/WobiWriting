@@ -37,7 +37,7 @@ public class LoginActivity extends AccountBaseActivity{
         switch (view.getId()){
             case R.id.login_register_switch:
                 Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, RegisterActivity.REQUEST_CODE);
                 break;
             case R.id.login_or_register:
                 login();
@@ -111,5 +111,20 @@ public class LoginActivity extends AccountBaseActivity{
                 showNetWorkException();
             }
         });
+    }
+
+    // 回调方法，从第二个页面回来的时候会执行这个方法
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        LogUtil.d(TAG,"onActivityResult resultCode == "+resultCode+"  requestCode == "+requestCode);
+        // 根据上面发送过去的请求吗来区别
+        if (requestCode == RegisterActivity.REQUEST_CODE
+                && resultCode == RegisterActivity.RESULT_CODE_SUCCESS){
+            if (data != null){
+                phone_edit.setText(data.getStringExtra(RegisterActivity.USER_PHONE));
+                password_edit.setText(data.getStringExtra(RegisterActivity.USER_PASSWORD));
+
+            }
+        }
     }
 }

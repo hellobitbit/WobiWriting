@@ -109,8 +109,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
                 logout();
                 break;
             case R.id.user_feedback:
-                Intent feedback = new Intent(getActivity(), FeedbackActivity.class);
-                getActivity().startActivity(feedback);
+                showErrorMsg("该版本未有此功能，敬请期待");
+//                Intent feedback = new Intent(getActivity(), FeedbackActivity.class);
+//                getActivity().startActivity(feedback);
                 break;
             case R.id.share_app:
                 showPopupWindow();

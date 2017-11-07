@@ -24,6 +24,7 @@
         <attr name="rightIconSrc" format="reference"/>
         <attr name="rightIconMarginRight" format="dimension"/>
         <attr name="rightIconSize" format="dimension"/>
+        <attr name="rightIconVisible" format="boolean"/>
         <attr name="leftIconSrc" format="reference"/>
         <attr name="leftIconMarginLeft" format="dimension"/>
         <attr name="leftIconSize" format="dimension"/>

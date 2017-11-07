@@ -20,20 +20,27 @@
         android:gravity="center_vertical"
         android:layout_toRightOf="@id/leftIcon" />
 
-    <ImageView
-        android:id="@+id/rightIcon"
-        android:layout_alignParentRight="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
         android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal"
         android:layout_marginRight="@dimen/customer_setting_bar_margin_size"
-        android:background="@drawable/click_tips_arrow" />
-
-    <TextView
-        android:id="@+id/rightText"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:layout_marginRight="@dimen/customer_setting_bar_margin_size"
-        android:layout_toLeftOf="@id/rightIcon" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/rightText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical" />
+
+        <ImageView
+            android:id="@+id/rightIcon"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/customer_setting_bar_margin_size"
+            android:background="@drawable/click_tips_arrow" />
+    </LinearLayout>
 </RelativeLayout>

@@ -20,6 +20,26 @@ public class CommunityInfo implements Serializable{
     private String summary;
     private int user_id;
 
+    public void setAddress(String address){
+        this.address = address;
+    }
+
+    public void setCity_code(String city_code){
+        this.city_code = city_code;
+    }
+
+    public void setSummary(String summary){
+        this.summary = summary;
+    }
+
+    public void setIs_auth(int is_auth){
+        this.is_auth = is_auth;
+    }
+
+    public void setCommunity_name(String community_name){
+        this.community_name = community_name;
+    }
+
     public String getAddress(){
         return address;
     }

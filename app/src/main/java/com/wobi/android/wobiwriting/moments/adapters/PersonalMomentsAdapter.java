@@ -104,30 +104,11 @@ public class PersonalMomentsAdapter extends RecyclerView.Adapter<PersonalMoments
                 moment_owned.setVisibility(View.GONE);
             }
             moment_position.setText(provinceMap.get(communityInfos.get(position).getCity_code()));
-
-//            searchOwnedCommunity(moment_position, communityInfos.get(position).getCity_code());
         }
 
         @Override
         public void onClick(View v) {
             if (listener != null) listener.onItemClick(v, (Integer) itemView.getTag());
         }
-    }
-
-    private void searchOwnedCommunity(TextView moment_position, String city_code){
-        GetCityByCodeRequest request = new GetCityByCodeRequest();
-        request.setCity_code(city_code);
-        String jsonBody = request.jsonToString();
-        NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
-            @Override
-            public void onSucceed(String response) {
-                LogUtil.d(TAG," response: "+response);
-            }
-
-            @Override
-            public void onFailed(String errorMessage) {
-                LogUtil.e(TAG," error: "+errorMessage);
-            }
-        });
     }
 }

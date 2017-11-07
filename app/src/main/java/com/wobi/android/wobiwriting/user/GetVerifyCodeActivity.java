@@ -2,6 +2,8 @@ package com.wobi.android.wobiwriting.user;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -82,6 +84,31 @@ public class GetVerifyCodeActivity extends BaseActivity {
                 return false;
             }
         });
+
+        verify_code.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                LogUtil.d(TAG,"beforeTextChanged count = "+count);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+               if (verify_code.getText().length() == 4){
+                   if (mVerifyCodeResponse != null &&
+                           verify_code.getText().toString().equals(mVerifyCodeResponse.getVerifyCode())){
+                       showErrorMsg("短信验证码验证成功");
+                       setResult(RESULT_CODE_SUCCESS);
+                       finish();
+                   }else {
+                       showErrorMsg("短信验证码错误");
+                   }
+               }
+            }
+        });
     }
 
     private void getVerifyCode(){
@@ -115,7 +142,7 @@ public class GetVerifyCodeActivity extends BaseActivity {
         ((LinearLayout)findViewById(R.id.send)).setVisibility(View.GONE);
         ((LinearLayout)findViewById(R.id.re_send)).setVisibility(View.VISIBLE);
         /** 倒计时60秒，一次1秒 */
-        CountDownTimer timer = new CountDownTimer(60*1000, 1000) {
+        CountDownTimer timer = new CountDownTimer(120*1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 countDownText.setText(" ( "+millisUntilFinished/1000+"s ) ");
@@ -125,6 +152,7 @@ public class GetVerifyCodeActivity extends BaseActivity {
             public void onFinish() {
                 ((LinearLayout)findViewById(R.id.send)).setVisibility(View.VISIBLE);
                 ((LinearLayout)findViewById(R.id.re_send)).setVisibility(View.GONE);
+                mVerifyCodeResponse = null;
             }
         }.start();
     }

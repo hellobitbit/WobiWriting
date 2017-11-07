@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:customer="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <include layout="@layout/actionbar_layout"/>
+
+    <RelativeLayout
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+        <ImageView
+            android:id="@+id/moment_icon"
+            android:scaleType="fitXY"
+            android:layout_centerVertical="true"
+            android:background="@drawable/moment_default_headphoto"
+            android:layout_width="57dp"
+            android:layout_height="57dp" />
+
+        <RelativeLayout
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/moment_icon"
+            android:layout_width="match_parent"
+            android:layout_height="20dp">
+            <TextView
+                android:id="@+id/moment_name"
+                android:text="测试数据"
+                android:layout_alignParentBottom="true"
+                android:textColor="@android:color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/moment_num"
+                android:textColor="#cacaca"
+                android:visibility="gone"
+                android:text=" (4人) "
+                android:textSize="8sp"
+                android:layout_marginLeft="5dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@id/moment_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/moment_owned"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toRightOf="@id/moment_num"
+                android:src="@drawable/owner_created"
+                android:layout_alignParentBottom="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/moment_position"
+                android:textColor="@android:color/holo_red_light"
+                android:visibility="visible"
+                android:text="广东"
+                android:textSize="12sp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/moment_privacy"
+            android:textColor="@android:color/holo_red_light"
+            android:text="公开"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:layout_marginLeft="12dp"
+            android:background="@drawable/moment_privacy_background"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="12dp"
+            android:layout_toRightOf="@id/moment_icon"
+            android:layout_width="45dp"
+            android:layout_height="20dp" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_marginLeft="81dp"
+        android:layout_marginRight="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="35dp">
+        <TextView
+            android:text="圈子介绍："
+            android:textSize="12sp"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"/>
+        <TextView
+            android:text=""
+            android:id="@+id/moment_summary"
+            android:textSize="12sp"
+            android:textColor="#c2c2c2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+    <View
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#ededed"/>
+    <TextView
+        android:background="@android:color/white"
+        android:layout_marginTop="0.5dp"
+        android:id="@+id/moment_modify"
+        android:text="圈子信息修改"
+        android:textColor="@android:color/holo_red_light"
+        android:gravity="center"
+        android:paddingRight="12dp"
+        android:paddingLeft="12dp"
+        android:textSize="12sp"
+        android:layout_gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="43dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:background="#ededed"/>
+
+    <com.wobi.android.wobiwriting.views.CustomSettingBar
+        android:id="@+id/modify_moment_name_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        customer:rightIconMarginRight="14dp"
+        customer:leftTextMarginLeft="20dp"
+        customer:leftIconVisible="false"
+        customer:rightTextValue="@string/modify_moment_name"
+        customer:leftTextValue="@string/modify_moment_name"
+        customer:rightTextColor="@android:color/holo_red_light"
+        customer:leftTextColor="@color/custom_setting_bar_left_color"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="9dp"
+        android:visibility="gone"
+        android:background="#ededed"/>
+
+    <com.wobi.android.wobiwriting.views.CustomSettingBar
+        android:id="@+id/moment_request_code_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        customer:rightIconMarginRight="14dp"
+        customer:leftTextMarginLeft="20dp"
+        customer:leftIconVisible="false"
+        customer:rightIconVisible="false"
+        customer:leftTextValue="@string/moment_request_code"
+        customer:rightTextColor="@android:color/holo_red_light"
+        customer:leftTextColor="@color/custom_setting_bar_left_color"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="9dp"
+        android:background="#ededed"/>
+
+    <com.wobi.android.wobiwriting.views.CustomSettingBar
+        android:id="@+id/moment_exit_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        customer:rightIconMarginRight="14dp"
+        customer:leftTextMarginLeft="20dp"
+        customer:leftIconVisible="false"
+        customer:rightIconVisible="false"
+        customer:leftTextValue="@string/exit_moment"
+        customer:rightTextColor="@android:color/holo_red_light"
+        customer:leftTextColor="@color/custom_setting_bar_left_color"/>
+
+    <View
+        android:id="@+id/exit_moment_margin"
+        android:layout_width="match_parent"
+        android:layout_height="9dp"
+        android:background="#ededed"/>
+
+    <com.wobi.android.wobiwriting.views.CustomSettingBar
+        android:id="@+id/moment_make_money_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        customer:rightIconMarginRight="14dp"
+        customer:leftTextMarginLeft="20dp"
+        customer:leftIconVisible="false"
+        customer:leftTextValue="@string/moment_make_money"
+        customer:rightTextColor="@android:color/holo_red_light"
+        customer:leftTextColor="@color/custom_setting_bar_left_color"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ededed"/>
+</LinearLayout>

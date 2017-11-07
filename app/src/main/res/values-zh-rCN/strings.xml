@@ -51,6 +51,16 @@
     <string name="home_item_classic_daode">道德经</string>
     <string name="home_item_classic_ancient_poetry">古诗</string>
 
+    // moment related
+    <string name="moment_name_label">圈名</string>
+    <string name="moment_position_label">地址</string>
+    <string name="moment_permission_label">权限</string>
+
+    <string name="modify_moment_name">修改圈子昵称</string>
+    <string name="moment_request_code">圈子邀请码</string>
+    <string name="exit_moment">退出圈子</string>
+    <string name="moment_make_money">圈子盈利</string>
+
     //user register login
     <string name="user_register_login_title">欢迎来到沃笔习字</string>
     <string name="user_login_label">登录</string>

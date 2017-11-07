@@ -44,6 +44,7 @@
         <activity android:name=".moments.MomentDetailActivity"/>
         <activity android:name=".moments.NewMomentActivity"/>
         <activity android:name=".moments.ModifyMomentActivity"/>
+        <activity android:name=".moments.MomentDescriptionActivity"/>
         <activity android:name=".me.MyInformationActivity"/>
         <activity android:name=".me.FeedbackActivity"/>
         <activity android:name=".moments.MyMomentActivity"/>

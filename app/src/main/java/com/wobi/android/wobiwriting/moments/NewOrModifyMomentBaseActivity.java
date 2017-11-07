@@ -15,10 +15,15 @@ import android.widget.RadioButton;
 
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.wobi.android.wobiwriting.R;
+import com.wobi.android.wobiwriting.data.IResponseListener;
+import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.db.AreaBean;
 import com.wobi.android.wobiwriting.db.CityBean;
 import com.wobi.android.wobiwriting.db.DBManager;
 import com.wobi.android.wobiwriting.db.ProvinceBean;
+import com.wobi.android.wobiwriting.moments.message.GetAllProvincesRequest;
+import com.wobi.android.wobiwriting.moments.message.GetAllProvincesResponse;
+import com.wobi.android.wobiwriting.moments.model.Province;
 import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;
 import com.wobi.android.wobiwriting.utils.LogUtil;
@@ -27,6 +32,9 @@ import com.wobi.android.wobiwriting.views.CustomDialog;
 import com.wobi.android.wobiwriting.views.CustomSettingBar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by wangyingren on 2017/10/30.
@@ -40,6 +48,8 @@ public class NewOrModifyMomentBaseActivity extends ActionBarActivity implements 
     String community_description = "";
     String community_address = "";
     boolean isAuth = true;
+
+    String city_code = "";
 
     private CustomSettingBar moment_name_bar;
     private CustomSettingBar moment_description_bar;
@@ -101,7 +111,7 @@ public class NewOrModifyMomentBaseActivity extends ActionBarActivity implements 
         moment_permission_bar.setOnClickListener(this);
     }
 
-    private void refreshUI(){
+    void refreshUI(){
         if (TextUtils.isEmpty(community_name)){
             moment_name_bar.setRightText("无");
         }else {
@@ -191,7 +201,7 @@ public class NewOrModifyMomentBaseActivity extends ActionBarActivity implements 
     private void displayDescriptionDialog(){
         CustomDialog.Builder builder = new CustomDialog.Builder(this);
         builder.setMessage(community_description);
-        builder.setHint("让我们一起创建良好的学习气氛。");
+        builder.setHint("让我们一起创建良好的学习气氛.");
         builder.setMessageType(CustomDialog.MessageType.EditText);
         builder.setTitle("介绍修改");
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -345,6 +355,8 @@ public class NewOrModifyMomentBaseActivity extends ActionBarActivity implements 
                         + options2Items.get(options1).get(option2).getName()
                         + options3Items.get(options1).get(option2).get(options3).getName();
                 community_address = tx;
+                city_code = options1Items.get(options1).getPro_code();
+                LogUtil.d(TAG,"city_code = "+city_code);
                 refreshUI();
             }
         });

@@ -2,6 +2,7 @@ package com.wobi.android.wobiwriting.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
@@ -9,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wobi.android.wobiwriting.R;
+import com.wobi.android.wobiwriting.utils.LogUtil;
 
 /**
  * Created by wangyingren on 2017/9/16.
@@ -30,6 +32,7 @@ public class CustomSettingBar extends RelativeLayout {
     private int mRightTextValue;
     private int mRightTextMarginRight;
     private int mRightTextSize;
+    private boolean mHaveRightIcon;
 
     public CustomSettingBar(Context context) {
         this(context, null);
@@ -55,6 +58,7 @@ public class CustomSettingBar extends RelativeLayout {
         mRightIconId = a.getResourceId(R.styleable.CustomSettingBar_rightIconSrc, 0);
         mRightIconMarginRight = a.getResourceId(R.styleable.CustomSettingBar_rightIconMarginRight, 0);
         mRightIconSize = a.getResourceId(R.styleable.CustomSettingBar_rightIconSize, 0);
+        mHaveRightIcon = a.getBoolean(R.styleable.CustomSettingBar_rightIconVisible, true);
 
         mLeftTextColor = a.getResourceId(R.styleable.CustomSettingBar_leftTextColor, 0);
         mLeftTextValue = a.getResourceId(R.styleable.CustomSettingBar_leftTextValue, 0);
@@ -81,13 +85,29 @@ public class CustomSettingBar extends RelativeLayout {
             }
         }
 
+        ImageView rightIcon = (ImageView)findViewById(R.id.rightIcon);
+        if (mHaveRightIcon){
+            rightIcon.setVisibility(VISIBLE);
+        }else {
+            rightIcon.setVisibility(INVISIBLE);
+        }
+
         TextView leftView = (TextView)findViewById(R.id.leftText);
         if (mLeftTextValue != 0) {
             leftView.setText(mLeftTextValue);
         }
 
         if (mLeftTextColor != 0){
-            leftView.setTextColor(mLeftTextColor);
+            leftView.setTextColor(getResources().getColor(mLeftTextColor));
+        }
+
+        TextView rightView = (TextView)findViewById(R.id.rightText);
+        if (mRightTextValue != 0) {
+            rightView.setText(mRightTextValue);
+        }
+
+        if (mRightTextColor != 0){
+            rightView.setTextColor(getResources().getColor(mRightTextColor));
         }
     }
 

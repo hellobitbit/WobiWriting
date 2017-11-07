@@ -30,8 +30,11 @@ public abstract class ActionBarActivity extends BaseActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+//                onBackPressed();
+                onClickBack();
                 hideSoftware();
+                finish();
+
             }
         });
         ImageButton rightButton = (ImageButton) findViewById(R.id.actionbar_right_button);
@@ -114,6 +117,10 @@ public abstract class ActionBarActivity extends BaseActivity {
     }
 
     protected void onClickActionBarTitle(){
+        //subclass impl if needs
+    }
+
+    protected void onClickBack(){
         //subclass impl if needs
     }
 

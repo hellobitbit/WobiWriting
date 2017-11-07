@@ -17,6 +17,10 @@ import com.wobi.android.wobiwriting.utils.LogUtil;
  */
 
 public class RegisterActivity extends AccountBaseActivity{
+    public static final int REQUEST_CODE = 1101;
+    public static final int RESULT_CODE_SUCCESS = 0x15;
+    public static final String USER_PHONE = "user_phone";
+    public static final String USER_PASSWORD = "user_password";
     private static final String TAG = "RegisterActivity";
 
     public static final String USER_PHONE_KEY = "user_phone_key";
@@ -113,6 +117,10 @@ public class RegisterActivity extends AccountBaseActivity{
                 LogUtil.d(TAG," response: "+response);
                 Response userCommitRegisterResponse = gson.fromJson(response, Response.class);
                 if (userCommitRegisterResponse.getHandleResult().equals("OK")){
+                    Intent intent = new Intent();
+                    intent.putExtra(USER_PHONE,phone_edit.getText().toString());
+                    intent.putExtra(USER_PASSWORD,password_edit.getText().toString());
+                    setResult(RESULT_CODE_SUCCESS,intent);
                     showErrorMsg("注册成功");
                     finish();
                 }else {

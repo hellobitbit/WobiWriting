@@ -1,10 +1,12 @@
 package com.wobi.android.wobiwriting.moments.model;
 
+import java.io.Serializable;
+
 /**
  * Created by wangyingren on 2017/10/30.
  */
 
-public class Province {
+public class Province implements Serializable{
 
     private String city_code;
     private int id;
