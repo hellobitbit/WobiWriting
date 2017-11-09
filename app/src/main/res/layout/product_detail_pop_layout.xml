@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:paddingLeft="19dp"
+        android:paddingTop="13dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="173dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white">
+
+        <TextView
+            android:id="@+id/product_name_label"
+            android:text="名称："
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_toRightOf="@id/product_name_label"
+            android:id="@+id/product_name"
+            android:text="学期卡（6个月）"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/product_num_label"
+            android:layout_below="@id/product_name_label"
+            android:text="数量："
+            android:layout_marginTop="8dp"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_below="@id/product_name_label"
+            android:layout_toRightOf="@id/product_num_label"
+            android:id="@+id/product_num"
+            android:text="1"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_toRightOf="@id/product_num_label"
+            android:layout_below="@id/product_num"
+            android:background="#c6c6c6"
+            android:layout_width="30dp"
+            android:layout_height="0.5dp"/>
+        <TextView
+            android:id="@+id/confirm_purchase"
+            android:textColor="@android:color/holo_red_light"
+            android:text="确定"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/moment_privacy_background"
+            android:layout_width="65dp"
+            android:layout_height="26dp" />
+
+        <View
+            android:layout_marginTop="65dp"
+            android:layout_marginRight="9dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#fddfd8"/>
+
+        <TextView
+            android:id="@+id/special_offer_label"
+            android:layout_marginTop="81dp"
+            android:textSize="13sp"
+            android:text="优惠活动："
+            android:textColor="#f66140"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:id="@+id/origin_price_layout"
+            android:layout_marginTop="81dp"
+            android:layout_toRightOf="@id/special_offer_label"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/origin_price"
+                android:textSize="13sp"
+                android:text="原价40元"
+                android:layout_centerInParent="true"
+                android:textColor="#d3d3d3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_marginTop="9dp"
+                android:background="#c6c6c6"
+                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"/>
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/current_price"
+            android:layout_marginTop="81dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/origin_price_layout"
+            android:textSize="13sp"
+            android:text="现价36.5元"
+            android:textColor="#636363"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/total_price_label"
+            android:layout_marginTop="116dp"
+            android:textSize="18sp"
+            android:text="金额："
+            android:textColor="#f5320b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/total_price"
+            android:layout_marginTop="116dp"
+            android:layout_toRightOf="@id/total_price_label"
+            android:textSize="18sp"
+            android:text="36.5"
+            android:textColor="#f5320b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</RelativeLayout>

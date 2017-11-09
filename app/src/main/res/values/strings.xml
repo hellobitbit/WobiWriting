@@ -27,6 +27,7 @@
     <string name="activity_my_info_description">介绍</string>
     <string name="activity_my_moment_title">我的圈子</string>
     <string name="activity_my_wodou_title">充值中心</string>
+    <string name="activity_my_wodou_wechat_purchase">微信支付</string>
 
     // moment related
     <string name="moment_name_label">圈名</string>

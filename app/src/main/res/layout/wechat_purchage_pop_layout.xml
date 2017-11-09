@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:customer="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="257dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:gravity="center"
+            android:text="沃笔习字"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:background="@null"
+            android:src="@drawable/cacel_purchase_exit"
+            android:layout_marginLeft="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="43dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="43dp"
+            android:background="#d1d1d1" />
+
+        <TextView
+            android:id="@+id/taocan_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="66dp"
+            android:text="学期卡（3个月）"
+            android:textColor="#505050" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/taocan_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:text="49.8元"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="132dp"
+            android:background="#d1d1d1" />
+
+        <com.wobi.android.wobiwriting.views.CustomSettingBar
+            android:layout_width="wrap_content"
+            android:layout_height="39dp"
+            android:layout_marginTop="132.5dp"
+            customer:leftIconSrc="@drawable/weixinzhifu"
+            customer:leftIconVisible="true"
+            customer:leftTextColor="@color/custom_setting_bar_wechat_color"
+            customer:leftTextValue="@string/activity_my_wodou_wechat_purchase" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="171.5dp"
+            android:background="#d1d1d1" />
+
+        <RelativeLayout
+            android:layout_below="@id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/confirm_pay"
+                android:background="@drawable/wechat_purchase_confirm_background"
+                android:text="确定支付"
+                android:textColor="@android:color/white"
+                android:gravity="center"
+                android:layout_marginLeft="11dp"
+                android:layout_marginRight="11dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

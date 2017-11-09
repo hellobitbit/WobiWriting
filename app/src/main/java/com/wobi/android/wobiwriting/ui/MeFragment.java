@@ -76,7 +76,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
 
         userFeedback.setOnClickListener(this);
         accountExit.setOnClickListener(this);
-        userInfo.setOnClickListener(this);
+//        userInfo.setOnClickListener(this);
 
         momentsNumLayout.setOnClickListener(this);
         followNumLayout.setOnClickListener(this);
@@ -88,6 +88,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
         moments_num_value = (TextView)view.findViewById(R.id.moments_num_value);
         follow_num_value = (TextView)view.findViewById(R.id.follow_num_value);
         wodou_num_value = (TextView)view.findViewById(R.id.wodou_num_value);
+
+        user_icon.setOnClickListener(this);
     }
 
     @Override
@@ -116,7 +118,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
             case R.id.share_app:
                 showPopupWindow();
                 break;
-            case R.id.user_info:
+            case R.id.user_icon:
                 Intent personalInfo = new Intent(getActivity(), MyInformationActivity.class);
                 personalInfo.putExtra(MyInformationActivity.USER_INFO,userInfoResponse);
 //                getActivity().startActivity(personalInfo);

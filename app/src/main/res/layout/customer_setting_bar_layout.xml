@@ -9,8 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:visibility="gone"
-        android:layout_marginLeft="@dimen/customer_setting_bar_margin_size"
-        android:background="@drawable/share_icon" />
+        android:layout_marginLeft="@dimen/customer_setting_bar_margin_size" />
 
     <TextView
         android:id="@+id/leftText"
