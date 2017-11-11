@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 public class WXEntryActivity extends ActionBarActivity implements IWXAPIEventHandler{
 
+	private static final String TAG = "WXEntryActivity";
 	private final String W_APPID = "wx811d8d46a1d5cb01";
 	private IWXAPI api;
 	private TextView share_weixin_result;
@@ -78,12 +79,13 @@ public class WXEntryActivity extends ActionBarActivity implements IWXAPIEventHan
 				share_weixin_result.setText("其他不可名状的情况");
 				break;
 		}
-		LogUtil.d("wobi","resp.errCode == "+resp.errCode);
+		LogUtil.d(TAG,"resp.errCode == "+resp.errCode);
 	}
 
 	@Override
 	public void onReq(BaseReq req) {
 		//......这里是用来处理接收的请求,暂不做讨论
+		LogUtil.d(TAG,"r11esp.errCode == ");
 	}
 
 	@Override

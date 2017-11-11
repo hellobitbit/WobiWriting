@@ -81,7 +81,6 @@ public class WutiziInfoAdapter extends RecyclerView.Adapter<WutiziInfoAdapter.Se
         this.szInfo = szInfo;
     }
 
-
     @Override
     public SelectedWutiziViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new SelectedWutiziViewHolder(mInflater.inflate(R.layout.wuti_info_list_item_layout,

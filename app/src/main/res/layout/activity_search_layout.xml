@@ -20,6 +20,7 @@
             android:layout_height="match_parent" />
 
         <EditText
+            android:id="@+id/edit_search"
             android:layout_toLeftOf="@id/cancelSearch"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="8dp"
@@ -29,6 +30,9 @@
             android:paddingRight="10dp"
             android:textSize="13sp"
             android:drawablePadding="7dp"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            android:inputType="text"
             android:drawableLeft="@drawable/search_in_edittext"
             android:hint="请输入需要查找的字"
             android:textColorHint="#bcbcbc"

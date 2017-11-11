@@ -75,7 +75,7 @@ public class CalligraphyClassActivity extends BaseVideoActivity{
 
     @Override
     protected int getActionBarRightButtonRes() {
-        return R.drawable.search_normal;
+        return 0;
     }
 
     @Override

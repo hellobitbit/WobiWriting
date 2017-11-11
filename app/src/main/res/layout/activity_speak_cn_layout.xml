@@ -272,7 +272,16 @@
                         android:fadingEdge="none"
                         android:scrollbarStyle="outsideOverlay" />
 
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/wutiInfo_viewpager"
+                        android:visibility="gone"
+                        android:layout_below="@+id/wutiTypeRecycler"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="150dp"
+                        android:layout_height="169dp"/>
+
                     <ImageButton
+                        android:id="@+id/wutizi_left_button"
                         android:src="@drawable/wutizi_left_arrow"
                         android:background="@null"
                         android:paddingLeft="15dp"
@@ -283,6 +292,7 @@
                         android:layout_height="169dp" />
 
                     <ImageButton
+                        android:id="@+id/wutizi_right_button"
                         android:src="@drawable/wutizi_right_arrow"
                         android:background="@null"
                         android:paddingLeft="15dp"

@@ -101,7 +101,7 @@ public class SharedPrefUtil {
     public static int getKewenDirectoryPosition(Context context){
         SharedPreferences userSettings = context.
                 getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
-        return userSettings.getInt(KEWEN_DIRECTORY_POSITION, 1);
+        return userSettings.getInt(KEWEN_DIRECTORY_POSITION, 0);
     }
 
     public static void saveSZPosition(Context context, int position){

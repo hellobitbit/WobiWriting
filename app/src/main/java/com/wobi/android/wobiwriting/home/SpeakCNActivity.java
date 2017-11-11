@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,9 +20,11 @@ import android.widget.TextView;
 import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.data.IResponseListener;
 import com.wobi.android.wobiwriting.data.NetDataManager;
+import com.wobi.android.wobiwriting.home.adapters.BannerViewpagerAdapter;
 import com.wobi.android.wobiwriting.home.adapters.SpeakSZAdapter;
 import com.wobi.android.wobiwriting.home.adapters.SpeakTypeAdapter;
 import com.wobi.android.wobiwriting.home.adapters.WutiziInfoAdapter;
+import com.wobi.android.wobiwriting.home.adapters.WutiziPageAdapter;
 import com.wobi.android.wobiwriting.home.adapters.WutiziTypeAdapter;
 import com.wobi.android.wobiwriting.home.message.GetSZInfoRequest;
 import com.wobi.android.wobiwriting.home.message.GetSZInfoResponse;
@@ -71,6 +75,9 @@ public class SpeakCNActivity extends ActionBarActivity
 
     private RecyclerView wutiTypeRecycler;
     private WutiziTypeAdapter wutiziAdapter;
+    private ImageButton wutizi_left_button;
+    private ImageButton wutizi_right_button;
+//    private WutiziPageAdapter mWutiziPageAdapter;
 
     public enum SpeakType{
         SWJZ(0),
@@ -168,6 +175,9 @@ public class SpeakCNActivity extends ActionBarActivity
                     wutiziInfoAdapter.setSelected(position);
                     wutiziInfoAdapter.notifyDataSetChanged();
                 }
+//                if (mWutiziPageAdapter != null){
+//                    mWutiziPageAdapter.setSelected(position);
+//                }
             }
         });
 
@@ -175,12 +185,14 @@ public class SpeakCNActivity extends ActionBarActivity
         wutiTypeRecycler.setHasFixedSize(true);
         wutiTypeRecycler.setAdapter(wutiziAdapter);
 
-        initWutiInfoRecycler();
+        initWutiInfo();
 
         initVideo();
     }
 
-    private void initWutiInfoRecycler(){
+    private int wutiAdapterNowPos = -1;
+
+    private void initWutiInfo(){
         wutiInfoRecycler = (RecyclerView)findViewById(R.id.wutiInfoRecycler);
         wutiziInfoAdapter = new WutiziInfoAdapter(this);
         //设置布局管理器
@@ -189,6 +201,46 @@ public class SpeakCNActivity extends ActionBarActivity
         wutiInfoRecycler.setLayoutManager(linearLayoutManager1);
         wutiInfoRecycler.setHasFixedSize(true);
         wutiInfoRecycler.setAdapter(wutiziInfoAdapter);
+
+        wutizi_left_button =  (ImageButton)findViewById(R.id.wutizi_left_button);
+        wutizi_right_button =  (ImageButton)findViewById(R.id.wutizi_right_button);
+
+
+        wutiInfoRecycler.setOnScrollListener(new RecyclerView.OnScrollListener(){
+            @Override
+            public void onScrolled(RecyclerView recyclerView,int dx,int dy){
+                super.onScrolled(recyclerView,dx,dy);
+                LinearLayoutManager l = (LinearLayoutManager)recyclerView.getLayoutManager();
+                wutiAdapterNowPos = l.findFirstVisibleItemPosition();
+            }
+        });
+
+        wutizi_left_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (wutiAdapterNowPos <= 0){
+                    showErrorMsg("不能继续向左了");
+                }else {
+                    wutiInfoRecycler.scrollToPosition(wutiAdapterNowPos-1);
+                }
+            }
+        });
+
+        wutizi_right_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (wutiAdapterNowPos >= wutiziInfoAdapter.getItemCount()-1){
+                    showErrorMsg("不能继续向右了");
+                }else {
+                    wutiInfoRecycler.scrollToPosition(wutiAdapterNowPos+1);
+                }
+            }
+        });
+
+//        ViewPager wutiInfo_viewpager = (ViewPager)findViewById(R.id.wutiInfo_viewpager);
+//        mWutiziPageAdapter = new WutiziPageAdapter(getApplicationContext());
+//        wutiInfo_viewpager.setAdapter(mWutiziPageAdapter);
+
     }
 
     @Override
@@ -247,6 +299,12 @@ public class SpeakCNActivity extends ActionBarActivity
         wutiziInfoAdapter.setSzInfo(szInfoResponse);
         wutiziInfoAdapter.setSelected(wutiziAdapter.getSelected());
         wutiziInfoAdapter.notifyDataSetChanged();
+
+//        if (mWutiziPageAdapter != null){
+//            mWutiziPageAdapter.setSzInfo(szInfoResponse);
+//            mWutiziPageAdapter.setSelected(wutiziAdapter.getSelected());
+//            mWutiziPageAdapter.notifyDataSetChanged();
+//        }
     }
 
     private void refreshVideoPlay(GetSZInfoResponse szInfoResponse){

@@ -330,7 +330,7 @@ public class ListenActivity extends ActionBarActivity
             mPlayer.setDataSource(url) ;
             //需使用异步缓冲
             mPlayer.prepareAsync();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         mPlayer.start();

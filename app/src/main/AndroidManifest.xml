@@ -33,6 +33,8 @@
         <activity android:name=".home.SearchActivity"/>
         <activity android:name=".home.SpeakCNActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name=".home.SearchSpeakCNActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
         <activity android:name=".home.ListenActivity"/>
         <activity android:name=".home.CNClassicActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"/>
@@ -49,7 +51,8 @@
         <activity android:name=".me.FeedbackActivity"/>
         <activity android:name=".moments.MyMomentActivity"/>
         <activity android:name=".me.MyFollowActivity"/>
-        <activity android:name=".me.MyWodouActivity"/>
+        <activity android:name=".me.MyWodouActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".user.LoginActivity"
             android:launchMode="singleTask"/>
         <activity android:name=".user.RegisterActivity"
@@ -59,6 +62,11 @@
         <activity android:name=".wxapi.WXEntryActivity"
             android:launchMode="singleTop"
             android:exported="true"/>
+
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"/>
     </application>
 
 </manifest>
