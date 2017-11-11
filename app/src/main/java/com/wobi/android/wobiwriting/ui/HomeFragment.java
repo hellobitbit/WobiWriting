@@ -29,6 +29,7 @@ import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.views.HomeItemView;
 import com.wobi.android.wobiwriting.views.SpinnerPopWindow;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -114,6 +115,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
 
         banner_viewpager = (ViewPager) view.findViewById(R.id.banner_viewpager);
         banner_viewpager.setAdapter(new BannerViewpagerAdapter(getActivity()));
+        setViewPagerScrollSpeed();
 
         banner_viewpager.addOnPageChangeListener(onPageChangeListener);
         banner_viewpager.setOnTouchListener(onTouchListener);
@@ -130,6 +132,22 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                     }
                 }
             }, 5000, 5000);//延迟10秒，每隔10秒发一次消息
+        }
+    }
+
+    private void setViewPagerScrollSpeed( ){
+        try {
+            Field mScroller = null;
+            mScroller = ViewPager.class.getDeclaredField("mScroller");
+            mScroller.setAccessible(true);
+            FixedSpeedScroller scroller = new FixedSpeedScroller( banner_viewpager.getContext( ) );
+            mScroller.set( banner_viewpager, scroller);
+        }catch(NoSuchFieldException e){
+
+        }catch (IllegalArgumentException e){
+
+        }catch (IllegalAccessException e){
+
         }
     }
 

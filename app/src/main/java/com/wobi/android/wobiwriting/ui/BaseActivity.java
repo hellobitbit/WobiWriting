@@ -26,7 +26,7 @@ public class BaseActivity extends Activity {
 
     public void showDialog(String tips){
         pd = new ProgressDialog(BaseActivity.this);
-        pd.setCancelable(false);
+        pd.setCancelable(true);
         pd.setIndeterminate(true);
         pd.setMessage(tips);
         pd.show();

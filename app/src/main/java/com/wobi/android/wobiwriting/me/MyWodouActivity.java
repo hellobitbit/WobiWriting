@@ -210,6 +210,7 @@ public class MyWodouActivity extends ActionBarActivity implements View.OnClickLi
                     dismissDialog();
                     weChatPay(buyVIPServiceResponse);
                 }else {
+                    dismissDialog();
                     showErrorMsg("获取订单失败");
                 }
             }
@@ -217,6 +218,7 @@ public class MyWodouActivity extends ActionBarActivity implements View.OnClickLi
             @Override
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
+                dismissDialog();
                 showNetWorkException();
             }
         });
