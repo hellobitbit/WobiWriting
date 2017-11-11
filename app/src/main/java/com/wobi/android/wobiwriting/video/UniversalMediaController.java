@@ -535,7 +535,9 @@ public class UniversalMediaController extends FrameLayout {
     void updateScaleButton() {
         if (mIsFullScreen) {
             mScaleButton.setImageResource(R.drawable.uvv_star_zoom_in);
+            mScaleButton.setVisibility(GONE);
         } else {
+            mScaleButton.setVisibility(VISIBLE);
             mScaleButton.setImageResource(R.drawable.uvv_player_scale_btn);
         }
     }
