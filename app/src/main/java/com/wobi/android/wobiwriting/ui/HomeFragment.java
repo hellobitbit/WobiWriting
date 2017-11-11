@@ -129,7 +129,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                         mHandler.sendEmptyMessage(1);
                     }
                 }
-            }, 10000, 10000);//延迟10秒，每隔10秒发一次消息
+            }, 5000, 5000);//延迟10秒，每隔10秒发一次消息
         }
     }
 
@@ -162,6 +162,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void onItemClick(int pos) {
         refreshGradeInfo(pos);
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        LogUtil.d(TAG," onDestroy ");
+        if (timer != null){
+            timer.cancel();
+            timer = null;
+        }
     }
 
     private void refreshGradeInfo(int position){
@@ -296,7 +306,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                             mHandler.sendEmptyMessage(1);
                         }
                     }
-                },10000,10000);//延迟10秒，每隔10秒发一次消息
+                },5000,5000);//延迟10秒，每隔10秒发一次消息
             }
         }
     }
