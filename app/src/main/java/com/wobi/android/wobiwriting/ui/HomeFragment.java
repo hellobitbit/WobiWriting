@@ -97,6 +97,33 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
         });
     }
 
+    @Override
+    public void onPause(){
+        super.onPause();
+        if (timer != null){
+            timer.cancel();
+            timer = null;
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (timer == null){
+            timer = new Timer();//创建Timer对象
+            //执行定时任务
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    //首先判断是否需要轮播，是的话我们才发消息
+                    if (isContinue) {
+                        mHandler.sendEmptyMessage(1);
+                    }
+                }
+            }, 5000, 5000);//延迟10秒，每隔10秒发一次消息
+        }
+    }
+
     private void initView(View view){
         speckCN = (HomeItemView)view.findViewById(R.id.speak_chinese);
         cnClassic = (HomeItemView)view.findViewById(R.id.chinese_classic);
