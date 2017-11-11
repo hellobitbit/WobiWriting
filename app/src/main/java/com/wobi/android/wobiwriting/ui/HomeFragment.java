@@ -2,8 +2,11 @@ package com.wobi.android.wobiwriting.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
@@ -28,6 +31,8 @@ import com.wobi.android.wobiwriting.views.SpinnerPopWindow;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by wangyingren on 2017/9/9.
@@ -47,6 +52,22 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     private HomeItemView calligraghyClass;
     private HomeItemView chinese_writing;
     private HomeItemView speckCN;
+
+    private boolean isContinue = true;
+    private int index;
+    //定时器，用于实现轮播
+    private Timer timer;
+    Handler mHandler  = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 1:
+                    index++;
+                    banner_viewpager.setCurrentItem(index);
+            }
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -93,6 +114,23 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
 
         banner_viewpager = (ViewPager) view.findViewById(R.id.banner_viewpager);
         banner_viewpager.setAdapter(new BannerViewpagerAdapter(getActivity()));
+
+        banner_viewpager.addOnPageChangeListener(onPageChangeListener);
+        banner_viewpager.setOnTouchListener(onTouchListener);
+
+        if (timer == null) {
+            timer = new Timer();//创建Timer对象
+            //执行定时任务
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    //首先判断是否需要轮播，是的话我们才发消息
+                    if (isContinue) {
+                        mHandler.sendEmptyMessage(1);
+                    }
+                }
+            }, 10000, 10000);//延迟10秒，每隔10秒发一次消息
+        }
     }
 
     @Override
@@ -197,5 +235,69 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                 showNetWorkException();
             }
         });
+    }
+
+    /**
+     *根据当前选中的页面设置按钮的选中
+     */
+    private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        }
+        @Override
+        public void onPageSelected(int position) {
+            index = position;//当前位置赋值给索引
+//            setCurrentDot(index%imageIds.length);
+            LogUtil.d(TAG, "onPageSelected position = " + position);
+        }
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
+
+    /**
+     * 根据当前触摸事件判断是否要轮播
+     */
+    private View.OnTouchListener onTouchListener  = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            switch (event.getAction()){
+                //手指按下和划动的时候停止图片的轮播
+                case MotionEvent.ACTION_DOWN:
+                case MotionEvent.ACTION_MOVE:
+                    isContinue = false;
+                    break;
+                default:
+                    isContinue = true;
+            }
+            return false;
+        }
+    };
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        LogUtil.d(TAG," onHiddenChanged hidden = "+hidden);
+        if (hidden){
+            if (timer != null){
+                timer.cancel();
+                timer = null;
+            }
+        }else {
+            if (timer == null){
+                timer = new Timer();//创建Timer对象
+                //执行定时任务
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        //首先判断是否需要轮播，是的话我们才发消息
+                        if (isContinue) {
+                            mHandler.sendEmptyMessage(1);
+                        }
+                    }
+                },10000,10000);//延迟10秒，每隔10秒发一次消息
+            }
+        }
     }
 }
