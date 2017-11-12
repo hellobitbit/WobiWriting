@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -181,6 +182,16 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
         }
 
         dismissLoginTipsDialog();
+
+        if (!SharedPrefUtil.getMeTipsState(getActivity())
+                && !TextUtils.isEmpty(SharedPrefUtil.getLoginInfo(getActivity()))) {
+            user_icon.post(new Runnable() {
+                @Override
+                public void run() {
+                    displayPopupWindowTips(R.drawable.me_tips);
+                }
+            });
+        }
     }
 
     private void logout(){
@@ -352,5 +363,24 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
         req.scene = flag == 0 ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
 
         api.sendReq(req);
+    }
+
+    private void displayPopupWindowTips(int imageResId){
+        View layout = getActivity().getLayoutInflater().inflate(R.layout.app_overlay_layout, null);
+        final PopupWindow pop = new PopupWindow(layout,
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT,
+                true);
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pop.dismiss();
+            }
+        });
+        layout.setBackgroundResource(imageResId);
+        pop.setClippingEnabled(false);
+        pop.setBackgroundDrawable(new ColorDrawable(0xffffff));//支持点击Back虚拟键退出
+        pop.showAtLocation(getActivity().findViewById(R.id.container), Gravity.TOP|Gravity.START, 0, 0);
+        SharedPrefUtil.saveMeTipsState(getActivity(), true);
     }
 }

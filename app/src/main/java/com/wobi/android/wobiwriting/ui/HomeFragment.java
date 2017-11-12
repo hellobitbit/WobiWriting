@@ -1,14 +1,17 @@
 package com.wobi.android.wobiwriting.ui;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -26,6 +29,7 @@ import com.wobi.android.wobiwriting.home.message.GetGradeRequest;
 import com.wobi.android.wobiwriting.home.message.GetGradeResponse;
 import com.wobi.android.wobiwriting.home.model.Grade;
 import com.wobi.android.wobiwriting.utils.LogUtil;
+import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
 import com.wobi.android.wobiwriting.views.HomeItemView;
 import com.wobi.android.wobiwriting.views.SpinnerPopWindow;
 
@@ -53,6 +57,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     private HomeItemView calligraghyClass;
     private HomeItemView chinese_writing;
     private HomeItemView speckCN;
+
+    private boolean hidden = false;//fragment
 
     private boolean isContinue = true;
     private int index;
@@ -109,18 +115,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void onResume(){
         super.onResume();
-        if (timer == null){
-            timer = new Timer();//创建Timer对象
-            //执行定时任务
-            timer.schedule(new TimerTask() {
+        scheduleTimer();
+        if (!SharedPrefUtil.getHomeGradeTipsState(getActivity())) {
+            banner_viewpager.post(new Runnable() {
                 @Override
                 public void run() {
-                    //首先判断是否需要轮播，是的话我们才发消息
-                    if (isContinue) {
-                        mHandler.sendEmptyMessage(1);
-                    }
+                    displayPopupWindowTips(R.drawable.home_grade_click_tips);
                 }
-            }, 5000, 5000);//延迟10秒，每隔10秒发一次消息
+            });
         }
     }
 
@@ -147,19 +149,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
         banner_viewpager.addOnPageChangeListener(onPageChangeListener);
         banner_viewpager.setOnTouchListener(onTouchListener);
 
-        if (timer == null) {
-            timer = new Timer();//创建Timer对象
-            //执行定时任务
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    //首先判断是否需要轮播，是的话我们才发消息
-                    if (isContinue) {
-                        mHandler.sendEmptyMessage(1);
-                    }
-                }
-            }, 5000, 5000);//延迟10秒，每隔10秒发一次消息
-        }
+        scheduleTimer();
     }
 
     private void setViewPagerScrollSpeed( ){
@@ -333,6 +323,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+        this.hidden = hidden;
         LogUtil.d(TAG," onHiddenChanged hidden = "+hidden);
         if (hidden){
             if (timer != null){
@@ -340,19 +331,42 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                 timer = null;
             }
         }else {
-            if (timer == null){
-                timer = new Timer();//创建Timer对象
-                //执行定时任务
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        //首先判断是否需要轮播，是的话我们才发消息
-                        if (isContinue) {
-                            mHandler.sendEmptyMessage(1);
-                        }
-                    }
-                },5000,5000);//延迟10秒，每隔10秒发一次消息
-            }
+            scheduleTimer();
         }
+    }
+
+    private void scheduleTimer(){
+        if (timer == null && !hidden){
+            timer = new Timer();//创建Timer对象
+            //执行定时任务
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    //首先判断是否需要轮播，是的话我们才发消息
+                    if (isContinue) {
+                        mHandler.sendEmptyMessage(1);
+                    }
+                }
+            },5000,5000);//延迟5秒，每隔5秒发一次消息
+        }
+    }
+
+    private void displayPopupWindowTips(int imageResId){
+        View layout = getActivity().getLayoutInflater().inflate(R.layout.app_overlay_layout, null);
+        final PopupWindow pop = new PopupWindow(layout,
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT,
+                true);
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pop.dismiss();
+            }
+        });
+        layout.setBackgroundResource(imageResId);
+        pop.setClippingEnabled(false);
+        pop.setBackgroundDrawable(new ColorDrawable(0xffffff));//支持点击Back虚拟键退出
+        pop.showAtLocation(getActivity().findViewById(R.id.container), Gravity.TOP|Gravity.START, 0, 0);
+        SharedPrefUtil.saveHomeGradeTipsState(getActivity(), true);
     }
 }

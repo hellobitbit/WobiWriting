@@ -1,21 +1,17 @@
 package com.wobi.android.wobiwriting.ui;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 
 import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.me.MyInformationActivity;
@@ -169,26 +165,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         }else if (requestCode == MyInformationActivity.REQUEST_CODE){
             updateMeFragmentState();
         }
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus){
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus){
-//            display();
-        }
-    }
-
-    private void displayPopupWindowTips(int imageResId){
-        View layout = getLayoutInflater().inflate(R.layout.app_overlay_layout, null);
-        final PopupWindow pop = new PopupWindow(layout,
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT,
-                true);
-        layout.setBackgroundResource(imageResId);
-        pop.setClippingEnabled(false);
-        pop.setBackgroundDrawable(new ColorDrawable(0xffffff));//支持点击Back虚拟键退出
-        pop.showAtLocation(findViewById(R.id.container), Gravity.TOP|Gravity.START, 0, 0);
     }
 
     private void updateMeFragmentState(){

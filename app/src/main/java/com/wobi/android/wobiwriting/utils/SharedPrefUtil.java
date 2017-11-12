@@ -20,6 +20,10 @@ public class SharedPrefUtil {
     private static final String KEWEN_DIRECTORY_POSITION = "kewen_directory_position";
     private static final String SZ_POSITION = "sz_position";
 
+    private static final String HOME_GRADE_TIPS_DISPLAY = "home_grade_tips_display";
+    private static final String MOMENT_TIPS_DISPLAY = "moment_tips_display";
+    private static final String ME_TIPS_DISPLAY = "me_tips_display";
+
     public static void saveBusinessUrl(Context context, String url){
         SharedPreferences userSettings = context.
                 getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
@@ -116,5 +120,47 @@ public class SharedPrefUtil {
         SharedPreferences userSettings = context.
                 getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
         return userSettings.getInt(SZ_POSITION, 0);
+    }
+
+    public static void saveHomeGradeTipsState(Context context, boolean hasDisplayed){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = userSettings.edit();
+        editor.putBoolean(HOME_GRADE_TIPS_DISPLAY,hasDisplayed);
+        editor.commit();
+    }
+
+    public static boolean getHomeGradeTipsState(Context context){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        return userSettings.getBoolean(HOME_GRADE_TIPS_DISPLAY, false);
+    }
+
+    public static void saveMomentTipsState(Context context, boolean hasDisplayed){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = userSettings.edit();
+        editor.putBoolean(MOMENT_TIPS_DISPLAY,hasDisplayed);
+        editor.commit();
+    }
+
+    public static boolean getMomentTipsState(Context context){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        return userSettings.getBoolean(MOMENT_TIPS_DISPLAY, false);
+    }
+
+    public static void saveMeTipsState(Context context, boolean hasDisplayed){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = userSettings.edit();
+        editor.putBoolean(ME_TIPS_DISPLAY,hasDisplayed);
+        editor.commit();
+    }
+
+    public static boolean getMeTipsState(Context context){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        return userSettings.getBoolean(ME_TIPS_DISPLAY, false);
     }
 }
