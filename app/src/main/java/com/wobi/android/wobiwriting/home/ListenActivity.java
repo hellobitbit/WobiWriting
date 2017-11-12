@@ -21,7 +21,6 @@ import com.wobi.android.wobiwriting.home.model.ListenSerializableMap;
 import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
