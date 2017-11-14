@@ -14,7 +14,7 @@ public class UserGetInfoResponse extends Response implements Serializable{
 
     private String name; //用户名字
 
-    private String sex;   //0为男 1是女
+    private int sex;   //0为男 1是女
 
     private String city_code; //区域代码
 
@@ -22,7 +22,7 @@ public class UserGetInfoResponse extends Response implements Serializable{
 
     private String request_code; //邀请码
 
-    private String wobi_beans; //沃笔豆豆的数量
+    private int wobi_beans; //沃笔豆豆的数量
 
     private String balance; //用户账户余额（只限圈主）
 
@@ -42,7 +42,7 @@ public class UserGetInfoResponse extends Response implements Serializable{
         this.name = name;
     }
 
-    public String getSex(){
+    public int getSex(){
         return sex;
     }
 
@@ -58,7 +58,7 @@ public class UserGetInfoResponse extends Response implements Serializable{
         return request_code;
     }
 
-    public String getWobiBeans(){
+    public int getWobiBeans(){
         return wobi_beans;
     }
 
@@ -68,10 +68,6 @@ public class UserGetInfoResponse extends Response implements Serializable{
 
     public int getCommunityCount(){
         return community_count;
-    }
-
-    public String getWobi_beans(){
-        return wobi_beans;
     }
 
     public int getUserId(){

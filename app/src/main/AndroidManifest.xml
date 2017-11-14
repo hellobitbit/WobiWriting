@@ -8,19 +8,20 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
+        android:name=".WobiWritingApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".WobiWritingApplication"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.GuideActivity"
+        <activity
+            android:name=".ui.GuideActivity"
             android:theme="@style/TranslucentTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,45 +29,72 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.MainActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"/>
-        <activity android:name=".home.SearchActivity"/>
-        <activity android:name=".home.SpeakCNActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
-        <activity android:name=".home.SearchSpeakCNActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
-        <activity android:name=".home.ListenActivity"/>
-        <activity android:name=".home.CNClassicActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
-        <activity android:name=".home.CalligraphyClassActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
-        <activity android:name=".home.KewenDirectoryActivity"/>
-        <activity android:name=".moments.SendMomentActivity"/>
-        <activity android:name=".moments.ImagePickerActivity"/>
-        <activity android:name=".moments.MomentDetailActivity"/>
-        <activity android:name=".moments.NewMomentActivity"/>
-        <activity android:name=".moments.ModifyMomentActivity"/>
-        <activity android:name=".moments.MomentDescriptionActivity"/>
-        <activity android:name=".me.MyInformationActivity"/>
-        <activity android:name=".me.FeedbackActivity"/>
-        <activity android:name=".moments.MyMomentActivity"/>
-        <activity android:name=".me.MyFollowActivity"/>
-        <activity android:name=".me.MyWodouActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".user.LoginActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".user.RegisterActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".user.GetVerifyCodeActivity"/>
+        <activity
+            android:name=".ui.MainActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name=".home.SearchActivity" />
+        <activity
+            android:name=".home.SpeakCNActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".home.SearchSpeakCNActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity android:name=".home.ListenActivity" />
+        <activity
+            android:name=".home.CNClassicActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".home.CalligraphyClassActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity android:name=".home.KewenDirectoryActivity" />
+        <activity android:name=".moments.SendMomentActivity" />
+        <activity android:name=".moments.ImagePickerActivity" />
+        <activity android:name=".moments.MomentDetailActivity" />
+        <activity android:name=".moments.NewMomentActivity" />
+        <activity android:name=".moments.ModifyMomentActivity" />
+        <activity android:name=".moments.MomentDescriptionActivity" />
+        <activity android:name=".me.MyInformationActivity" />
+        <activity android:name=".me.FeedbackActivity" />
+        <activity android:name=".moments.MyMomentActivity" />
+        <activity android:name=".me.MyFollowActivity" />
+        <activity
+            android:name=".me.MyWodouActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".user.LoginActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".user.RegisterActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".user.GetVerifyCodeActivity" />
 
-        <activity android:name=".wxapi.WXEntryActivity"
-            android:launchMode="singleTop"
-            android:exported="true"/>
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
 
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop" />
+
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent1106533048" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
 
 </manifest>

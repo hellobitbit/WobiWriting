@@ -19,6 +19,7 @@ package com.wobi.android.wobiwriting.video;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -98,6 +99,7 @@ public class UniversalMediaController extends FrameLayout {
     private View mControlLayout;
 
     private View mCenterPlayButton;
+    private View mCenterPlayButtonIcon;
 
     public UniversalMediaController(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -130,6 +132,7 @@ public class UniversalMediaController extends FrameLayout {
         mTurnButton = (ImageButton) v.findViewById(R.id.turn_button);
         mScaleButton = (ImageButton) v.findViewById(R.id.scale_button);
         mCenterPlayButton = v.findViewById(R.id.center_play_btn);
+        mCenterPlayButtonIcon = v.findViewById(R.id.center_play_btn_icon);
         mBackButton = v.findViewById(R.id.back_btn);
 
         if (mTurnButton != null) {
@@ -151,6 +154,9 @@ public class UniversalMediaController extends FrameLayout {
         if (mCenterPlayButton != null) {//重新开始播放
             mCenterPlayButton.setOnClickListener(mCenterPlayListener);
         }
+//        if (mCenterPlayButtonIcon != null) {//重新开始播放
+//            mCenterPlayButtonIcon.setOnClickListener(mCenterPlayListener);
+//        }
 
         if (mBackButton != null) {//返回按钮仅在全屏状态下可见
             mBackButton.setOnClickListener(mBackListener);
@@ -253,7 +259,9 @@ public class UniversalMediaController extends FrameLayout {
     public void hide() {//只负责上下两条bar的隐藏,不负责中央loading,error,playBtn的隐藏
         if (mShowing) {
             mHandler.removeMessages(SHOW_PROGRESS);
-            mTitleLayout.setVisibility(GONE);
+            if (mCenterPlayButton.getVisibility() != VISIBLE || !isFullScreen()){
+                mTitleLayout.setVisibility(GONE);
+            }
             mControlLayout.setVisibility(GONE);
             mShowing = false;
         }
@@ -310,6 +318,10 @@ public class UniversalMediaController extends FrameLayout {
         } else if (resId == R.id.center_play_btn) {
             if (mCenterPlayButton.getVisibility() != VISIBLE) {
                 mCenterPlayButton.setVisibility(VISIBLE);
+                updateCenterPlayViewSize();
+            }
+            if (mTitleLayout.getVisibility() != VISIBLE && mIsFullScreen){
+                mTitleLayout.setVisibility(VISIBLE);
             }
             if (loadingLayout.getVisibility() == VISIBLE) {
                 loadingLayout.setVisibility(GONE);
@@ -332,10 +344,23 @@ public class UniversalMediaController extends FrameLayout {
         }
     }
 
+    private void updateCenterPlayViewSize(){
+//        if (isFullScreen()){
+//            Drawable drawable= getResources().getDrawable(R.drawable.uvv_itv_player_play_big);
+//            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+//            ((TextView)mCenterPlayButtonIcon).setCompoundDrawables(null,drawable, null, null);
+//        }else {
+//            Drawable drawable= getResources().getDrawable(R.drawable.uvv_itv_player_play);
+//            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+//            ((TextView)mCenterPlayButtonIcon).setCompoundDrawables(null,drawable, null, null);
+//        }
+    }
+
 
     private void hideCenterView() {
         if (mCenterPlayButton.getVisibility() == VISIBLE) {
             mCenterPlayButton.setVisibility(GONE);
+            mTitleLayout.setVisibility(GONE);
         }
         if (errorLayout.getVisibility() == VISIBLE) {
             errorLayout.setVisibility(GONE);
@@ -499,6 +524,7 @@ public class UniversalMediaController extends FrameLayout {
             updateScaleButton();
             updateBackButton();
             mPlayer.setFullscreen(mIsFullScreen);
+            updateCenterPlayViewSize();
         }
     };
 
@@ -507,9 +533,13 @@ public class UniversalMediaController extends FrameLayout {
         public void onClick(View v) {
             if (mIsFullScreen) {
                 mIsFullScreen = false;
+                if (!mShowing){
+                    mTitleLayout.setVisibility(GONE);
+                }
                 updateScaleButton();
                 updateBackButton();
                 mPlayer.setFullscreen(false);
+                updateCenterPlayViewSize();
             }
 
         }

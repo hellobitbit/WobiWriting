@@ -43,4 +43,5 @@ dependencies {
     compile 'com.jaeger.statusbaruitl:library:1.0.0'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'
     compile 'com.bigkoo:pickerview:2.1.1'
+    compile files('libs/open_sdk_r5886_lite.jar')
 }

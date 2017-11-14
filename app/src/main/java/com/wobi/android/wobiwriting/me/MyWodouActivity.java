@@ -120,7 +120,14 @@ public class MyWodouActivity extends ActionBarActivity implements View.OnClickLi
         product_name.setText(title);
         origin_price.setText("原价"+originPrice+"元");
         current_price.setText("现价"+price+"元");
-        total_price.setText(""+price+"元");
+        int discount  = userInfo.getWobiBeans()/10;
+        final double price_final = price - discount;
+        if (discount > 0){
+            total_price.setText(""+price_final+"元" +"（沃豆抵扣"+discount+"元）");
+        }else {
+            total_price.setText(""+price_final+"元");
+        }
+
 
         TextView confirm_purchase = (TextView) popView.findViewById(R.id.confirm_purchase);
 
@@ -143,7 +150,7 @@ public class MyWodouActivity extends ActionBarActivity implements View.OnClickLi
             @Override
             public void onClick(View v) {
                 popWindow.dismiss();
-                showPurchaseWindow(title, price, period);
+                showPurchaseWindow(title, price_final, period);
             }
         });
 
@@ -195,7 +202,7 @@ public class MyWodouActivity extends ActionBarActivity implements View.OnClickLi
         BuyVIPServiceRequest request = new BuyVIPServiceRequest();
         request.setUser_id(userInfo.getUserId());
         request.setRequest_code(request_code_edit.getText().toString());
-        request.setCost(0.01);
+        request.setCost(price);
         request.setTime_limit(period);
         String jsonBody = request.jsonToString();
         NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {

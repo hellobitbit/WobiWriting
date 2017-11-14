@@ -50,10 +50,10 @@ public class MyInformationActivity extends ActionBarActivity implements View.OnC
     }
 
     private void refreshUserInfoDisplay() {
-        if (userInfo.getSex().equals("0")) {
+        if (userInfo.getSex() == 0) {
             //men
             head_portrait.setImageResource(R.drawable.default_man_headphoto);
-        } else if (userInfo.getSex().equals("1")) {
+        } else if (userInfo.getSex() == 1) {
             //girl
             head_portrait.setImageResource(R.drawable.deafault_girl_headphoto);
         }
@@ -173,7 +173,7 @@ public class MyInformationActivity extends ActionBarActivity implements View.OnC
         request.setUser_id(userInfo.getUserId());
         request.setAddress(userInfo.getAddress());
         request.setPassword(SharedPrefUtil.getLoginPassword(getApplicationContext()));
-        request.setSex(Integer.parseInt(userInfo.getSex()));
+        request.setSex(userInfo.getSex());
         request.setUser_name(userNameBar.getRightText());
         String jsonBody = request.jsonToString();
         NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {

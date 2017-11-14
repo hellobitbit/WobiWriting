@@ -16,11 +16,16 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.tencent.connect.common.Constants;
+import com.tencent.connect.share.QQShare;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.data.IResponseListener;
 import com.wobi.android.wobiwriting.data.NetDataManager;
@@ -40,10 +45,11 @@ import com.wobi.android.wobiwriting.views.CustomDialog;
  * Created by wangyingren on 2017/9/9.
  */
 
-public class MeFragment extends BaseFragment implements View.OnClickListener{
+public class MeFragment extends BaseFragment implements View.OnClickListener, IUiListener {
 
     private static final String TAG = "MeFragment";
-    private final String W_APPID = "wx811d8d46a1d5cb01";
+    private static final String W_APPID = "wx811d8d46a1d5cb01";
+    private static final String Q_APPID = "1106533048";
     private ImageView user_icon;
     private TextView user_name;
     private TextView user_description;
@@ -54,24 +60,25 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
 
     private DialogInterface mLoginTipsDialog;
     private IWXAPI api;
+    private Tencent mTencent;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.me_frag_layout, null);
         initView(view);
         return view;
     }
 
-    private void initView(View view){
-        RelativeLayout userInfo = (RelativeLayout)view.findViewById(R.id.user_info);
+    private void initView(View view) {
+        RelativeLayout userInfo = (RelativeLayout) view.findViewById(R.id.user_info);
 
-        RelativeLayout shareApp = (RelativeLayout)view.findViewById(R.id.share_app);
-        RelativeLayout userFeedback = (RelativeLayout)view.findViewById(R.id.user_feedback);
-        RelativeLayout accountExit = (RelativeLayout)view.findViewById(R.id.account_exit);
+        RelativeLayout shareApp = (RelativeLayout) view.findViewById(R.id.share_app);
+        RelativeLayout userFeedback = (RelativeLayout) view.findViewById(R.id.user_feedback);
+        RelativeLayout accountExit = (RelativeLayout) view.findViewById(R.id.account_exit);
 
-        LinearLayout momentsNumLayout = (LinearLayout)view.findViewById(R.id.moments_num_layout);
-        LinearLayout followNumLayout = (LinearLayout)view.findViewById(R.id.follow_num_layout);
-        LinearLayout wodouNumLayout = (LinearLayout)view.findViewById(R.id.wodou_num_layout);
+        LinearLayout momentsNumLayout = (LinearLayout) view.findViewById(R.id.moments_num_layout);
+        LinearLayout followNumLayout = (LinearLayout) view.findViewById(R.id.follow_num_layout);
+        LinearLayout wodouNumLayout = (LinearLayout) view.findViewById(R.id.wodou_num_layout);
 
         shareApp.setOnClickListener(this);
 
@@ -83,21 +90,22 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
         followNumLayout.setOnClickListener(this);
         wodouNumLayout.setOnClickListener(this);
 
-        user_icon = (ImageView)view.findViewById(R.id.user_icon);
-        user_name = (TextView)view.findViewById(R.id.user_name);
-        user_description = (TextView)view.findViewById(R.id.user_description);
-        moments_num_value = (TextView)view.findViewById(R.id.moments_num_value);
-        follow_num_value = (TextView)view.findViewById(R.id.follow_num_value);
-        wodou_num_value = (TextView)view.findViewById(R.id.wodou_num_value);
+        user_icon = (ImageView) view.findViewById(R.id.user_icon);
+        user_name = (TextView) view.findViewById(R.id.user_name);
+        user_description = (TextView) view.findViewById(R.id.user_description);
+        moments_num_value = (TextView) view.findViewById(R.id.moments_num_value);
+        follow_num_value = (TextView) view.findViewById(R.id.follow_num_value);
+        wodou_num_value = (TextView) view.findViewById(R.id.wodou_num_value);
 
         user_icon.setOnClickListener(this);
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState){
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         refreshLoginState();
         regToWx();
+        regToQQ();
     }
 
     private void regToWx() {
@@ -105,9 +113,15 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
         api.registerApp(W_APPID);
     }
 
+    private void regToQQ() {
+        // Tencent类是SDK的主要实现类，开发者可通过Tencent类访问腾讯开放的OpenAPI。
+        // 其中APP_ID是分配给第三方应用的appid，类型为String。
+        mTencent = Tencent.createInstance(Q_APPID, getActivity());
+    }
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.account_exit:
                 logout();
                 break;
@@ -121,9 +135,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
                 break;
             case R.id.user_icon:
                 Intent personalInfo = new Intent(getActivity(), MyInformationActivity.class);
-                personalInfo.putExtra(MyInformationActivity.USER_INFO,userInfoResponse);
+                personalInfo.putExtra(MyInformationActivity.USER_INFO, userInfoResponse);
 //                getActivity().startActivity(personalInfo);
-                MainActivity mainActivity = (MainActivity)getActivity();
+                MainActivity mainActivity = (MainActivity) getActivity();
                 mainActivity.startUserInfoActivity(personalInfo, MyInformationActivity.REQUEST_CODE);
                 break;
             case R.id.moments_num_layout:
@@ -142,10 +156,10 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
         }
     }
 
-    public void updateUIDisplay(UserGetInfoResponse response){
+    public void updateUIDisplay(UserGetInfoResponse response) {
         if (response != null) {
             moments_num_value.setText("" + response.getCommunityCount());
-            wodou_num_value.setText(response.getWobi_beans());
+            wodou_num_value.setText("" + response.getWobiBeans());
 
             if (response.getName() == null ||
                     response.getName().isEmpty()) {
@@ -154,14 +168,14 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
                 user_name.setText(response.getName());
             }
             user_description.setText("无");
-            if (response.getSex().equals("0")) {
+            if (response.getSex() == 0) {
                 //men
                 user_icon.setImageResource(R.drawable.default_man_headphoto);
-            } else if (response.getSex().equals("1")) {
+            } else if (response.getSex() == 1) {
                 //girl
                 user_icon.setImageResource(R.drawable.deafault_girl_headphoto);
             }
-        }else {
+        } else {
             moments_num_value.setText("0");
             wodou_num_value.setText("0");
             user_name.setText(getResources().getString(R.string.app_name));
@@ -169,13 +183,13 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
         }
     }
 
-    void refreshLoginState(){
+    void refreshLoginState() {
         String userInfo = SharedPrefUtil.getLoginInfo(getActivity());
-        LogUtil.d(TAG, " refreshLoginState userInfo == "+userInfo);
-        if (userInfo != null && !userInfo.isEmpty()){
+        LogUtil.d(TAG, " refreshLoginState userInfo == " + userInfo);
+        if (userInfo != null && !userInfo.isEmpty()) {
             userInfoResponse = gson.fromJson(userInfo, UserGetInfoResponse.class);
             updateUIDisplay(userInfoResponse);
-        }else {
+        } else {
             userInfoResponse = null;
             updateUIDisplay(null);
             checkLogin();
@@ -194,8 +208,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
         }
     }
 
-    private void logout(){
-        if (userInfoResponse == null){
+    private void logout() {
+        if (userInfoResponse == null) {
             showErrorMsg("当前未有账号登录");
             return;
         }
@@ -221,23 +235,23 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
         builder.create().show();
     }
 
-    private void sendLogoutRequest(){
+    private void sendLogoutRequest() {
         UserLogoutRequest request = new UserLogoutRequest();
         request.setUserId(userInfoResponse.getUserId());
         String jsonBody = request.jsonToString();
         NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
             @Override
             public void onSucceed(String response) {
-                LogUtil.d(TAG," response: "+response);
-                Response res = gson.fromJson(response,Response.class);
-                if (res != null && res.getHandleResult().equals("OK")){
-                    SharedPrefUtil.saveLoginInfo(getActivity(),"");
-                    SharedPrefUtil.saveSessionId(getActivity(),"");
-                    SharedPrefUtil.saveLoginPassword(getActivity(),"");
+                LogUtil.d(TAG, " response: " + response);
+                Response res = gson.fromJson(response, Response.class);
+                if (res != null && res.getHandleResult().equals("OK")) {
+                    SharedPrefUtil.saveLoginInfo(getActivity(), "");
+                    SharedPrefUtil.saveSessionId(getActivity(), "");
+                    SharedPrefUtil.saveLoginPassword(getActivity(), "");
                     SharedPrefUtil.saveKewenDirectoryPosition(getActivity(), 0);
                     SharedPrefUtil.saveSZPosition(getActivity(), 0);
                     refreshLoginState();
-                }else {
+                } else {
                     showErrorMsg("退出失败");
                 }
 
@@ -245,14 +259,14 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
 
             @Override
             public void onFailed(String errorMessage) {
-                LogUtil.e(TAG," error: "+errorMessage);
+                LogUtil.e(TAG, " error: " + errorMessage);
                 showNetWorkException();
             }
         });
     }
 
-    private void checkLogin(){
-        if (userInfoResponse == null){
+    private void checkLogin() {
+        if (userInfoResponse == null) {
             CustomDialog.Builder builder = new CustomDialog.Builder(getActivity());
             builder.setMessage("登录后才能使用此功能");
             builder.setMessageType(CustomDialog.MessageType.TextView);
@@ -261,7 +275,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
                 public void onClick(DialogInterface dialog, int which) {
                     mLoginTipsDialog = dialog;
                     //设置你的操作事项
-                    MainActivity mainActivity = (MainActivity)getActivity();
+                    MainActivity mainActivity = (MainActivity) getActivity();
                     mainActivity.startLoginActivity(LoginActivity.REQUEST_CODE);
                 }
             });
@@ -270,7 +284,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
                     new android.content.DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-                            MainActivity mainActivity = (MainActivity)getActivity();
+                            MainActivity mainActivity = (MainActivity) getActivity();
                             mainActivity.switchToPrevFragmentWhenCancelLoginTips();
                         }
                     });
@@ -280,8 +294,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
         }
     }
 
-    private void dismissLoginTipsDialog(){
-        if (mLoginTipsDialog != null){
+    private void dismissLoginTipsDialog() {
+        if (mLoginTipsDialog != null) {
             mLoginTipsDialog.dismiss();
         }
     }
@@ -316,7 +330,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
                         weiChat(1);
                         break;
                     case R.id.qq:
-
+                        shareToQQ();
                         break;
                 }
                 popWindow.dismiss();
@@ -365,7 +379,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
         api.sendReq(req);
     }
 
-    private void displayPopupWindowTips(int imageResId){
+    private void displayPopupWindowTips(int imageResId) {
         View layout = getActivity().getLayoutInflater().inflate(R.layout.app_overlay_layout, null);
         final PopupWindow pop = new PopupWindow(layout,
                 WindowManager.LayoutParams.MATCH_PARENT,
@@ -380,7 +394,41 @@ public class MeFragment extends BaseFragment implements View.OnClickListener{
         layout.setBackgroundResource(imageResId);
         pop.setClippingEnabled(false);
         pop.setBackgroundDrawable(new ColorDrawable(0xffffff));//支持点击Back虚拟键退出
-        pop.showAtLocation(getActivity().findViewById(R.id.container), Gravity.TOP|Gravity.START, 0, 0);
+        pop.showAtLocation(getActivity().findViewById(R.id.container), Gravity.TOP | Gravity.START, 0, 0);
         SharedPrefUtil.saveMeTipsState(getActivity(), true);
+    }
+
+    @Override
+    public void onComplete(Object o) {
+        showErrorMsg("onComplete");
+    }
+
+    @Override
+    public void onError(UiError uiError) {
+        showErrorMsg("onError");
+    }
+
+    @Override
+    public void onCancel() {
+        showErrorMsg("onCancel");
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Tencent.onActivityResultData(requestCode, resultCode, data, this);
+    }
+
+    private Bundle params;
+
+    private void shareToQQ() {
+        params = new Bundle();
+        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
+        params.putString(QQShare.SHARE_TO_QQ_TITLE, "沃笔习字");// 标题
+        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, "规范汉语习字，弘扬民族文化");// 摘要
+        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, "http://www.wobi365.com／");// 内容地址
+        //params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, "http://imgcache.qq.com/qzone/space_item/pre/0/66768.gif");// 网络图片地址　　
+        // params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "应用名称");// 应用名称
+        params.putString(QQShare.SHARE_TO_QQ_EXT_INT, "其它附加功能");
+        // 分享操作要在主线程中完成
+        mTencent.shareToQQ(getActivity(), params, this);
     }
 }

@@ -165,6 +165,18 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         }else if (requestCode == MyInformationActivity.REQUEST_CODE){
             updateMeFragmentState();
         }
+
+
+        FragmentManager fm = this.getSupportFragmentManager();
+        try {
+            MeFragment me = (MeFragment) fm.findFragmentByTag(ME_FRAG_TAG);
+            if (me != null){
+                me.onActivityResult(requestCode, resultCode, data);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     private void updateMeFragmentState(){

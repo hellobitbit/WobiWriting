@@ -1,5 +1,6 @@
 package com.wobi.android.wobiwriting.home;
 
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +23,7 @@ import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -266,9 +268,19 @@ public class ListenActivity extends ActionBarActivity
     }
 
     private enum PlayNumber{
-        Once,
-        Twice,
-        Three
+        Once(0),
+        Twice(1),
+        Three(2);
+
+        private int mValue;
+
+        PlayNumber(int value){
+            mValue = value;
+        }
+
+        public int getValue(){
+            return mValue;
+        }
     }
 
     private void initMediaPlayer(){
@@ -276,20 +288,32 @@ public class ListenActivity extends ActionBarActivity
         mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-
+                if (playType == PlayType.Play) {
+                    mPlayer.start();
+                }else {
+                    if (mPlayer.isPlaying()){
+                        mPlayer.stop();
+                    }
+                }
             }
         });
         mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 LogUtil.d(TAG," mediaplayer onCompletion");
-                if (currentPosition < playLists.size()-1){
-                    currentPosition++;
-                    playStreaming(playLists.get(currentPosition));
+                if (count == playNumber.getValue()) {
+                    count = 0;
+                    if (currentPosition < playLists.size() - 1) {
+                        currentPosition++;
+                        playStreaming(playLists.get(currentPosition));
+                    } else {
+                        currentPosition = 0;
+                        playLists.clear();
+                        play_control.performClick();
+                    }
                 }else {
-                    currentPosition = 0;
-                    playLists.clear();
-                    play_control.performClick();
+                    count++;
+                    playStreaming(url);
                 }
             }
         });
@@ -312,12 +336,19 @@ public class ListenActivity extends ActionBarActivity
                 playLists.add(url);
             }
         }
+        if (sequenceType == SequenceType.Random){
+            Collections.shuffle(playLists);
+        }
         if (playLists.size() > 0){
             playStreaming(playLists.get(currentPosition));
         }
     }
 
     private void stopPlay(){
+        if (mPlayer != null && mPlayer.isPlaying()) {
+            mPlayer.stop();
+        }
+        currentPosition = 0;
         count = 0;
         url = "";
     }
@@ -326,13 +357,15 @@ public class ListenActivity extends ActionBarActivity
         LogUtil.d(TAG, " url = "+url);
         //从网路加载音乐
         try {
+            this.url = url;
+            mPlayer.reset();
             mPlayer.setDataSource(url) ;
+            mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             //需使用异步缓冲
             mPlayer.prepareAsync();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        mPlayer.start();
     }
 
     @Override
