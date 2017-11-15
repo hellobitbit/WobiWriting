@@ -151,12 +151,12 @@ public class UniversalMediaController extends FrameLayout {
             }
         }
 
-        if (mCenterPlayButton != null) {//重新开始播放
-            mCenterPlayButton.setOnClickListener(mCenterPlayListener);
-        }
-//        if (mCenterPlayButtonIcon != null) {//重新开始播放
-//            mCenterPlayButtonIcon.setOnClickListener(mCenterPlayListener);
+//        if (mCenterPlayButton != null) {//重新开始播放
+//            mCenterPlayButton.setOnClickListener(mCenterPlayListener);
 //        }
+        if (mCenterPlayButtonIcon != null) {//重新开始播放
+            mCenterPlayButtonIcon.setOnClickListener(mCenterPlayListener);
+        }
 
         if (mBackButton != null) {//返回按钮仅在全屏状态下可见
             mBackButton.setOnClickListener(mBackListener);
@@ -259,9 +259,7 @@ public class UniversalMediaController extends FrameLayout {
     public void hide() {//只负责上下两条bar的隐藏,不负责中央loading,error,playBtn的隐藏
         if (mShowing) {
             mHandler.removeMessages(SHOW_PROGRESS);
-            if (mCenterPlayButton.getVisibility() != VISIBLE || !isFullScreen()){
-                mTitleLayout.setVisibility(GONE);
-            }
+            mTitleLayout.setVisibility(GONE);
             mControlLayout.setVisibility(GONE);
             mShowing = false;
         }
@@ -320,9 +318,6 @@ public class UniversalMediaController extends FrameLayout {
                 mCenterPlayButton.setVisibility(VISIBLE);
                 updateCenterPlayViewSize();
             }
-            if (mTitleLayout.getVisibility() != VISIBLE && mIsFullScreen){
-                mTitleLayout.setVisibility(VISIBLE);
-            }
             if (loadingLayout.getVisibility() == VISIBLE) {
                 loadingLayout.setVisibility(GONE);
             }
@@ -360,7 +355,6 @@ public class UniversalMediaController extends FrameLayout {
     private void hideCenterView() {
         if (mCenterPlayButton.getVisibility() == VISIBLE) {
             mCenterPlayButton.setVisibility(GONE);
-            mTitleLayout.setVisibility(GONE);
         }
         if (errorLayout.getVisibility() == VISIBLE) {
             errorLayout.setVisibility(GONE);
@@ -533,9 +527,6 @@ public class UniversalMediaController extends FrameLayout {
         public void onClick(View v) {
             if (mIsFullScreen) {
                 mIsFullScreen = false;
-                if (!mShowing){
-                    mTitleLayout.setVisibility(GONE);
-                }
                 updateScaleButton();
                 updateBackButton();
                 mPlayer.setFullscreen(false);
