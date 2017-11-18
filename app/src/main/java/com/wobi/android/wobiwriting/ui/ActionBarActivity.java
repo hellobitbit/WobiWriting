@@ -1,12 +1,14 @@
 package com.wobi.android.wobiwriting.ui;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.wobi.android.wobiwriting.R;
+import com.wobi.android.wobiwriting.WobiWritingApplication;
 
 /**
  * Created by wangyingren on 2017/10/16.

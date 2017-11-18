@@ -3,12 +3,15 @@ package com.wobi.android.wobiwriting.home.adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.wobi.android.wobiwriting.R;
+import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
 
@@ -21,6 +24,7 @@ import java.util.List;
 public abstract class AbstractDirectoryAdapter<T> extends
         RecyclerView.Adapter<AbstractDirectoryAdapter.DirectoryViewHolder> {
 
+    protected Gson gson = new Gson();
     private final Context mContext;
     protected final LayoutInflater mInflater;
     protected List<T> mDirectories;
@@ -59,7 +63,7 @@ public abstract class AbstractDirectoryAdapter<T> extends
         }
 
         public void bind(int position) {
-            boolean isLogout = SharedPrefUtil.getLoginInfo(mContext).isEmpty();
+            boolean isLogout = TextUtils.isEmpty(SharedPrefUtil.getLoginInfo(mContext));
             if (selectedPosition == position){
                 directory_icon.setImageResource(R.drawable.directory_icon_red_open);
                 title_view.setTextColor(Color.parseColor("#fc5c59"));
@@ -67,18 +71,26 @@ public abstract class AbstractDirectoryAdapter<T> extends
             }else {
                 if (isLogout){
                     if (position == 0){
-                        title_view.setTextColor(Color.parseColor("#fc5c59"));
                         directory_arrow.setImageResource(R.drawable.directory_arrow_right_red);
                         directory_icon.setImageResource(R.drawable.directory_icon_red_closed);
                     }else {
                         directory_icon.setImageResource(R.drawable.kewen_directory_icon);
-                        title_view.setTextColor(Color.parseColor("#b0b0b0"));
                         directory_arrow.setImageResource(R.drawable.directory_arrow_right_default);
                     }
-                }else {
                     title_view.setTextColor(Color.parseColor("#b0b0b0"));
-                    directory_arrow.setImageResource(R.drawable.directory_arrow_right_red);
-                    directory_icon.setImageResource(R.drawable.directory_icon_red_closed);
+                }else {
+                    String userInfo = SharedPrefUtil.getLoginInfo(mContext);
+                    UserGetInfoResponse userObj = gson.fromJson(userInfo, UserGetInfoResponse.class);
+                    title_view.setTextColor(Color.parseColor("#b0b0b0"));
+                    if (userObj.getIs_vip() == 1 || (userObj.getIs_vip() == 0
+                            && (position == 0 || position == 1 || position ==2 ))){
+                        directory_arrow.setImageResource(R.drawable.directory_arrow_right_red);
+                        directory_icon.setImageResource(R.drawable.directory_icon_red_closed);
+                    }else {
+                        directory_icon.setImageResource(R.drawable.kewen_directory_icon);
+                        directory_arrow.setImageResource(R.drawable.directory_arrow_right_default);
+                    }
+
                 }
             }
             itemView.setTag(position);

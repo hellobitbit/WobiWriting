@@ -92,7 +92,8 @@ public class LoginActivity extends AccountBaseActivity{
             public void onSucceed(String response) {
                 LogUtil.d(TAG," response: "+response);
                 UserGetInfoResponse userGetInfoResponse = gson.fromJson(response, UserGetInfoResponse.class);
-                if (userGetInfoResponse.getHandleResult().equals("OK")){
+                if (userGetInfoResponse != null  && userGetInfoResponse.getHandleResult().equals("OK")){
+                    SharedPrefUtil.saveLastLoginAccount(getApplicationContext(), phone_edit.getText().toString());
                     SharedPrefUtil.saveLoginInfo(getApplicationContext(),response);
                     SharedPrefUtil.saveLoginPassword(getApplicationContext(), password_edit.getText().toString());
                     //保存登录信息

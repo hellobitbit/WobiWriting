@@ -7,7 +7,7 @@
         android:gravity="center"
         android:background="@drawable/kewen_directory_sz_backgroud_normal"
         android:id="@+id/directory_sz_item_text"
-        android:textSize="12sp"
+        android:textSize="16sp"
         android:textColor="@android:color/black"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

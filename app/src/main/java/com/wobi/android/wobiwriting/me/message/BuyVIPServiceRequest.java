@@ -12,6 +12,7 @@ public class BuyVIPServiceRequest extends Request {
     private int user_id;
     private String request_code;
     private double cost;
+    private double wobi_beans_cost;
     private int time_limit;
 
     public BuyVIPServiceRequest(){
@@ -29,6 +30,10 @@ public class BuyVIPServiceRequest extends Request {
 
     public void setCost(double cost){
         this.cost = cost;
+    }
+
+    public void setWobi_beans_cost(double wobi_beans_cost){
+        this.wobi_beans_cost = wobi_beans_cost;
     }
 
     public void setTime_limit(int time_limit){

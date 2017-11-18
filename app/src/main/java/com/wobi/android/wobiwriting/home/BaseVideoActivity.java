@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.home.adapters.AbstractDirectoryAdapter;
 import com.wobi.android.wobiwriting.home.adapters.TitlePickerAdapter;
+import com.wobi.android.wobiwriting.me.MyWodouActivity;
 import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 import com.wobi.android.wobiwriting.user.LoginActivity;
 import com.wobi.android.wobiwriting.utils.LogUtil;
@@ -176,6 +177,30 @@ public abstract class BaseVideoActivity extends ActionBarActivity
         builder.create().show();
     }
 
+    protected void checkVip(){
+        CustomDialog.Builder builder = new CustomDialog.Builder(this);
+        builder.setMessage("充值后才能使用此功能");
+        builder.setMessageType(CustomDialog.MessageType.TextView);
+        builder.setTitle("提示");
+        builder.setPositiveButton("去充值", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                //设置你的操作事项
+                Intent intent = new Intent(getApplicationContext(), MyWodouActivity.class);
+                startActivityForResult(intent,MyWodouActivity.REQUEST_CODE);
+            }
+        });
+
+        builder.setNegativeButton("取消",
+                new android.content.DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.setCancelable(false);
+        builder.create().show();
+    }
+
     // 回调方法，从第二个页面回来的时候会执行这个方法
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -183,6 +208,8 @@ public abstract class BaseVideoActivity extends ActionBarActivity
         // 根据上面发送过去的请求吗来区别
         if (requestCode == REQUEST_CODE
                 && resultCode == LoginActivity.RESULT_CODE_SUCCESS){
+            mAdapter.notifyDataSetChanged();
+        }else if (requestCode == MyWodouActivity.REQUEST_CODE){
             mAdapter.notifyDataSetChanged();
         }
     }

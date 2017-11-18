@@ -30,6 +30,10 @@ public class UserGetInfoResponse extends Response implements Serializable{
 
     private int user_id;// 用户的唯一ID
 
+    private int is_vip; //1为vip 0不是
+
+    private String vip_expire_time;
+
     public String getPhoneNumber(){
         return phone_number;
     }
@@ -72,5 +76,13 @@ public class UserGetInfoResponse extends Response implements Serializable{
 
     public int getUserId(){
         return user_id;
+    }
+
+    public int getIs_vip(){
+        return is_vip;
+    }
+
+    public String getVip_expire_time(){
+        return vip_expire_time;
     }
 }

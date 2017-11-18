@@ -30,6 +30,7 @@ import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.data.IResponseListener;
 import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.data.message.Response;
+import com.wobi.android.wobiwriting.http.HttpConfig;
 import com.wobi.android.wobiwriting.me.FeedbackActivity;
 import com.wobi.android.wobiwriting.moments.MyMomentActivity;
 import com.wobi.android.wobiwriting.me.MyWodouActivity;
@@ -250,6 +251,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
                     SharedPrefUtil.saveLoginPassword(getActivity(), "");
                     SharedPrefUtil.saveKewenDirectoryPosition(getActivity(), 0);
                     SharedPrefUtil.saveSZPosition(getActivity(), 0);
+                    HttpConfig.setSessionId(SharedPrefUtil.getSessionId(getActivity()));
                     refreshLoginState();
                 } else {
                     showErrorMsg("退出失败");
@@ -405,12 +407,12 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
 
     @Override
     public void onError(UiError uiError) {
-        showErrorMsg("onError");
+//        showErrorMsg("onError");
     }
 
     @Override
     public void onCancel() {
-        showErrorMsg("onCancel");
+//        showErrorMsg("onCancel");
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -430,5 +432,17 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
         params.putString(QQShare.SHARE_TO_QQ_EXT_INT, "其它附加功能");
         // 分享操作要在主线程中完成
         mTencent.shareToQQ(getActivity(), params, this);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        LogUtil.d(TAG," onResume");
+        String userInfo = SharedPrefUtil.getLoginInfo(getActivity());
+        LogUtil.d(TAG, " refreshLoginState userInfo == " + userInfo);
+        if (userInfo != null && !userInfo.isEmpty()) {
+            userInfoResponse = gson.fromJson(userInfo, UserGetInfoResponse.class);
+            updateUIDisplay(userInfoResponse);
+        }
     }
 }

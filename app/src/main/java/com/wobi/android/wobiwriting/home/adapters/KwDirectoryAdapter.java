@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.wobi.android.wobiwriting.home.SpaceItemDecoration;
 import com.wobi.android.wobiwriting.home.message.GetSZListRequest;
 import com.wobi.android.wobiwriting.home.message.GetSZListResponse;
 import com.wobi.android.wobiwriting.home.model.KeWenDirectory;
+import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
 
@@ -123,10 +125,17 @@ public class KwDirectoryAdapter extends RecyclerView.Adapter<KwDirectoryAdapter.
         }
 
         public void bind(int position) {
-            if (SharedPrefUtil.getLoginInfo(mContext).isEmpty()){
+            String userInfo = SharedPrefUtil.getLoginInfo(mContext);
+            UserGetInfoResponse userObj = gson.fromJson(userInfo, UserGetInfoResponse.class);
+            if (TextUtils.isEmpty(userInfo)){
                 updateSzInfoDisplayWhenGuest(position);
             }else {
-                updateSzInfoDisplayWhenLogin(position);
+                if (userObj.getIs_vip() == 1){
+                    updateSzInfoDisplayWhenVip(position);
+                }else {
+                    updateSzInfoDisplayWhenLogin(position);
+                }
+
             }
             updateSzRecycler(position);
             itemView.setTag(position);
@@ -164,6 +173,23 @@ public class KwDirectoryAdapter extends RecyclerView.Adapter<KwDirectoryAdapter.
         }
 
         private void updateSzInfoDisplayWhenLogin(int position){
+            if (position == 0 || position ==1 || position == 2){
+                if (clickedPosition == position){
+                    title_view.setTextColor(mContext.getResources().getColor(android.R.color.black));
+                    directory_arrow.setImageResource(R.drawable.directory_arrow_right_red);
+                }else {
+                    title_view.setTextColor(Color.parseColor("#fc5c59"));
+                    directory_arrow.setImageResource(R.drawable.directory_arrow_down_red);
+                }
+                directory_icon.setImageResource(R.drawable.directory_icon_red_open);
+            }else {
+                directory_icon.setImageResource(R.drawable.kewen_directory_icon);
+                title_view.setTextColor(Color.parseColor("#b0b0b0"));
+                directory_arrow.setImageResource(R.drawable.directory_arrow_down);
+            }
+        }
+
+        private void updateSzInfoDisplayWhenVip(int position){
             if (selectedPosition == position){
                 if (clickedPosition == position){
                     directory_icon.setImageResource(R.drawable.directory_icon_red_open);

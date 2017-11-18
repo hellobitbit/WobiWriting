@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.ui.BaseActivity;
+import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
 import com.wobi.android.wobiwriting.views.ClearEditText;
 
 /**
@@ -47,6 +48,7 @@ public abstract class AccountBaseActivity extends BaseActivity implements View.O
         login_or_register = (TextView)findViewById(R.id.login_or_register);
         login_or_register.setOnClickListener(this);
         phone_edit = (ClearEditText)findViewById(R.id.phone);
+        phone_edit.setText(SharedPrefUtil.getLastLoginAccount(getApplicationContext()));
         password_edit = (ClearEditText)findViewById(R.id.password);
         confirm_password_edit = (ClearEditText)findViewById(R.id.confirm_password);
         request_code_edit = (ClearEditText)findViewById(R.id.request_code);

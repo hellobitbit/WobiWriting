@@ -24,6 +24,7 @@ import com.wobi.android.wobiwriting.me.message.GetWXPayResultRequest;
 import com.wobi.android.wobiwriting.me.message.GetWXPayResultResponse;
 import com.wobi.android.wobiwriting.moments.message.SearchJoinedCommunityRequest;
 import com.wobi.android.wobiwriting.ui.ActionBarActivity;
+import com.wobi.android.wobiwriting.user.message.UserGetInfoRequest;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
@@ -36,6 +37,8 @@ import org.json.JSONException;
 
 public class MyWodouActivity extends ActionBarActivity implements View.OnClickListener{
 
+    public static final int REQUEST_CODE = 1050;
+    public static final int RESULT_CODE_SUCCESS = 0x88;
     private static final String TAG = "MyWodouActivity";
     private EditText request_code_edit;
     private UserGetInfoResponse userInfo;
@@ -120,12 +123,13 @@ public class MyWodouActivity extends ActionBarActivity implements View.OnClickLi
         product_name.setText(title);
         origin_price.setText("原价"+originPrice+"元");
         current_price.setText("现价"+price+"元");
-        int discount  = userInfo.getWobiBeans()/10;
-        final double price_final = price - discount;
-        if (discount > 0){
-            total_price.setText(""+price_final+"元" +"（沃豆抵扣"+discount+"元）");
+        final double wobiMaxDiscount  = (userInfo.getWobiBeans()/10) > 0 ? userInfo.getWobiBeans()/10 : 0;
+        final double price_need_pay = wobiMaxDiscount >= price ? 0: price-wobiMaxDiscount;
+        final double usedDiscount = wobiMaxDiscount >= price ? price: wobiMaxDiscount;
+        if (wobiMaxDiscount > 0){
+            total_price.setText(""+price_need_pay+"元" +"（沃豆抵扣"+usedDiscount+"元）");
         }else {
-            total_price.setText(""+price_final+"元");
+            total_price.setText(""+price_need_pay+"元");
         }
 
 
@@ -150,7 +154,7 @@ public class MyWodouActivity extends ActionBarActivity implements View.OnClickLi
             @Override
             public void onClick(View v) {
                 popWindow.dismiss();
-                showPurchaseWindow(title, price_final, period);
+                showPurchaseWindow(title, price_need_pay, usedDiscount, period);
             }
         });
 
@@ -159,7 +163,7 @@ public class MyWodouActivity extends ActionBarActivity implements View.OnClickLi
         popWindow.showAtLocation(parent, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
     }
 
-    private void showPurchaseWindow(String title, final double price, final int period){
+    private void showPurchaseWindow(String title, final double price, final double discount, final int period){
         View parent = ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
         View popView = View.inflate(getApplicationContext(), R.layout.wechat_purchage_pop_layout, null);
 
@@ -187,7 +191,7 @@ public class MyWodouActivity extends ActionBarActivity implements View.OnClickLi
         confirm_pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                confirmPay(price,period);
+                confirmPay(price,discount,period);
                 popWindow.dismiss();
             }
         });
@@ -197,13 +201,25 @@ public class MyWodouActivity extends ActionBarActivity implements View.OnClickLi
         popWindow.showAtLocation(parent, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
     }
 
-    private void confirmPay(double price, int period){
+    private void confirmPay(double price, double discount, int period){
         showDialog("获取支付信息");
         BuyVIPServiceRequest request = new BuyVIPServiceRequest();
         request.setUser_id(userInfo.getUserId());
         request.setRequest_code(request_code_edit.getText().toString());
         request.setCost(price);
+        request.setWobi_beans_cost(discount * 10);
         request.setTime_limit(period);
+        if (period == 24){
+            //test project 1
+            request.setCost(0.01);
+            request.setWobi_beans_cost(0);
+            request.setTime_limit(1);
+        }else if (period == 36){
+            //test project 2
+            request.setCost(0.01);
+            request.setWobi_beans_cost(100);
+            request.setTime_limit(2);
+        }
         String jsonBody = request.jsonToString();
         NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
             @Override
@@ -257,6 +273,16 @@ public class MyWodouActivity extends ActionBarActivity implements View.OnClickLi
         if (pay && buyVIPServiceResponse != null){
             getWXPayResult();
         }
+
+        boolean payCancel = intent.getBooleanExtra("用户取消", false);
+        if (payCancel && buyVIPServiceResponse != null){
+            showErrorMsg("用户取消");
+        }
+
+        boolean payException = intent.getBooleanExtra("一般错误", false);
+        if (payException && buyVIPServiceResponse != null){
+            showErrorMsg("一般错误");
+        }
     }
 
     private void displayPopupWindowTips(int imageResId){
@@ -294,9 +320,11 @@ public class MyWodouActivity extends ActionBarActivity implements View.OnClickLi
                         && getWXPayResultResponse.getPay_result() == 1){
                     dismissDialog();
                     displayPopupWindowTips(R.drawable.purchase_success);
+                    updateUserInfo();
                 }else {
                     dismissDialog();
                     showErrorMsg("获取支付结果失败");
+                    updateUserInfo();
                 }
             }
 
@@ -304,6 +332,31 @@ public class MyWodouActivity extends ActionBarActivity implements View.OnClickLi
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
                 dismissDialog();
+                showNetWorkException();
+            }
+        });
+    }
+
+    private void updateUserInfo(){
+        UserGetInfoRequest request = new UserGetInfoRequest();
+        request.setUserId(userInfo.getUserId());
+        String jsonBody = request.jsonToString();
+        NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
+            @Override
+            public void onSucceed(String response) {
+                LogUtil.d(TAG," response: "+response);
+                UserGetInfoResponse userGetInfoResponse = gson.fromJson(response, UserGetInfoResponse.class);
+                if (userGetInfoResponse != null && userGetInfoResponse.getHandleResult().equals("OK")){
+                    SharedPrefUtil.saveLoginInfo(getApplicationContext(),response);
+                    userInfo = userGetInfoResponse;
+                }else {
+                    showErrorMsg("用户信息更新失败 "+ userGetInfoResponse.getHandleResult());
+                }
+            }
+
+            @Override
+            public void onFailed(String errorMessage) {
+                LogUtil.e(TAG," error: "+errorMessage);
                 showNetWorkException();
             }
         });

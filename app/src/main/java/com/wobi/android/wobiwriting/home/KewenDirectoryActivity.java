@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.wobi.android.wobiwriting.R;
@@ -17,8 +18,10 @@ import com.wobi.android.wobiwriting.home.message.GetKWMLListRequest;
 import com.wobi.android.wobiwriting.home.message.GetKWMLListResponse;
 import com.wobi.android.wobiwriting.home.model.JiaoCaiObject;
 import com.wobi.android.wobiwriting.home.model.KeWenDirectory;
+import com.wobi.android.wobiwriting.me.MyWodouActivity;
 import com.wobi.android.wobiwriting.ui.BaseActivity;
 import com.wobi.android.wobiwriting.user.LoginActivity;
+import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
 import com.wobi.android.wobiwriting.views.CustomDialog;
@@ -156,10 +159,15 @@ public class KewenDirectoryActivity extends BaseActivity
 
     @Override
     public void onItemClick(View view, int position) {
-        boolean guestUser = SharedPrefUtil.getLoginInfo(getApplicationContext()).isEmpty();
-        if (!guestUser ||(guestUser && position == 0)){
+        String userInfo = SharedPrefUtil.getLoginInfo(getApplicationContext());
+        UserGetInfoResponse userObj = gson.fromJson(userInfo, UserGetInfoResponse.class);
+        boolean guestUser = TextUtils.isEmpty(userInfo);
+        if (!guestUser && userObj.getIs_vip() == 1 || (!guestUser && userObj.getIs_vip() == 0 && position < 3)
+                ||(guestUser && position == 0)){
             updateKewenList(position);
-        }else {
+        }else if (!guestUser && userObj.getIs_vip() == 0 && position >= 3){
+            checkVip();
+        } else {
             checkLogin();
         }
     }
@@ -187,6 +195,30 @@ public class KewenDirectoryActivity extends BaseActivity
             mAdapter.setClicked(position);
         }
         mAdapter.notifyDataSetChanged();
+    }
+
+    private void checkVip(){
+        CustomDialog.Builder builder = new CustomDialog.Builder(this);
+        builder.setMessage("充值后才能使用此功能");
+        builder.setMessageType(CustomDialog.MessageType.TextView);
+        builder.setTitle("提示");
+        builder.setPositiveButton("去充值", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                //设置你的操作事项
+                Intent intent = new Intent(getApplicationContext(), MyWodouActivity.class);
+                startActivityForResult(intent,MyWodouActivity.REQUEST_CODE);
+            }
+        });
+
+        builder.setNegativeButton("取消",
+                new android.content.DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.setCancelable(false);
+        builder.create().show();
     }
 
     protected void checkLogin(){
@@ -222,6 +254,8 @@ public class KewenDirectoryActivity extends BaseActivity
                 && resultCode == LoginActivity.RESULT_CODE_SUCCESS){
             mAdapter.notifyDataSetChanged();
         }else if (requestCode == SPEAK_REQUEST_CODE){
+            mAdapter.notifyDataSetChanged();
+        }else if (requestCode == MyWodouActivity.REQUEST_CODE){
             mAdapter.notifyDataSetChanged();
         }
     }

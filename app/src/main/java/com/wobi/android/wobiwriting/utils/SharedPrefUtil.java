@@ -16,6 +16,7 @@ public class SharedPrefUtil {
     private static final String SESSION_ID = "session_id";
     private static final String USER_PASSWORD = "user_password";
     private static final String GUIDE_USED = "guide_used";
+    private static final String LAST_LOGIN_ACCOUNT = "last_login_account";
 
     private static final String KEWEN_DIRECTORY_POSITION = "kewen_directory_position";
     private static final String SZ_POSITION = "sz_position";
@@ -50,6 +51,20 @@ public class SharedPrefUtil {
         SharedPreferences userSettings = context.
                 getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
         return userSettings.getString(USER_INFO,"");
+    }
+
+    public static void saveLastLoginAccount(Context context, String account){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = userSettings.edit();
+        editor.putString(LAST_LOGIN_ACCOUNT,account);
+        editor.commit();
+    }
+
+    public static String getLastLoginAccount(Context context){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        return userSettings.getString(LAST_LOGIN_ACCOUNT,"");
     }
 
     public static void saveLoginPassword(Context context, String password){

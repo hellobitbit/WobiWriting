@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.wobi.android.wobiwriting.R;
+import com.wobi.android.wobiwriting.WobiWritingApplication;
 import com.wobi.android.wobiwriting.me.MyInformationActivity;
 import com.wobi.android.wobiwriting.user.LoginActivity;
 import com.wobi.android.wobiwriting.utils.LogUtil;
@@ -34,10 +35,17 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        WobiWritingApplication.getInstance().registerActivity(this);
 //        initStatusBar();
         initViews();
         performClickHome();
 
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        WobiWritingApplication.getInstance().unRegisterActivity(this);
     }
 
     private void performClickHome(){

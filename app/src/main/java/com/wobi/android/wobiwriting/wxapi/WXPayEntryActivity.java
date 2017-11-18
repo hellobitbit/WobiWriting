@@ -67,10 +67,20 @@ public class WXPayEntryActivity extends ActionBarActivity implements IWXAPIEvent
             case BaseResp.ErrCode.ERR_USER_CANCEL:
                 //用户取消
                 share_weixin_result.setText("用户取消");
+                Intent cancel = new Intent(WXPayEntryActivity.this, MyWodouActivity.class);
+                cancel.putExtra("用户取消", true);
+                startActivity(cancel);
+                overridePendingTransition(0, 0);
+                finish();
                 break;
             case BaseResp.ErrCode.ERR_COMM:
                 //一般错误
                 share_weixin_result.setText("一般错误");
+                Intent exception = new Intent(WXPayEntryActivity.this, MyWodouActivity.class);
+                exception.putExtra("一般错误", true);
+                startActivity(exception);
+                overridePendingTransition(0, 0);
+                finish();
                 break;
             default:
                 //其他不可名状的情况

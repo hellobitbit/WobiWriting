@@ -1,10 +1,9 @@
 package com.wobi.android.wobiwriting.home;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.wobi.android.wobiwriting.R;
@@ -17,11 +16,9 @@ import com.wobi.android.wobiwriting.home.message.DiZiGuiResponse;
 import com.wobi.android.wobiwriting.home.message.SanZiJingRequest;
 import com.wobi.android.wobiwriting.home.message.SanZiJingResponse;
 import com.wobi.android.wobiwriting.home.model.CNClassicCourse;
-import com.wobi.android.wobiwriting.ui.MainActivity;
-import com.wobi.android.wobiwriting.user.LoginActivity;
+import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
-import com.wobi.android.wobiwriting.views.CustomDialog;
 import com.wobi.android.wobiwriting.views.HomeItemView;
 
 import java.util.ArrayList;
@@ -105,7 +102,9 @@ public class CNClassicActivity extends BaseVideoActivity {
             @Override
             public void onItemClick(View view, int position) {
                 LogUtil.d(TAG," position == "+position);
-                if (SharedPrefUtil.getLoginInfo(getApplicationContext()).isEmpty()){
+                String userInfo = SharedPrefUtil.getLoginInfo(getApplicationContext());
+                UserGetInfoResponse userObj = gson.fromJson(userInfo, UserGetInfoResponse.class);
+                if (TextUtils.isEmpty(userInfo)){
                     if (position == 0){
                         mAdapter.setSelected(position);
                         mAdapter.notifyDataSetChanged();
@@ -115,10 +114,16 @@ public class CNClassicActivity extends BaseVideoActivity {
                         checkLogin();
                     }
                 }else {
-                    mAdapter.setSelected(position);
-                    mAdapter.notifyDataSetChanged();
-                    play(mDirectories.get(position).getJieduUrl(),
-                            mDirectories.get(position).getCourseName());
+                    if (userObj.getIs_vip() == 1 || (userObj.getIs_vip() == 0
+                            && (position == 0 || position == 1 || position ==2 ))){
+                        mAdapter.setSelected(position);
+                        mAdapter.notifyDataSetChanged();
+                        play(mDirectories.get(position).getJieduUrl(),
+                                mDirectories.get(position).getCourseName());
+                    }else {
+                        checkVip();
+                    }
+
                 }
 
             }

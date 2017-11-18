@@ -76,6 +76,9 @@
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:launchMode="singleTop" />
 
         <activity

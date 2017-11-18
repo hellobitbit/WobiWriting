@@ -1,5 +1,6 @@
 package com.wobi.android.wobiwriting;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.PixelFormat;
@@ -21,6 +22,9 @@ import com.wobi.android.wobiwriting.http.HttpConfig;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by wangyingren on 2017/9/9.
  */
@@ -32,9 +36,31 @@ public class WobiWritingApplication extends Application{
 
     private Handler handler = new Handler();
 
+    private List<Activity> mActivities = new ArrayList<>();
+    private static WobiWritingApplication sInstance;
+
+    public static synchronized WobiWritingApplication getInstance(){
+        return sInstance;
+    }
+
+    public void registerActivity(Activity activity){
+        if (!mActivities.contains(activity)){
+            mActivities.add(activity);
+        }
+    }
+
+    public void unRegisterActivity(Activity activity){
+        mActivities.remove(activity);
+    }
+
+    public Activity getTopActivity(){
+        return mActivities.size() > 0 ? mActivities.get(mActivities.size()-1) : null;
+    }
+
     @Override
     public void onCreate(){
         super.onCreate();
+        sInstance = this;
         HttpConfig.setSessionId(SharedPrefUtil.getSessionId(getApplicationContext()));
         useCachedBusinessServer();
         initNetworkManager();
