@@ -21,6 +21,7 @@ import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.views.TargetToolBar;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener{
+    public static final String FRAGMENT_DISPLAY_POSITION = "fragment_display_position";
     private static final String TAG = "MainActivity";
     private static final String HOME_FRAG_TAG ="home_frag_tag";
     private static final String MOMENTS_FRAG_TAG ="moments_frag_tag";
@@ -38,8 +39,25 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         WobiWritingApplication.getInstance().registerActivity(this);
 //        initStatusBar();
         initViews();
-        performClickHome();
+        displayFrag(getIntent());
 
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent){
+        super.onNewIntent(intent);
+        displayFrag(intent);
+    }
+
+    private void displayFrag(Intent intent){
+        int position = intent.getIntExtra(FRAGMENT_DISPLAY_POSITION, 0);
+        if (position == 0){
+            performClickHome();
+        }else if (position == 1){
+            performClickMoments();
+        }else if (position == 2){
+            performClickMe();
+        }
     }
 
     @Override
@@ -50,6 +68,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     private void performClickHome(){
         mHomeBar.performClick();
+    }
+
+    private void performClickMoments(){
+        mMomentsBar.performClick();
+    }
+
+    private void performClickMe(){
+        mMeBar.performClick();
     }
 
     private void initViews(){

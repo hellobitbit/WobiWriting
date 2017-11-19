@@ -31,6 +31,8 @@ import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
 
 import org.json.JSONException;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by wangyingren on 2017/9/14.
  */
@@ -40,6 +42,7 @@ public class MyWodouActivity extends ActionBarActivity implements View.OnClickLi
     public static final int REQUEST_CODE = 1050;
     public static final int RESULT_CODE_SUCCESS = 0x88;
     private static final String TAG = "MyWodouActivity";
+    private final DecimalFormat df = new DecimalFormat("######0.00");
     private EditText request_code_edit;
     private UserGetInfoResponse userInfo;
     private BuyVIPServiceResponse buyVIPServiceResponse;
@@ -126,10 +129,11 @@ public class MyWodouActivity extends ActionBarActivity implements View.OnClickLi
         final double wobiMaxDiscount  = (userInfo.getWobiBeans()/10) > 0 ? userInfo.getWobiBeans()/10 : 0;
         final double price_need_pay = wobiMaxDiscount >= price ? 0: price-wobiMaxDiscount;
         final double usedDiscount = wobiMaxDiscount >= price ? price: wobiMaxDiscount;
+        final double final_price_need_pay = Double.parseDouble(df.format(price_need_pay));
         if (wobiMaxDiscount > 0){
-            total_price.setText(""+price_need_pay+"元" +"（沃豆抵扣"+usedDiscount+"元）");
+            total_price.setText(""+final_price_need_pay+"元" +"（沃豆抵扣"+usedDiscount+"元）");
         }else {
-            total_price.setText(""+price_need_pay+"元");
+            total_price.setText(""+final_price_need_pay+"元");
         }
 
 
@@ -154,7 +158,7 @@ public class MyWodouActivity extends ActionBarActivity implements View.OnClickLi
             @Override
             public void onClick(View v) {
                 popWindow.dismiss();
-                showPurchaseWindow(title, price_need_pay, usedDiscount, period);
+                showPurchaseWindow(title, final_price_need_pay, usedDiscount, period);
             }
         });
 
@@ -209,17 +213,17 @@ public class MyWodouActivity extends ActionBarActivity implements View.OnClickLi
         request.setCost(price);
         request.setWobi_beans_cost(discount * 10);
         request.setTime_limit(period);
-        if (period == 24){
-            //test project 1
-            request.setCost(0.01);
-            request.setWobi_beans_cost(0);
-            request.setTime_limit(1);
-        }else if (period == 36){
-            //test project 2
-            request.setCost(0.01);
-            request.setWobi_beans_cost(100);
-            request.setTime_limit(2);
-        }
+//        if (period == 24){
+//            //test project 1
+//            request.setCost(0.01);
+//            request.setWobi_beans_cost(0);
+//            request.setTime_limit(1);
+//        }else if (period == 36){
+//            //test project 2
+//            request.setCost(0.01);
+//            request.setWobi_beans_cost(100);
+//            request.setTime_limit(2);
+//        }
         String jsonBody = request.jsonToString();
         NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
             @Override

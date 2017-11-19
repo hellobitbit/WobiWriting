@@ -2,6 +2,7 @@ package com.wobi.android.wobiwriting.data;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -17,6 +18,7 @@ import com.wobi.android.wobiwriting.http.callback.HttpCallback;
 import com.wobi.android.wobiwriting.ui.MainActivity;
 import com.wobi.android.wobiwriting.user.LoginActivity;
 import com.wobi.android.wobiwriting.utils.LogUtil;
+import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
 import com.wobi.android.wobiwriting.views.CustomDialog;
 
 import org.json.JSONObject;
@@ -129,6 +131,11 @@ public class NetworkClient {
         builder.setPositiveButton("重新登录", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                clearLoginInfo();
+                Intent intent = new Intent(WobiWritingApplication.getInstance(), MainActivity.class);
+                intent.putExtra(MainActivity.FRAGMENT_DISPLAY_POSITION, 2);
+                WobiWritingApplication.getInstance().startActivity(intent);
+
             }
         });
 
@@ -136,10 +143,21 @@ public class NetworkClient {
                 new android.content.DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                        clearLoginInfo();
+                        WobiWritingApplication.getInstance().clearAllScreens();
                     }
                 });
         builder.setCancelable(false);
         builder.create().show();
+    }
+
+    private void clearLoginInfo(){
+        SharedPrefUtil.saveLoginInfo(WobiWritingApplication.getInstance(), "");
+        SharedPrefUtil.saveSessionId(WobiWritingApplication.getInstance(), "");
+        SharedPrefUtil.saveLoginPassword(WobiWritingApplication.getInstance(), "");
+        SharedPrefUtil.saveKewenDirectoryPosition(WobiWritingApplication.getInstance(), 0);
+        SharedPrefUtil.saveSZPosition(WobiWritingApplication.getInstance(), 0);
+        HttpConfig.setSessionId(SharedPrefUtil.getSessionId(WobiWritingApplication.getInstance()));
     }
 
     public interface ILoginListener {

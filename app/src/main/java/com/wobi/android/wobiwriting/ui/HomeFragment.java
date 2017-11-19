@@ -86,7 +86,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        loadGradeInfo();
+        checkGradeInfo();
 
         mAdapter = new CustomSpinnerAdapter(getActivity());
         mAdapter.refreshData(mGradeList, 0);
@@ -248,6 +248,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
         chinese_writing.setSub4Intent(maobiIntent,true);
     }
 
+    private void checkGradeInfo(){
+        if (mGradeList.size() == 0){
+            loadGradeInfo();
+        }
+    }
+
     private void loadGradeInfo(){
         GetGradeRequest request = new GetGradeRequest();
         String jsonBody = request.jsonToString();
@@ -332,6 +338,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
             }
         }else {
             scheduleTimer();
+            checkGradeInfo();
         }
     }
 

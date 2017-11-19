@@ -57,6 +57,12 @@ public class WobiWritingApplication extends Application{
         return mActivities.size() > 0 ? mActivities.get(mActivities.size()-1) : null;
     }
 
+    public void clearAllScreens(){
+        for (Activity activity : mActivities){
+            activity.finish();
+        }
+    }
+
     @Override
     public void onCreate(){
         super.onCreate();

@@ -25,8 +25,6 @@ import com.wobi.android.wobiwriting.moments.MomentDetailActivity;
 import com.wobi.android.wobiwriting.moments.MomentsAdapter;
 import com.wobi.android.wobiwriting.moments.message.SearchCommunityByKeywordRequest;
 import com.wobi.android.wobiwriting.moments.message.SearchCommunityResultResponse;
-import com.wobi.android.wobiwriting.moments.message.SearchCommunityByNameRequest;
-import com.wobi.android.wobiwriting.moments.message.SearchCommunityByCodeRequest;
 import com.wobi.android.wobiwriting.moments.message.SearchPopularCommunityRequest;
 import com.wobi.android.wobiwriting.moments.model.CommunityInfo;
 import com.wobi.android.wobiwriting.user.LoginActivity;
@@ -77,7 +75,8 @@ public class MomentsFragment extends BaseFragment implements View.OnClickListene
         momentsRecycler.addItemDecoration(new SpaceItemDecoration(getActivity(), 0, 12));
         momentsAdapter.setOnItemClickListener(this);
         momentsRecycler.setAdapter(momentsAdapter);
-        searchPopularCommunity();
+
+        checkPopularCommunity();
 
         mSendMoment = (ImageView)view.findViewById(R.id.sendMoment);
         mSendMoment.setOnClickListener(this);
@@ -168,6 +167,12 @@ public class MomentsFragment extends BaseFragment implements View.OnClickListene
         }
     }
 
+    private void checkPopularCommunity(){
+        if (popularCommunityInfos.size() == 0){
+            searchPopularCommunity();
+        }
+    }
+
     private void searchPopularCommunity(){
         SearchPopularCommunityRequest request = new SearchPopularCommunityRequest();
         String jsonBody = request.jsonToString();
@@ -203,57 +208,13 @@ public class MomentsFragment extends BaseFragment implements View.OnClickListene
         });
     }
 
-    private void searchCommunityListByName(String name){
-        SearchCommunityByNameRequest request = new SearchCommunityByNameRequest();
-        request.setKeyword(name);
-        String jsonBody = request.jsonToString();
-        NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
-            @Override
-            public void onSucceed(String response) {
-                LogUtil.d(TAG," response: "+response);
-
-            }
-
-            @Override
-            public void onFailed(String errorMessage) {
-                LogUtil.e(TAG," error: "+errorMessage);
-                showNetWorkException();
-            }
-        });
-    }
-
-    private void searchCommunityListByRequestCode(String request_code){
-        SearchCommunityByCodeRequest request = new SearchCommunityByCodeRequest();
-        request.setRequest_code(request_code);
-        String jsonBody = request.jsonToString();
-        NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
-            @Override
-            public void onSucceed(String response) {
-                LogUtil.d(TAG," response: "+response);
-                SearchCommunityResultResponse communityByCodeResponse = gson.fromJson(response,
-                        SearchCommunityResultResponse.class);
-                if (communityByCodeResponse != null && communityByCodeResponse.getHandleResult().equals("OK")){
-                    if (communityByCodeResponse.getCommunityList() == null
-                            || communityByCodeResponse.getCommunityList().size() == 0){
-                        showErrorMsg("当前没有该圈子，请输入其他关键词");
-                    }else {
-                        searchCommunityInfos.clear();
-                        searchCommunityInfos.addAll(communityByCodeResponse.getCommunityList());
-                        communityInfos.clear();
-                        communityInfos.addAll(communityByCodeResponse.getCommunityList());
-                        momentsAdapter.notifyDataSetChanged();
-                    }
-                }else {
-                    showErrorMsg("搜索异常");
-                }
-            }
-
-            @Override
-            public void onFailed(String errorMessage) {
-                LogUtil.e(TAG," error: "+errorMessage);
-                showNetWorkException();
-            }
-        });
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        LogUtil.d(TAG," onHiddenChanged hidden = "+hidden);
+        if (!hidden){
+            checkPopularCommunity();
+        }
     }
 
     private void searchCommunityListByKeyword(String keyword){
