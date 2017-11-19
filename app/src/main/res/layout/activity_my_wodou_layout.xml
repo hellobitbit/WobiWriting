@@ -56,15 +56,16 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:background="@drawable/xueqi_taocan"
+            android:id="@+id/tao_can1_icon"
+            android:src="@drawable/xueqi_taocan"
             android:layout_centerInParent="true"
-            android:layout_width="320dp"
-            android:layout_height="117.4dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
+            android:layout_alignBottom="@id/tao_can1_icon"
+            android:layout_marginBottom="15dp"
             android:textSize="10sp"
             android:text="-已有2017人购买-"
             android:textColor="@android:color/white"
@@ -75,10 +76,10 @@
             android:id="@+id/tao_can1_purchase"
             android:text="购买"
             android:background="@drawable/purchase_text_background"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="31dp"
-            android:layout_marginBottom="27dp"
+            android:layout_alignBottom="@id/tao_can1_icon"
+            android:layout_alignRight="@id/tao_can1_icon"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="20dp"
             android:textColor="#feae3b"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -91,14 +92,15 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:background="@drawable/one_year_taocan"
+            android:id="@+id/tao_can2_icon"
+            android:src="@drawable/one_year_taocan"
             android:layout_centerInParent="true"
-            android:layout_width="320dp"
-            android:layout_height="117.4dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <TextView
             android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
+            android:layout_alignBottom="@id/tao_can2_icon"
+            android:layout_marginBottom="15dp"
             android:textSize="10sp"
             android:text="-已有2017人购买-"
             android:textColor="@android:color/white"
@@ -109,10 +111,10 @@
             android:id="@+id/tao_can2_purchase"
             android:text="购买"
             android:background="@drawable/purchase_text_background"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="31dp"
-            android:layout_marginBottom="27dp"
+            android:layout_alignBottom="@id/tao_can2_icon"
+            android:layout_alignRight="@id/tao_can2_icon"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="20dp"
             android:textColor="#f86041"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -125,14 +127,15 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:background="@drawable/two_years_taocan"
+            android:id="@+id/tao_can3_icon"
+            android:src="@drawable/two_years_taocan"
             android:layout_centerInParent="true"
-            android:layout_width="320dp"
-            android:layout_height="117.4dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <TextView
             android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
+            android:layout_alignBottom="@id/tao_can3_icon"
+            android:layout_marginBottom="15dp"
             android:textSize="10sp"
             android:text="-已有2017人购买-"
             android:textColor="@android:color/white"
@@ -143,10 +146,10 @@
             android:id="@+id/tao_can3_purchase"
             android:text="购买"
             android:background="@drawable/purchase_text_background"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="31dp"
-            android:layout_marginBottom="27dp"
+            android:layout_alignBottom="@id/tao_can3_icon"
+            android:layout_alignRight="@id/tao_can3_icon"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="20dp"
             android:textColor="#c760f5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -159,14 +162,15 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:background="@drawable/three_year_taocan"
+            android:id="@+id/tao_can4_icon"
+            android:src="@drawable/three_year_taocan"
             android:layout_centerInParent="true"
-            android:layout_width="320dp"
-            android:layout_height="117.4dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <TextView
             android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
+            android:layout_alignBottom="@id/tao_can4_icon"
+            android:layout_marginBottom="15dp"
             android:textSize="10sp"
             android:text="-已有2017人购买-"
             android:textColor="@android:color/white"
@@ -177,10 +181,10 @@
             android:id="@+id/tao_can4_purchase"
             android:text="购买"
             android:background="@drawable/purchase_text_background"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="31dp"
-            android:layout_marginBottom="27dp"
+            android:layout_alignBottom="@id/tao_can4_icon"
+            android:layout_alignRight="@id/tao_can4_icon"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="20dp"
             android:textColor="#228dfd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
