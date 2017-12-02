@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +32,7 @@ public class HomeItemView extends LinearLayout {
     private int mItemSubType3NameRes;
     private int mItemSubType4NameRes;
     private int mItemTypeIconRes;
-    private LinearLayout mainLayout;
+    private RelativeLayout mainLayout;
     private TextView itemTypeName;
     private TextView itemSubType1Name;
     private TextView itemSubType2Name;
@@ -68,7 +69,7 @@ public class HomeItemView extends LinearLayout {
         LayoutInflater inflater = (LayoutInflater)context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.home_item_bar_layout, this);
-        mainLayout = (LinearLayout)findViewById(R.id.mainLayout);
+        mainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
         ImageView itemTypeIcon = (ImageView)findViewById(R.id.home_item_type_icon);
         itemTypeName = (TextView)findViewById(R.id.home_item_type_name);
         itemSubType1Name = (TextView)findViewById(R.id.home_item_sub_type_name_1);
@@ -100,7 +101,7 @@ public class HomeItemView extends LinearLayout {
         }
     }
 
-    public void setMainAndSub1Intent(final Intent intent, final boolean support){
+    public void setMainIntent(final Intent intent, final boolean support){
         mainLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,6 +113,9 @@ public class HomeItemView extends LinearLayout {
                 }
             }
         });
+    }
+
+    public void setSub1Intent(final Intent intent, final boolean support){
 
         itemSubType1Name.setOnClickListener(new OnClickListener() {
             @Override
@@ -154,6 +158,24 @@ public class HomeItemView extends LinearLayout {
         });
     }
 
+    public void setSub3Intent(final Intent intent, final boolean support, final boolean notGrade){
+        itemSubType3Name.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (support){
+                    intent.putExtra(SUB_TYPE, SUB_TYPE_3);
+                    getContext().startActivity(intent);
+                }else {
+                    if (notGrade){
+                        showUnsupportMessage();
+                    }else {
+                        showMessage();
+                    }
+                }
+            }
+        });
+    }
+
     public void setSub4Intent(final Intent intent, final boolean support){
         itemSubType4Name.setOnClickListener(new OnClickListener() {
             @Override
@@ -168,7 +190,21 @@ public class HomeItemView extends LinearLayout {
         });
     }
 
+    public void updateItem1Visibility(boolean visible){
+        if (visible){
+            itemSubType1Name.setVisibility(VISIBLE);
+            findViewById(R.id.interval_above).setVisibility(VISIBLE);
+        }else {
+            itemSubType1Name.setVisibility(GONE);
+            findViewById(R.id.interval_above).setVisibility(GONE);
+        }
+    }
+
     private void showMessage(){
         Toast.makeText(getContext(),"当前版本不支持该功能", Toast.LENGTH_LONG).show();
+    }
+
+    private void showUnsupportMessage(){
+        Toast.makeText(getContext(),"该年级不支持该功能", Toast.LENGTH_LONG).show();
     }
 }

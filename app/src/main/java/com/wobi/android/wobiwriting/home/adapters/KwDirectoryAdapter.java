@@ -2,6 +2,7 @@ package com.wobi.android.wobiwriting.home.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -111,7 +112,7 @@ public class KwDirectoryAdapter extends RecyclerView.Adapter<KwDirectoryAdapter.
         private final TextView title_view;
         private final RecyclerView directory_sz_list_recycler;
         private final RelativeLayout sz_layout;
-        private DirectorySzAdapter mSZAdapter;
+        private DirectoryContentAdapter mSZAdapter;
         private List<String> szList = new ArrayList<>();
 
         public DirectoryViewHolder(View itemView) {
@@ -151,14 +152,23 @@ public class KwDirectoryAdapter extends RecyclerView.Adapter<KwDirectoryAdapter.
 
         private void setRecyclerView(){
             //设置布局管理器
-            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mContext);
-            linearLayoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
-            directory_sz_list_recycler.setLayoutManager(linearLayoutManager1);
-            directory_sz_list_recycler.addItemDecoration(new SpaceItemDecoration(mContext, 9, 0));
-            directory_sz_list_recycler.setHasFixedSize(true);
+            if (jc_id == 1){
+                LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mContext);
+                linearLayoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
+                directory_sz_list_recycler.setLayoutManager(linearLayoutManager1);
+                directory_sz_list_recycler.addItemDecoration(new SpaceItemDecoration(mContext, 9, 0));
+                directory_sz_list_recycler.setHasFixedSize(true);
+                mSZAdapter = new DirectorySzAdapter(mContext,szList);
+            }else if (jc_id == 10){
+                directory_sz_list_recycler.setLayoutManager(new GridLayoutManager(mContext, 3));
+                directory_sz_list_recycler.addItemDecoration(new SpaceItemDecoration(mContext, 0, 6, true));
+                directory_sz_list_recycler.setHasFixedSize(true);
+                mSZAdapter = new DirectoryScAdapter(mContext,szList);
+            }
+
             //设置适配器
-            mSZAdapter = new DirectorySzAdapter(mContext,szList);
-            mSZAdapter.setOnItemClickListener(new DirectorySzAdapter.OnRecyclerViewItemClickListener() {
+
+            mSZAdapter.setOnItemClickListener(new DirectoryContentAdapter.OnRecyclerViewItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
                     SharedPrefUtil.saveSZPosition(mContext, position);
@@ -175,13 +185,15 @@ public class KwDirectoryAdapter extends RecyclerView.Adapter<KwDirectoryAdapter.
         private void updateSzInfoDisplayWhenLogin(int position){
             if (position == 0 || position ==1 || position == 2){
                 if (clickedPosition == position){
-                    title_view.setTextColor(mContext.getResources().getColor(android.R.color.black));
+                    title_view.setTextColor(Color.parseColor("#fc5c59"));
+                    directory_icon.setImageResource(R.drawable.directory_icon_red_open);
                     directory_arrow.setImageResource(R.drawable.directory_arrow_right_red);
                 }else {
-                    title_view.setTextColor(Color.parseColor("#fc5c59"));
+                    title_view.setTextColor(Color.parseColor("#b0b0b0"));
+                    directory_icon.setImageResource(R.drawable.directory_icon_red_closed);
                     directory_arrow.setImageResource(R.drawable.directory_arrow_down_red);
                 }
-                directory_icon.setImageResource(R.drawable.directory_icon_red_open);
+
             }else {
                 directory_icon.setImageResource(R.drawable.kewen_directory_icon);
                 title_view.setTextColor(Color.parseColor("#b0b0b0"));
@@ -210,13 +222,15 @@ public class KwDirectoryAdapter extends RecyclerView.Adapter<KwDirectoryAdapter.
         private void updateSzInfoDisplayWhenGuest(int position){
             if (position == 0){
                 if (clickedPosition == position){
-                    title_view.setTextColor(mContext.getResources().getColor(android.R.color.black));
+                    title_view.setTextColor(Color.parseColor("#fc5c59"));
+                    directory_icon.setImageResource(R.drawable.directory_icon_red_open);
                     directory_arrow.setImageResource(R.drawable.directory_arrow_right_red);
                 }else {
-                    title_view.setTextColor(Color.parseColor("#fc5c59"));
+                    title_view.setTextColor(Color.parseColor("#b0b0b0"));
+                    directory_icon.setImageResource(R.drawable.directory_icon_red_closed);
                     directory_arrow.setImageResource(R.drawable.directory_arrow_down_red);
                 }
-                directory_icon.setImageResource(R.drawable.directory_icon_red_open);
+
             }else {
                 directory_icon.setImageResource(R.drawable.kewen_directory_icon);
                 title_view.setTextColor(Color.parseColor("#b0b0b0"));
@@ -261,10 +275,18 @@ public class KwDirectoryAdapter extends RecyclerView.Adapter<KwDirectoryAdapter.
                             mSZAdapter.notifyDataSetChanged();
                             directory_sz_list_recycler.smoothScrollToPosition(SharedPrefUtil.getSZPosition(mContext));
                         }else {
-                            showErrorMsg("该课文暂没生字哦");
+                            if (jc_id ==10){
+                                showErrorMsg("该课文暂没生词哦");
+                            }else {
+                                showErrorMsg("该课文暂没生字哦");
+                            }
                         }
                     }else {
-                        showErrorMsg("获取课文生字异常");
+                        if (jc_id == 10) {
+                            showErrorMsg("获取课文生词异常");
+                        }else {
+                            showErrorMsg("获取课文生字异常");
+                        }
                     }
 
                 }

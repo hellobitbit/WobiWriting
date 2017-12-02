@@ -1,5 +1,7 @@
 package com.wobi.android.wobiwriting.home.message;
 
+import android.text.TextUtils;
+
 import com.wobi.android.wobiwriting.data.message.Response;
 
 import java.io.Serializable;
@@ -211,9 +213,9 @@ public class GetSZInfoResponse extends Response implements Serializable {
     }
 
     public String getZuci(){
-        if (zuci2.isEmpty() && zuci3.isEmpty()){
+        if (TextUtils.isEmpty(zuci2) && TextUtils.isEmpty(zuci3)){
             return zuci1;
-        }else if (zuci2.isEmpty()|| zuci3.isEmpty()){
+        }else if (TextUtils.isEmpty(zuci2)|| TextUtils.isEmpty(zuci3)){
             return zuci1+"、"+zuci2+zuci3;
         }else {
             return zuci1+"、"+zuci2+"、"+zuci3;

@@ -6,7 +6,10 @@ import com.wobi.android.wobiwriting.data.IResponseListener;
 import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.moments.message.CreateCommunityRequest;
 import com.wobi.android.wobiwriting.moments.message.CreateCommunityResponse;
+import com.wobi.android.wobiwriting.user.message.UserGetInfoRequest;
+import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;
 import com.wobi.android.wobiwriting.utils.LogUtil;
+import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
 
 /**
  * Created by wangyingren on 2017/11/1.

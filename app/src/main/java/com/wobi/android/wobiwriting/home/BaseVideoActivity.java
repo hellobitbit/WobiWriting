@@ -50,7 +50,7 @@ public abstract class BaseVideoActivity extends ActionBarActivity
     private int mSeekPosition;
     private int cachedHeight;
     private boolean isFullscreen;
-    private RecyclerView titleRecycler;
+    RecyclerView titleRecycler;
     private RelativeLayout custom_action_bar;
 
     @Override
@@ -142,6 +142,7 @@ public abstract class BaseVideoActivity extends ActionBarActivity
     }
 
     protected void play(String url, String title){
+        LogUtil.d(TAG," play = "+url);
         mVideoView.setVideoURI(Uri.parse(url));
         mVideoView.start();
         mVideoView.requestFocus();

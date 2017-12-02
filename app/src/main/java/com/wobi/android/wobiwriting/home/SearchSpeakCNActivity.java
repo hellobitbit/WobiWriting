@@ -46,7 +46,7 @@ public class SearchSpeakCNActivity extends ActionBarActivity
     public static final String SPEAK_TYPE ="speak_type";
     public static final String SZ_LIST ="sz_list";
     public static final String KEWEN_TITLE ="kewen_title";
-    private static final String TAG = "SpeakCNActivity";
+    private static final String TAG = "SpeakCNSzActivity";
     private static final String SEEK_POSITION_KEY = "SEEK_POSITION_KEY";
     private static final String VIDEO_SUFFIX = ".mp4";
     private ArrayList<String> szList = new ArrayList<>();
@@ -304,19 +304,19 @@ public class SearchSpeakCNActivity extends ActionBarActivity
 
     private void refreshVideoPlay(GetSZInfoResponse szInfoResponse){
         //play media
-        if (speakTypeValue == SpeakCNActivity.SpeakType.SWJZ.getValue()){
+        if (speakTypeValue == SpeakCNSzActivity.SpeakType.SWJZ.getValue()){
             String url = szInfoResponse.getSwjz_url()+szInfoResponse.getWord()+VIDEO_SUFFIX;
             play(url);
-        }else if (speakTypeValue == SpeakCNActivity.SpeakType.BISHUN.getValue()){
+        }else if (speakTypeValue == SpeakCNSzActivity.SpeakType.BISHUN.getValue()){
             String url = szInfoResponse.getBishun_url()+szInfoResponse.getWord()+VIDEO_SUFFIX;
             play(url);
-        }else if (speakTypeValue == SpeakCNActivity.SpeakType.BANSHU.getValue()){
+        }else if (speakTypeValue == SpeakCNSzActivity.SpeakType.BANSHU.getValue()){
             String url = szInfoResponse.getBanshu_url()+szInfoResponse.getWord()+VIDEO_SUFFIX;
             play(url);
-        }else if (speakTypeValue == SpeakCNActivity.SpeakType.YINGBI.getValue()){
+        }else if (speakTypeValue == SpeakCNSzActivity.SpeakType.YINGBI.getValue()){
             String url = szInfoResponse.getYingbi_url()+szInfoResponse.getWord()+VIDEO_SUFFIX;
             play(url);
-        }else if (speakTypeValue == SpeakCNActivity.SpeakType.MAOBI.getValue()){
+        }else if (speakTypeValue == SpeakCNSzActivity.SpeakType.MAOBI.getValue()){
             String url = szInfoResponse.getMaobi_url()+szInfoResponse.getWord()+VIDEO_SUFFIX;
             play(url);
         }

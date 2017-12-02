@@ -17,6 +17,8 @@ import com.wobi.android.wobiwriting.data.message.Response;
 import com.wobi.android.wobiwriting.moments.message.JoinCommunityRequest;
 import com.wobi.android.wobiwriting.moments.model.CommunityInfo;
 import com.wobi.android.wobiwriting.ui.ActionBarActivity;
+import com.wobi.android.wobiwriting.user.message.UserGetInfoRequest;
+import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;
 import com.wobi.android.wobiwriting.user.message.UserLoginResponse;
 import com.wobi.android.wobiwriting.utils.DateUtils;
 import com.wobi.android.wobiwriting.utils.LogUtil;
@@ -42,12 +44,15 @@ public class MomentDetailActivity extends ActionBarActivity {
     private TextView comments;
     private TextView forward;
     private CommunityInfo communityInfo;
+    private UserGetInfoResponse userInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_moment_detail_layout);
         communityInfo = (CommunityInfo)getIntent().getSerializableExtra(COMMUNITY_INFO);
+        String useInfoStr = SharedPrefUtil.getLoginInfo(getApplicationContext());
+        userInfo = gson.fromJson(useInfoStr,UserGetInfoResponse.class);
         initViews();
         setCustomActionBar();
         updateTitleText("圈子详情");
@@ -114,6 +119,7 @@ public class MomentDetailActivity extends ActionBarActivity {
                 LogUtil.d(TAG," response: "+response);
                 Response result = gson.fromJson(response,Response.class);
                 if (result != null && result.getHandleResult().equals("OK")){
+                    updateUserInfo();
                     displayPopupWindowTips(R.drawable.add_to_moment_success);
                 }else {
                     showErrorMsg("加入圈子失败");
@@ -144,5 +150,30 @@ public class MomentDetailActivity extends ActionBarActivity {
         pop.setClippingEnabled(false);
         pop.setBackgroundDrawable(new ColorDrawable(0xffffff));//支持点击Back虚拟键退出
         pop.showAtLocation(findViewById(R.id.addToMoment), Gravity.TOP|Gravity.START, 0, 0);
+    }
+
+    private void updateUserInfo(){
+        UserGetInfoRequest request = new UserGetInfoRequest();
+        request.setUserId(userInfo.getUserId());
+        String jsonBody = request.jsonToString();
+        NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
+            @Override
+            public void onSucceed(String response) {
+                LogUtil.d(TAG," response: "+response);
+                UserGetInfoResponse userGetInfoResponse = gson.fromJson(response, UserGetInfoResponse.class);
+                if (userGetInfoResponse != null && userGetInfoResponse.getHandleResult().equals("OK")){
+                    SharedPrefUtil.saveLoginInfo(getApplicationContext(),response);
+                    userInfo = userGetInfoResponse;
+                }else {
+                    showErrorMsg("用户信息更新失败 "+ userGetInfoResponse.getHandleResult());
+                }
+            }
+
+            @Override
+            public void onFailed(String errorMessage) {
+                LogUtil.e(TAG," error: "+errorMessage);
+                showNetWorkException();
+            }
+        });
     }
 }

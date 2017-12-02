@@ -32,13 +32,20 @@
         <activity
             android:name=".ui.MainActivity"
             android:launchMode="singleTask"
+            android:configChanges="keyboardHidden|orientation"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".home.SearchActivity" />
         <activity
-            android:name=".home.SpeakCNActivity"
+            android:name=".home.SpeakCNSzActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".home.SpeakCNScActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".home.SearchSpeakCNActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".home.SearchSpeakCNScActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name=".home.ListenActivity" />
         <activity
@@ -99,6 +106,10 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <meta-data
+            android:name="WEIBO_APPKEY"
+            android:value="2080787821" />
     </application>
 
 </manifest>

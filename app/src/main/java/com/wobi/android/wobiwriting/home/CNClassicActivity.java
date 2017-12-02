@@ -41,7 +41,7 @@ public class CNClassicActivity extends BaseVideoActivity {
         if (HomeItemView.SUB_TYPE_1.equals(type)){
             loadDiZiGui();
             adapter.setSelected(0);
-        }else if (HomeItemView.SUB_TYPE_2.equals(type)){
+        }else if (HomeItemView.SUB_TYPE_3.equals(type)){
             loadSanZiJing();
             adapter.setSelected(1);
         }

@@ -1,5 +1,6 @@
 package com.wobi.android.wobiwriting.home;
 
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -191,6 +192,8 @@ public class ListenActivity extends ActionBarActivity
                     playType =PlayType.Play;
                 }
                 updatePlayControlUI();
+                updatePlaySequenceUI();
+                updatePlayNumberUI();
                 break;
             case R.id.play_sequence_control:
                 if (playType == PlayType.Stop){
@@ -200,7 +203,7 @@ public class ListenActivity extends ActionBarActivity
                         sequenceType = SequenceType.Order;
                     }
                 }else {
-                    showErrorMsg("操作失败，请先停止播放");
+//                    showErrorMsg("操作失败，请先停止播放");
                 }
                 updatePlaySequenceUI();
                 break;
@@ -214,7 +217,7 @@ public class ListenActivity extends ActionBarActivity
                         playNumber = PlayNumber.Once;
                     }
                 }else {
-                    showErrorMsg("操作失败，请先停止播放");
+//                    showErrorMsg("操作失败，请先停止播放");
                 }
                 updatePlayNumberUI();
                 break;
@@ -235,25 +238,53 @@ public class ListenActivity extends ActionBarActivity
     }
 
     private void updatePlaySequenceUI(){
-        if (sequenceType == SequenceType.Order){
-            play_sequence_control_icon.setImageResource(R.drawable.listen_shunxu_icon);
-            play_sequence_control_text.setText("顺序播放");
-        }else if (sequenceType == SequenceType.Random){
-            play_sequence_control_icon.setImageResource(R.drawable.listen_random_icon);
-            play_sequence_control_text.setText("随机播放");
+        if (playType == PlayType.Stop){
+            if (sequenceType == SequenceType.Order){
+                play_sequence_control_icon.setImageResource(R.drawable.listen_shunxu_icon);
+                play_sequence_control_text.setText("顺序播放");
+            }else if (sequenceType == SequenceType.Random){
+                play_sequence_control_icon.setImageResource(R.drawable.listen_random_icon);
+                play_sequence_control_text.setText("随机播放");
+            }
+            play_sequence_control_text.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+        }else {
+            if (sequenceType == SequenceType.Order){
+                play_sequence_control_icon.setImageResource(R.drawable.listen_shunxu_icon_gray);
+                play_sequence_control_text.setText("顺序播放");
+            }else if (sequenceType == SequenceType.Random){
+                play_sequence_control_icon.setImageResource(R.drawable.listen_random_icon_gray);
+                play_sequence_control_text.setText("随机播放");
+            }
+            play_sequence_control_text.setTextColor(Color.parseColor("#bebebe"));
         }
+
     }
 
     private void updatePlayNumberUI(){
-        if (playNumber == PlayNumber.Once){
-            play_num_control_icon.setImageResource(R.drawable.play_num_control_icon1);
-            play_num_control_text.setText("播放一遍");
-        }else if (playNumber == PlayNumber.Twice){
-            play_num_control_icon.setImageResource(R.drawable.play_num_control_icon2);
-            play_num_control_text.setText("播放两遍");
-        }else if (playNumber == PlayNumber.Three){
-            play_num_control_icon.setImageResource(R.drawable.play_num_control_icon3);
-            play_num_control_text.setText("播放三遍");
+        if (playType == PlayType.Stop) {
+            if (playNumber == PlayNumber.Once) {
+                play_num_control_icon.setImageResource(R.drawable.play_num_control_icon1);
+                play_num_control_text.setText("播放一遍");
+            } else if (playNumber == PlayNumber.Twice) {
+                play_num_control_icon.setImageResource(R.drawable.play_num_control_icon2);
+                play_num_control_text.setText("播放两遍");
+            } else if (playNumber == PlayNumber.Three) {
+                play_num_control_icon.setImageResource(R.drawable.play_num_control_icon3);
+                play_num_control_text.setText("播放三遍");
+            }
+            play_num_control_text.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+        }else {
+            if (playNumber == PlayNumber.Once) {
+                play_num_control_icon.setImageResource(R.drawable.play_num_control_icon1_gray);
+                play_num_control_text.setText("播放一遍");
+            } else if (playNumber == PlayNumber.Twice) {
+                play_num_control_icon.setImageResource(R.drawable.play_num_control_icon2_gray);
+                play_num_control_text.setText("播放两遍");
+            } else if (playNumber == PlayNumber.Three) {
+                play_num_control_icon.setImageResource(R.drawable.play_num_control_icon3_gray);
+                play_num_control_text.setText("播放三遍");
+            }
+            play_num_control_text.setTextColor(Color.parseColor("#bebebe"));
         }
     }
 
@@ -301,19 +332,23 @@ public class ListenActivity extends ActionBarActivity
             @Override
             public void onCompletion(MediaPlayer mp) {
                 LogUtil.d(TAG," mediaplayer onCompletion");
-                if (count == playNumber.getValue()) {
-                    count = 0;
-                    if (currentPosition < playLists.size() - 1) {
-                        currentPosition++;
-                        playStreaming(playLists.get(currentPosition));
+                if (playType == PlayType.Play) {
+                    if (count == playNumber.getValue()) {
+                        count = 0;
+                        if (currentPosition < playLists.size() - 1) {
+                            currentPosition++;
+                            playStreaming(playLists.get(currentPosition));
+                        } else {
+                            currentPosition = 0;
+                            playLists.clear();
+                            play_control.performClick();
+                        }
                     } else {
-                        currentPosition = 0;
-                        playLists.clear();
-                        play_control.performClick();
+                        count++;
+                        playStreaming(url);
                     }
                 }else {
-                    count++;
-                    playStreaming(url);
+                    stopPlay();
                 }
             }
         });
@@ -348,6 +383,7 @@ public class ListenActivity extends ActionBarActivity
         if (mPlayer != null && mPlayer.isPlaying()) {
             mPlayer.stop();
         }
+        playLists.clear();
         currentPosition = 0;
         count = 0;
         url = "";

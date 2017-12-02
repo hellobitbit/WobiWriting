@@ -46,7 +46,21 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onNewIntent(Intent intent){
         super.onNewIntent(intent);
-        displayFrag(intent);
+        int position = intent.getIntExtra(FRAGMENT_DISPLAY_POSITION, -1);
+
+        if (position == 2){
+            displayFrag(intent);
+        }else if(position == -1){
+            FragmentManager fm = this.getSupportFragmentManager();
+            try {
+                MeFragment me = (MeFragment) fm.findFragmentByTag(ME_FRAG_TAG);
+                if (me != null){
+                    me.doWeiboResultIntent(intent);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
     private void displayFrag(Intent intent){

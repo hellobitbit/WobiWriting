@@ -88,9 +88,7 @@
         android:layout_weight="1"
         android:background="@drawable/home_classic_shape_corner"
         customer:itemSubType1Name="@string/home_item_classic_dizigui"
-        customer:itemSubType2Name="@string/home_item_classic_three"
-        customer:itemSubType3Name="@string/home_item_classic_daode"
-        customer:itemSubType4Name="@string/home_item_classic_ancient_poetry"
+        customer:itemSubType3Name="@string/home_item_classic_three"
         customer:itemTypeIcon="@drawable/guoxuejindian"
         customer:itemTypeName="@string/home_item_classic" />
 </LinearLayout>

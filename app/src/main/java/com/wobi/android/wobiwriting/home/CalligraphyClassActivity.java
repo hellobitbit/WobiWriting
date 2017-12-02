@@ -92,12 +92,16 @@ public class CalligraphyClassActivity extends BaseVideoActivity{
 
     @Override
     public void onItemClick(View view, int position) {
-        adapter.setSelected(position);
-        adapter.notifyDataSetChanged();
-        if (position == 0){
-            loadCalligraphyClassInfoForYB();
-        }else if (position == 1){
-            loadCalligraphyClassInfoForBrush();
+        if (grade > 3) {
+            adapter.setSelected(position);
+            adapter.notifyDataSetChanged();
+            if (position == 0) {
+                loadCalligraphyClassInfoForYB();
+            } else if (position == 1) {
+                loadCalligraphyClassInfoForBrush();
+            }
+        }else {
+            showErrorMsg("该年级不支持该功能");
         }
     }
 

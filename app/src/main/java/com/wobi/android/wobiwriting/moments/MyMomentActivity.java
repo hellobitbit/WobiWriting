@@ -27,6 +27,7 @@ import com.wobi.android.wobiwriting.moments.model.MomentData;
 import com.wobi.android.wobiwriting.moments.model.Province;
 import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 import com.wobi.android.wobiwriting.user.LoginActivity;
+import com.wobi.android.wobiwriting.user.message.UserGetInfoRequest;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
@@ -217,11 +218,13 @@ public class MyMomentActivity extends ActionBarActivity {
         // 根据上面发送过去的请求吗来区别
         if (requestCode == NewMomentActivity.REQUEST_CODE
                 && resultCode == NewMomentActivity.RESULT_CODE_SUCCESS){
+            updateUserInfo();
             searchOwnedCommunity();
         }else if (requestCode == MomentDescriptionActivity.REQUEST_CODE
                 && resultCode == MomentDescriptionActivity.RESULT_CODE_SUCCESS){
             int community_id = data.getIntExtra(MomentDescriptionActivity.RESULT_COMMUNITY_ID, -1);
             if (community_id != -1) {
+                updateUserInfo();
                 CommunityInfo communityInfo = communityIds.get(community_id);
                 communityInfos.remove(communityInfo);
                 momentsAdapter.notifyDataSetChanged();
@@ -241,5 +244,30 @@ public class MyMomentActivity extends ActionBarActivity {
             }
         }
 
+    }
+
+    private void updateUserInfo(){
+        UserGetInfoRequest request = new UserGetInfoRequest();
+        request.setUserId(userInfo.getUserId());
+        String jsonBody = request.jsonToString();
+        NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
+            @Override
+            public void onSucceed(String response) {
+                LogUtil.d(TAG," response: "+response);
+                UserGetInfoResponse userGetInfoResponse = gson.fromJson(response, UserGetInfoResponse.class);
+                if (userGetInfoResponse != null && userGetInfoResponse.getHandleResult().equals("OK")){
+                    SharedPrefUtil.saveLoginInfo(getApplicationContext(),response);
+                    userInfo = userGetInfoResponse;
+                }else {
+                    showErrorMsg("用户信息更新失败 "+ userGetInfoResponse.getHandleResult());
+                }
+            }
+
+            @Override
+            public void onFailed(String errorMessage) {
+                LogUtil.e(TAG," error: "+errorMessage);
+                showNetWorkException();
+            }
+        });
     }
 }

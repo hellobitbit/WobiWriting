@@ -9,8 +9,8 @@ android {
         applicationId "com.wobi.android.wobiwriting"
         minSdkVersion 19
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -20,6 +20,12 @@ android {
         }
         debug {
         }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
     }
 }
 
@@ -44,4 +50,5 @@ dependencies {
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'
     compile 'com.bigkoo:pickerview:2.1.1'
     compile files('libs/open_sdk_r5886_lite.jar')
+    compile 'com.sina.weibo.sdk:core:4.1.0:openDefaultRelease@aar'
 }

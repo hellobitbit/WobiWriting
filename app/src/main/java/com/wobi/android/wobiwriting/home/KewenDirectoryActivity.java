@@ -51,8 +51,9 @@ public class KewenDirectoryActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kewen_directory_layout);
-        grade_id = getIntent().getStringExtra(SpeakCNActivity.GRADE_ID);
-        speakTypeValue = getIntent().getIntExtra(SpeakCNActivity.SPEAK_TYPE, 0);
+        grade_id = getIntent().getStringExtra(SpeakCNSzActivity.GRADE_ID);
+        speakTypeValue = getIntent().getIntExtra(SpeakCNSzActivity.SPEAK_TYPE, 0);
+        LogUtil.d(TAG, "onCreate speakTypeValue = "+speakTypeValue);
         loadJCList();
         initViews();
         updateSelectedKewen();
@@ -130,8 +131,14 @@ public class KewenDirectoryActivity extends BaseActivity
                 if (getJCListResponse!=null && getJCListResponse.getHandleResult().equals("OK")){
                     mJCList.clear();
                     mJCList.addAll(getJCListResponse.getJcList());
-                    loadKWMLList(mJCList.get(0).getId());
-                    mAdapter.setJc_id(mJCList.get(0).getId());
+                    int gradeid = Integer.parseInt(grade_id);
+                    if (gradeid > 70){
+                        loadKWMLList(10);
+                        mAdapter.setJc_id(10);
+                    }else {
+                        loadKWMLList(1);
+                        mAdapter.setJc_id(1);
+                    }
                 }else {
                     showErrorMsg("获取教程失败");
                 }
@@ -174,12 +181,23 @@ public class KewenDirectoryActivity extends BaseActivity
 
     @Override
     public void onSZItemClick(List<String> szList, int position) {
-        Intent intent = new Intent(getApplicationContext(), SpeakCNActivity.class);
-        intent.putExtra(SpeakCNActivity.KEWEN_TITLE,mDirectories.get(mAdapter.getClicked()).getKewen());
-        intent.putExtra(SpeakCNActivity.SPEAK_TYPE, speakTypeValue);
-        intent.putStringArrayListExtra(SpeakCNActivity.SZ_LIST, (ArrayList<String>) szList);
+        int gradeId = Integer.parseInt(grade_id);
+        if (gradeId > 70){
+            Intent intent = new Intent(getApplicationContext(), SpeakCNScActivity.class);
+            intent.putExtra(SpeakCNSzActivity.KEWEN_TITLE,mDirectories.get(mAdapter.getClicked()).getKewen());
+            intent.putExtra(SpeakCNSzActivity.SPEAK_TYPE, speakTypeValue);
+            intent.putStringArrayListExtra(SpeakCNScActivity.SZ_LIST, (ArrayList<String>) szList);
 
-        startActivityForResult(intent, SPEAK_REQUEST_CODE);
+            startActivityForResult(intent, SPEAK_REQUEST_CODE);
+        }else {
+            Intent intent = new Intent(getApplicationContext(), SpeakCNSzActivity.class);
+            intent.putExtra(SpeakCNSzActivity.KEWEN_TITLE,mDirectories.get(mAdapter.getClicked()).getKewen());
+            intent.putExtra(SpeakCNSzActivity.SPEAK_TYPE, speakTypeValue);
+            intent.putStringArrayListExtra(SpeakCNSzActivity.SZ_LIST, (ArrayList<String>) szList);
+
+            startActivityForResult(intent, SPEAK_REQUEST_CODE);
+        }
+
     }
 
     private void updateKewenList(int position){

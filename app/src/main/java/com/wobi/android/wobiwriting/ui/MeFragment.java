@@ -2,6 +2,8 @@ package com.wobi.android.wobiwriting.ui;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,6 +18,11 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.sina.weibo.sdk.api.ImageObject;
+import com.sina.weibo.sdk.api.TextObject;
+import com.sina.weibo.sdk.api.WeiboMultiMessage;
+import com.sina.weibo.sdk.share.WbShareCallback;
+import com.sina.weibo.sdk.share.WbShareHandler;
 import com.tencent.connect.common.Constants;
 import com.tencent.connect.share.QQShare;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -46,7 +53,7 @@ import com.wobi.android.wobiwriting.views.CustomDialog;
  * Created by wangyingren on 2017/9/9.
  */
 
-public class MeFragment extends BaseFragment implements View.OnClickListener, IUiListener {
+public class MeFragment extends BaseFragment implements View.OnClickListener, IUiListener ,WbShareCallback {
 
     private static final String TAG = "MeFragment";
     private static final String W_APPID = "wx811d8d46a1d5cb01";
@@ -62,6 +69,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
     private DialogInterface mLoginTipsDialog;
     private IWXAPI api;
     private Tencent mTencent;
+    private WbShareHandler shareHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -107,6 +115,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
         refreshLoginState();
         regToWx();
         regToQQ();
+        regToWeibo();
     }
 
     private void regToWx() {
@@ -118,6 +127,12 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
         // Tencent类是SDK的主要实现类，开发者可通过Tencent类访问腾讯开放的OpenAPI。
         // 其中APP_ID是分配给第三方应用的appid，类型为String。
         mTencent = Tencent.createInstance(Q_APPID, getActivity());
+    }
+
+    private void regToWeibo(){
+        shareHandler = new WbShareHandler(getActivity());
+        shareHandler.registerApp();
+        shareHandler.setProgressColor(0xff33b5e5);
     }
 
     @Override
@@ -323,7 +338,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.weibo:
-
+                        sendMultiMessage(true,true);
                         break;
                     case R.id.weixin:
                         weiChat(0);
@@ -444,5 +459,63 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
             userInfoResponse = gson.fromJson(userInfo, UserGetInfoResponse.class);
             updateUIDisplay(userInfoResponse);
         }
+    }
+
+    /**
+     * 第三方应用发送请求消息到微博，唤起微博分享界面。
+     */
+    private void sendMultiMessage(boolean hasText, boolean hasImage) {
+
+
+        WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
+        if (hasText) {
+            weiboMessage.textObject = getTextObj();
+        }
+        if (hasImage) {
+            weiboMessage.imageObject = getImageObj();
+        }
+        shareHandler.shareMessage(weiboMessage, false);
+    }
+
+    /**
+     * 创建文本消息对象。
+     * @return 文本消息对象。
+     */
+    private TextObject getTextObj() {
+        TextObject textObject = new TextObject();
+        textObject.text = "规范汉语习字，弘扬民族文化";
+        textObject.title = "沃笔习字";
+        textObject.actionUrl = "http://www.wobi365.com";
+        return textObject;
+    }
+
+    /**
+     * 创建图片消息对象。
+     * @return 图片消息对象。
+     */
+    private ImageObject getImageObj() {
+        ImageObject imageObject = new ImageObject();
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        imageObject.setImageObject(bitmap);
+        return imageObject;
+    }
+
+    @Override
+    public void onWbShareSuccess() {
+        showErrorMsg("分享微博成功");
+    }
+
+    @Override
+    public void onWbShareCancel() {
+        showErrorMsg("取消分享");
+    }
+
+    @Override
+    public void onWbShareFail() {
+        showErrorMsg("分享失败");
+    }
+
+    public void doWeiboResultIntent(Intent intent){
+        shareHandler.doResultIntent(intent,this);
     }
 }

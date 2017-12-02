@@ -46,7 +46,8 @@ public enum BusinessType {
     BT_Search_Popular_Community(36),	          /* 搜索热门圈子 */
     BT_Search_Community_By_Keyword(37),          /* 跟据关键字搜索圈子,关键字是圈子名或邀请码 */
     BT_Get_WXPay_Result(38),			/* 获取微信支付的支付结果 */
-    BT_Get_Province_City_Area(39);			/* 获取所有省市区 */
+    BT_Get_Province_City_Area(39),			/* 获取所有省市区 */
+    BT_Get_Sc_Info(40);			/* 获取初中生词信息 */
 
 
     private int mValue;

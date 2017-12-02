@@ -27,6 +27,7 @@ public class SpeakTypeAdapter extends RecyclerView.Adapter<SpeakTypeAdapter.Sele
     private int selectedPosition = 0;
     private ArrayList<Integer> mNormalDatas;
     private ArrayList<Integer> mSelectedDatas;
+    private boolean isSc = false;
 
 
     public interface OnRecyclerViewItemClickListener {
@@ -40,6 +41,13 @@ public class SpeakTypeAdapter extends RecyclerView.Adapter<SpeakTypeAdapter.Sele
     public SpeakTypeAdapter(Context context) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(mContext);
+        initDatas();
+    }
+
+    public SpeakTypeAdapter(Context context, boolean isSc) {
+        this.mContext = context;
+        this.mInflater = LayoutInflater.from(mContext);
+        this.isSc = isSc;
         initDatas();
     }
 
@@ -95,18 +103,29 @@ public class SpeakTypeAdapter extends RecyclerView.Adapter<SpeakTypeAdapter.Sele
         }
     }
 
-    private void initDatas()
-    {
-        mNormalDatas = new ArrayList<>(Arrays.asList(R.drawable.speak_normal,
-                R.drawable.speak_bi_normal, R.drawable.speak_ban_normal,
-                R.drawable.speak_yin_normal, R.drawable.speak_mao_normal));
+    private void initDatas() {
+        if (isSc){
+            mNormalDatas = new ArrayList<>(Arrays.asList(R.drawable.speak_ban_normal,
+                    R.drawable.speak_yin_normal, R.drawable.speak_mao_normal));
 
-        mSelectedDatas = new ArrayList<>(Arrays.asList(R.drawable.speak_selected,
-                R.drawable.speak_bi_selected, R.drawable.speak_ban_selected,
-                R.drawable.speak_yin_selected, R.drawable.speak_mao_selected));
+            mSelectedDatas = new ArrayList<>(Arrays.asList(R.drawable.speak_ban_selected,
+                    R.drawable.speak_yin_selected, R.drawable.speak_mao_selected));
 
-        mData = new ArrayList<>(Arrays.asList(R.string.home_item_speak,
-                R.string.home_item_writing_bishun, R.string.home_item_writing_blackbroad,
-                R.string.home_item_writing_hard, R.string.home_item_writing_brush));
+            mData = new ArrayList<>(Arrays.asList(R.string.home_item_writing_blackbroad,
+                    R.string.home_item_writing_hard, R.string.home_item_writing_brush));
+        }else {
+            mNormalDatas = new ArrayList<>(Arrays.asList(R.drawable.speak_normal,
+                    R.drawable.speak_bi_normal, R.drawable.speak_ban_normal,
+                    R.drawable.speak_yin_normal, R.drawable.speak_mao_normal));
+
+            mSelectedDatas = new ArrayList<>(Arrays.asList(R.drawable.speak_selected,
+                    R.drawable.speak_bi_selected, R.drawable.speak_ban_selected,
+                    R.drawable.speak_yin_selected, R.drawable.speak_mao_selected));
+
+            mData = new ArrayList<>(Arrays.asList(R.string.home_item_speak,
+                    R.string.home_item_writing_bishun, R.string.home_item_writing_blackbroad,
+                    R.string.home_item_writing_hard, R.string.home_item_writing_brush));
+        }
+
     }
 }
