@@ -18,7 +18,7 @@ import com.wobi.android.wobiwriting.home.message.GetKWMLListRequest;
 import com.wobi.android.wobiwriting.home.message.GetKWMLListResponse;
 import com.wobi.android.wobiwriting.home.model.JiaoCaiObject;
 import com.wobi.android.wobiwriting.home.model.KeWenDirectory;
-import com.wobi.android.wobiwriting.me.MyWodouActivity;
+import com.wobi.android.wobiwriting.me.PurchaseVipActivity;
 import com.wobi.android.wobiwriting.ui.BaseActivity;
 import com.wobi.android.wobiwriting.user.LoginActivity;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;
@@ -224,8 +224,8 @@ public class KewenDirectoryActivity extends BaseActivity
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 //设置你的操作事项
-                Intent intent = new Intent(getApplicationContext(), MyWodouActivity.class);
-                startActivityForResult(intent,MyWodouActivity.REQUEST_CODE);
+                Intent intent = new Intent(getApplicationContext(), PurchaseVipActivity.class);
+                startActivityForResult(intent, PurchaseVipActivity.REQUEST_CODE);
             }
         });
 
@@ -273,7 +273,7 @@ public class KewenDirectoryActivity extends BaseActivity
             mAdapter.notifyDataSetChanged();
         }else if (requestCode == SPEAK_REQUEST_CODE){
             mAdapter.notifyDataSetChanged();
-        }else if (requestCode == MyWodouActivity.REQUEST_CODE){
+        }else if (requestCode == PurchaseVipActivity.REQUEST_CODE){
             mAdapter.notifyDataSetChanged();
         }
     }

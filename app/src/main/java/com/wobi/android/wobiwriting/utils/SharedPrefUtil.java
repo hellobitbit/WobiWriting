@@ -22,8 +22,11 @@ public class SharedPrefUtil {
     private static final String SZ_POSITION = "sz_position";
 
     private static final String HOME_GRADE_TIPS_DISPLAY = "home_grade_tips_display";
+    private static final String HOME_REGISTER_TIPS_DISPLAY = "home_register_tips_display";
     private static final String MOMENT_TIPS_DISPLAY = "moment_tips_display";
     private static final String ME_TIPS_DISPLAY = "me_tips_display";
+
+    private static final String COMMUNITY_INFOS_FOR_PURCHASE = "community_infos_for_chase";
 
     public static void saveBusinessUrl(Context context, String url){
         SharedPreferences userSettings = context.
@@ -137,18 +140,32 @@ public class SharedPrefUtil {
         return userSettings.getInt(SZ_POSITION, 0);
     }
 
-    public static void saveHomeGradeTipsState(Context context, boolean hasDisplayed){
+//    public static void saveHomeGradeTipsState(Context context, boolean hasDisplayed){
+//        SharedPreferences userSettings = context.
+//                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = userSettings.edit();
+//        editor.putBoolean(HOME_GRADE_TIPS_DISPLAY,hasDisplayed);
+//        editor.commit();
+//    }
+//
+//    public static boolean getHomeGradeTipsState(Context context){
+//        SharedPreferences userSettings = context.
+//                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+//        return userSettings.getBoolean(HOME_GRADE_TIPS_DISPLAY, false);
+//    }
+
+    public static void saveHomeRegisterTipsState(Context context, boolean hasDisplayed){
         SharedPreferences userSettings = context.
                 getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = userSettings.edit();
-        editor.putBoolean(HOME_GRADE_TIPS_DISPLAY,hasDisplayed);
+        editor.putBoolean(HOME_REGISTER_TIPS_DISPLAY,hasDisplayed);
         editor.commit();
     }
 
-    public static boolean getHomeGradeTipsState(Context context){
+    public static boolean getHomeRegisterTipsState(Context context){
         SharedPreferences userSettings = context.
                 getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
-        return userSettings.getBoolean(HOME_GRADE_TIPS_DISPLAY, false);
+        return userSettings.getBoolean(HOME_REGISTER_TIPS_DISPLAY, false);
     }
 
     public static void saveMomentTipsState(Context context, boolean hasDisplayed){
@@ -177,5 +194,19 @@ public class SharedPrefUtil {
         SharedPreferences userSettings = context.
                 getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
         return userSettings.getBoolean(ME_TIPS_DISPLAY, false);
+    }
+
+    public static void saveCommunityInfosForPurchase(Context context, String communityInfos){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = userSettings.edit();
+        editor.putString(COMMUNITY_INFOS_FOR_PURCHASE,communityInfos);
+        editor.commit();
+    }
+
+    public static String getCommunityInfosForPurchase(Context context){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        return userSettings.getString(COMMUNITY_INFOS_FOR_PURCHASE, "");
     }
 }

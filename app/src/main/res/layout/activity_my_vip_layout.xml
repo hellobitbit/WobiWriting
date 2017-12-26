@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/actionbar_layout"
+        android:id="@+id/custom_action_bar"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/continue_purchase"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/continue_purchase"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:layout_above="@id/continue_purchase"
+            android:background="@drawable/my_vip_layout_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="30dp"
+                android:id="@+id/user_headphoto"
+                android:layout_width="46dp"
+                android:src="@drawable/default_man_headphoto"
+                android:layout_height="46dp" />
+
+            <ImageView
+                android:id="@+id/purchase_right_now"
+                android:src="@drawable/purchase_right_now_icon"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="150dp"
+                android:layout_marginRight="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:layout_marginTop="5dp"
+                android:layout_alignTop="@id/user_headphoto"
+                android:layout_toRightOf="@id/user_headphoto"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="46dp">
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:textStyle="bold"
+                    android:text="沃笔习字"
+                    android:textColor="@android:color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/user_name"
+                    android:src="@drawable/vip_level_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/expire_time"
+                    android:layout_below="@id/user_name"
+                    android:text="2018-1-29"
+                    android:textSize="13sp"
+                    android:textColor="#fecbb7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>

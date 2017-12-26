@@ -34,6 +34,7 @@ import java.util.List;
 
 public class WobiWritingApplication extends Application{
     private static final String TAG = "WobiWritingApplication";
+    private static final String MANAGER_SERVER_URL = "http://114.55.92.149/business";
     private NetDataManager netDataManager;
     private Gson gson = new Gson();
 
@@ -94,20 +95,22 @@ public class WobiWritingApplication extends Application{
 
     private void initNetworkManager(){
         netDataManager = NetDataManager.getInstance();
-        netDataManager.getBusinessServerAddress(new IResponseListener() {
-            @Override
-            public void onSucceed(String response) {
-                LogUtil.d(TAG," response: "+response);
-                ConnManagerResponse obj = gson.fromJson(response, ConnManagerResponse.class);
-                SharedPrefUtil.saveBusinessUrl(WobiWritingApplication.this, obj.getUrl());
-                HttpConfig.setBusinessServer(obj.getUrl());
-            }
-
-            @Override
-            public void onFailed(String errorMessage) {
-
-            }
-        });
+//        netDataManager.getBusinessServerAddress(new IResponseListener() {
+//            @Override
+//            public void onSucceed(String response) {
+//                LogUtil.d(TAG," response: "+response);
+//                ConnManagerResponse obj = gson.fromJson(response, ConnManagerResponse.class);
+//                SharedPrefUtil.saveBusinessUrl(WobiWritingApplication.this, obj.getUrl());
+//                HttpConfig.setBusinessServer(obj.getUrl());
+//            }
+//
+//            @Override
+//            public void onFailed(String errorMessage) {
+//
+//            }
+//        });
+        SharedPrefUtil.saveBusinessUrl(WobiWritingApplication.this, MANAGER_SERVER_URL);
+        HttpConfig.setBusinessServer(MANAGER_SERVER_URL);
     }
 
     private void useCachedBusinessServer(){

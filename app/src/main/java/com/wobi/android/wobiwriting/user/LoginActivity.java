@@ -1,6 +1,7 @@
 package com.wobi.android.wobiwriting.user;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.wobi.android.wobiwriting.R;
@@ -30,6 +31,17 @@ public class LoginActivity extends AccountBaseActivity{
         confirm_password_edit.setVisibility(View.GONE);
         request_code_edit.setVisibility(View.GONE);
         login_or_register.setText(getResources().getString(R.string.user_login_label));
+
+        if (getIntent()!=null){
+            String phone = getIntent().getStringExtra(RegisterActivity.USER_PHONE);
+            String password = getIntent().getStringExtra(RegisterActivity.USER_PASSWORD);
+            if (!TextUtils.isEmpty(phone)){
+                phone_edit.setText(phone);
+            }
+            if (!TextUtils.isEmpty(password)){
+                password_edit.setText(password);
+            }
+        }
     }
 
     @Override

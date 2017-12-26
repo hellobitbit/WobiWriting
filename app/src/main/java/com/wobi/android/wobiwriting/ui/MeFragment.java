@@ -23,7 +23,6 @@ import com.sina.weibo.sdk.api.TextObject;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
 import com.sina.weibo.sdk.share.WbShareCallback;
 import com.sina.weibo.sdk.share.WbShareHandler;
-import com.tencent.connect.common.Constants;
 import com.tencent.connect.share.QQShare;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
@@ -38,16 +37,22 @@ import com.wobi.android.wobiwriting.data.IResponseListener;
 import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.data.message.Response;
 import com.wobi.android.wobiwriting.http.HttpConfig;
-import com.wobi.android.wobiwriting.me.FeedbackActivity;
+import com.wobi.android.wobiwriting.me.MyVipActivity;
 import com.wobi.android.wobiwriting.moments.MyMomentActivity;
-import com.wobi.android.wobiwriting.me.MyWodouActivity;
+import com.wobi.android.wobiwriting.me.PurchaseVipActivity;
 import com.wobi.android.wobiwriting.me.MyInformationActivity;
 import com.wobi.android.wobiwriting.user.LoginActivity;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;
 import com.wobi.android.wobiwriting.user.message.UserLogoutRequest;
+import com.wobi.android.wobiwriting.utils.DateUtils;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
 import com.wobi.android.wobiwriting.views.CustomDialog;
+import com.wobi.android.wobiwriting.views.CustomSettingBar;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by wangyingren on 2017/9/9.
@@ -70,6 +75,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
     private IWXAPI api;
     private Tencent mTencent;
     private WbShareHandler shareHandler;
+    private ImageView my_vip_level;
+    private CustomDialog loginDialog;
+    private CustomSettingBar my_vip;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,6 +93,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
         RelativeLayout userFeedback = (RelativeLayout) view.findViewById(R.id.user_feedback);
         RelativeLayout accountExit = (RelativeLayout) view.findViewById(R.id.account_exit);
 
+        my_vip =(CustomSettingBar)view.findViewById(R.id.my_vip);
+
         LinearLayout momentsNumLayout = (LinearLayout) view.findViewById(R.id.moments_num_layout);
         LinearLayout followNumLayout = (LinearLayout) view.findViewById(R.id.follow_num_layout);
         LinearLayout wodouNumLayout = (LinearLayout) view.findViewById(R.id.wodou_num_layout);
@@ -93,7 +103,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
 
         userFeedback.setOnClickListener(this);
         accountExit.setOnClickListener(this);
-//        userInfo.setOnClickListener(this);
+        my_vip.setOnClickListener(this);
 
         momentsNumLayout.setOnClickListener(this);
         followNumLayout.setOnClickListener(this);
@@ -107,6 +117,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
         wodou_num_value = (TextView) view.findViewById(R.id.wodou_num_value);
 
         user_icon.setOnClickListener(this);
+
+        my_vip_level = (ImageView)view.findViewById(R.id.my_vip_level);
     }
 
     @Override
@@ -149,6 +161,17 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
             case R.id.share_app:
                 showPopupWindow();
                 break;
+            case R.id.my_vip:
+                if (my_vip_level.getVisibility() == View.VISIBLE){
+                    Intent myVip = new Intent(getActivity(), MyVipActivity.class);
+                    getActivity().startActivity(myVip);
+                }else {
+                    Intent purchaseVip = new Intent(getActivity(), PurchaseVipActivity.class);
+                    getActivity().startActivity(purchaseVip);
+                }
+//                Intent myVip = new Intent(getActivity(), MyVipActivity.class);
+//                getActivity().startActivity(myVip);
+                break;
             case R.id.user_icon:
                 Intent personalInfo = new Intent(getActivity(), MyInformationActivity.class);
                 personalInfo.putExtra(MyInformationActivity.USER_INFO, userInfoResponse);
@@ -166,8 +189,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
 //                getActivity().startActivity(follow);
                 break;
             case R.id.wodou_num_layout:
-                Intent wodou = new Intent(getActivity(), MyWodouActivity.class);
-                getActivity().startActivity(wodou);
+//                Intent wodou = new Intent(getActivity(), PurchaseVipActivity.class);
+//                getActivity().startActivity(wodou);
                 break;
         }
     }
@@ -205,9 +228,18 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
         if (userInfo != null && !userInfo.isEmpty()) {
             userInfoResponse = gson.fromJson(userInfo, UserGetInfoResponse.class);
             updateUIDisplay(userInfoResponse);
+            if (userInfoResponse.getIs_vip() == 1 && !isExpired(userInfoResponse.getVip_expire_time())){
+                my_vip_level.setVisibility(View.VISIBLE);
+                my_vip.setRightText(DateUtils.parseDateToVipData(userInfoResponse.getVip_expire_time()));
+            }else {
+                my_vip_level.setVisibility(View.GONE);
+                my_vip.setRightText("尚未购买VIP");
+            }
         } else {
             userInfoResponse = null;
             updateUIDisplay(null);
+            my_vip_level.setVisibility(View.GONE);
+            my_vip.setRightText("尚未购买VIP");
             checkLogin();
         }
 
@@ -222,6 +254,29 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
                 }
             });
         }
+    }
+
+    private static boolean isExpired(String vip_expire_time){
+        LogUtil.e(TAG,"isExpire = "+compare_date(vip_expire_time));
+        return compare_date(vip_expire_time)!=1;
+    }
+
+    private static int compare_date(String vip_expire_time) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        try {
+            Date dt1 = df.parse(vip_expire_time);
+            Date dt2 = new Date();
+            if (dt1.getTime() >= dt2.getTime()) {
+                System.out.println("dt1 在dt2前");
+                return 1;
+            } else if (dt1.getTime() < dt2.getTime()) {
+                System.out.println("dt1在dt2后");
+                return -1;
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return 0;
     }
 
     private void logout() {
@@ -284,6 +339,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
 
     private void checkLogin() {
         if (userInfoResponse == null) {
+            if (loginDialog != null && loginDialog.isShowing()){
+                return;
+            }
             CustomDialog.Builder builder = new CustomDialog.Builder(getActivity());
             builder.setMessage("登录后才能使用此功能");
             builder.setMessageType(CustomDialog.MessageType.TextView);
@@ -306,8 +364,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
                         }
                     });
             builder.setCancelable(false);
-            builder.create().show();
-
+            loginDialog = builder.create();
+            loginDialog.show();
         }
     }
 

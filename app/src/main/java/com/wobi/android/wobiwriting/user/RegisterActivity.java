@@ -1,6 +1,7 @@
 package com.wobi.android.wobiwriting.user;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 
 import com.wobi.android.wobiwriting.R;
@@ -25,6 +26,14 @@ public class RegisterActivity extends AccountBaseActivity{
 
     public static final String USER_PHONE_KEY = "user_phone_key";
 
+    private boolean startedByHome = false;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        startedByHome = getIntent().getBooleanExtra("home_start", false);
+    }
+
     @Override
     void updateViewsState() {
         login_register_label.setText(getResources().getString(R.string.user_register_label));
@@ -40,6 +49,9 @@ public class RegisterActivity extends AccountBaseActivity{
             case R.id.login_register_switch:
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
+                if (startedByHome){
+                    finish();
+                }
                 break;
             case R.id.login_or_register:
                 register();
@@ -120,7 +132,14 @@ public class RegisterActivity extends AccountBaseActivity{
                     Intent intent = new Intent();
                     intent.putExtra(USER_PHONE,phone_edit.getText().toString());
                     intent.putExtra(USER_PASSWORD,password_edit.getText().toString());
-                    setResult(RESULT_CODE_SUCCESS,intent);
+                    if (startedByHome){
+                        Intent login = new Intent(getApplicationContext(), LoginActivity.class);
+                        login.putExtra(USER_PHONE,phone_edit.getText().toString());
+                        login.putExtra(USER_PASSWORD,password_edit.getText().toString());
+                        startActivity(login);
+                    }else {
+                        setResult(RESULT_CODE_SUCCESS, intent);
+                    }
                     showErrorMsg("注册成功");
                     finish();
                 }else {

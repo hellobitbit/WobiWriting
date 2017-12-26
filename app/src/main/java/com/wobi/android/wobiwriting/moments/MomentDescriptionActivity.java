@@ -3,6 +3,7 @@ package com.wobi.android.wobiwriting.moments;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,9 +15,12 @@ import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.data.message.Response;
 import com.wobi.android.wobiwriting.moments.message.QuitCommunityRequest;
 import com.wobi.android.wobiwriting.moments.model.CommunityInfo;
+import com.wobi.android.wobiwriting.moments.model.CommunityInfoForPurchase;
+import com.wobi.android.wobiwriting.moments.model.CommunityInfos;
 import com.wobi.android.wobiwriting.moments.model.MomentData;
 import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;
+import com.wobi.android.wobiwriting.utils.DateUtils;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
 import com.wobi.android.wobiwriting.views.CustomDialog;
@@ -158,6 +162,10 @@ public class MomentDescriptionActivity extends ActionBarActivity {
             public void onSucceed(String response) {
                 Response rsp =  gson.fromJson(response, Response.class);
                 if (rsp != null && rsp.getHandleResult().equals("OK")){
+                    CommunityInfoForPurchase infoForPurchase = new CommunityInfoForPurchase();
+                    infoForPurchase.setJoin_community_time(DateUtils.getCurrentTime());
+                    infoForPurchase.setrequest_code(momentData.getCommunityInfo().getRequest_code());
+                    deleteAndUpdateCommunityInfos(infoForPurchase);
                     Intent intent = new Intent();
                     intent.putExtra(RESULT_COMMUNITY_ID, momentData.getCommunityInfo().getId());
                     setResult(RESULT_CODE_SUCCESS, intent);
@@ -229,5 +237,19 @@ public class MomentDescriptionActivity extends ActionBarActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void deleteAndUpdateCommunityInfos(CommunityInfoForPurchase info){
+        String communityInfosStr = SharedPrefUtil.getCommunityInfosForPurchase(getApplicationContext());
+        CommunityInfos communityInfos = null;
+        if (!TextUtils.isEmpty(communityInfosStr) && info != null) {
+            communityInfos = gson.fromJson(communityInfosStr, CommunityInfos.class);
+            communityInfos.deleteCommunityInfo(info.getRequest_code());
+        }
+
+        communityInfosStr =  gson.toJson(communityInfos);
+        SharedPrefUtil.saveCommunityInfosForPurchase(getApplicationContext(), communityInfosStr);
+
+        LogUtil.d(TAG," deleteAndUpdateCommunityInfos == "+ communityInfosStr);
     }
 }

@@ -51,4 +51,5 @@ dependencies {
     compile 'com.bigkoo:pickerview:2.1.1'
     compile files('libs/open_sdk_r5886_lite.jar')
     compile 'com.sina.weibo.sdk:core:4.1.0:openDefaultRelease@aar'
+    compile 'com.google.zxing:core:3.3.0'
 }

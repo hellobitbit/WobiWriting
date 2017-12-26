@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -18,34 +19,46 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.data.IResponseListener;
 import com.wobi.android.wobiwriting.data.NetDataManager;
+import com.wobi.android.wobiwriting.home.adapters.AbstractSpinnerAdapter;
+import com.wobi.android.wobiwriting.home.adapters.CustomSpinnerAdapter;
 import com.wobi.android.wobiwriting.me.message.BuyVIPServiceRequest;
 import com.wobi.android.wobiwriting.me.message.BuyVIPServiceResponse;
 import com.wobi.android.wobiwriting.me.message.GetWXPayResultRequest;
 import com.wobi.android.wobiwriting.me.message.GetWXPayResultResponse;
 import com.wobi.android.wobiwriting.moments.message.SearchJoinedCommunityRequest;
+import com.wobi.android.wobiwriting.moments.model.CommunityInfo;
 import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoRequest;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
+import com.wobi.android.wobiwriting.views.SpinnerPopWindow;
 
 import org.json.JSONException;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by wangyingren on 2017/9/14.
  */
 
-public class MyWodouActivity extends ActionBarActivity implements View.OnClickListener{
+public class PurchaseVipActivity extends ActionBarActivity implements View.OnClickListener,
+        AbstractSpinnerAdapter.IOnItemSelectListener{
 
     public static final int REQUEST_CODE = 1050;
     public static final int RESULT_CODE_SUCCESS = 0x88;
-    private static final String TAG = "MyWodouActivity";
+    private static final String TAG = "PurchaseVipActivity";
     private final DecimalFormat df = new DecimalFormat("######0.00");
     private EditText request_code_edit;
     private UserGetInfoResponse userInfo;
     private BuyVIPServiceResponse buyVIPServiceResponse;
+    private RequestCodeSpinnerPopWindow mSpinnerPopWindow;
+    private RequestCodeSpinnerAdapter mAdapter;
+
+    private List<CommunityInfo> communityInfos = new ArrayList<>();
+    private RelativeLayout request_code_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +73,16 @@ public class MyWodouActivity extends ActionBarActivity implements View.OnClickLi
 
     private void initViews(){
 
+        request_code_layout = (RelativeLayout)findViewById(R.id.request_code_layout);
+
+        mAdapter = new RequestCodeSpinnerAdapter(getApplicationContext());
+        communityInfos.add(new CommunityInfo());
+        mAdapter.refreshData(communityInfos, 0);
+
+        mSpinnerPopWindow = new RequestCodeSpinnerPopWindow(getApplicationContext());
+        mSpinnerPopWindow.setAdapter(mAdapter);
+        mSpinnerPopWindow.setItemListener(this);
+
         TextView tao_can1_purchase = (TextView)findViewById(R.id.tao_can1_purchase);
         TextView tao_can2_purchase = (TextView)findViewById(R.id.tao_can2_purchase);
         TextView tao_can3_purchase = (TextView)findViewById(R.id.tao_can3_purchase);
@@ -71,6 +94,20 @@ public class MyWodouActivity extends ActionBarActivity implements View.OnClickLi
         tao_can4_purchase.setOnClickListener(this);
 
         request_code_edit = (EditText)findViewById(R.id.request_code_edit);
+
+        request_code_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSpinWindow();
+            }
+        });
+
+    }
+
+    private void showSpinWindow(){
+        mSpinnerPopWindow.setWidth(request_code_layout.getWidth());
+        mSpinnerPopWindow.showAsDropDown(request_code_layout);
+//        request_code_layout.setBackgroundResource(R.drawable.home_grade_title_selected_shape_corner);
     }
 
     @Override
@@ -364,5 +401,10 @@ public class MyWodouActivity extends ActionBarActivity implements View.OnClickLi
                 showNetWorkException();
             }
         });
+    }
+
+    @Override
+    public void onItemClick(int pos) {
+
     }
 }

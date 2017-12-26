@@ -23,6 +23,7 @@ import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.home.SpaceItemDecoration;
 import com.wobi.android.wobiwriting.moments.MomentDetailActivity;
 import com.wobi.android.wobiwriting.moments.MomentsAdapter;
+import com.wobi.android.wobiwriting.moments.QrcodeScanActivity;
 import com.wobi.android.wobiwriting.moments.message.SearchCommunityByKeywordRequest;
 import com.wobi.android.wobiwriting.moments.message.SearchCommunityResultResponse;
 import com.wobi.android.wobiwriting.moments.message.SearchPopularCommunityRequest;
@@ -88,6 +89,21 @@ public class MomentsFragment extends BaseFragment implements View.OnClickListene
             public void onClick(View v) {
                 hideSoftware();
                 searchBar.setText("");
+            }
+        });
+
+
+        (view.findViewById(R.id.qr_code)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideSoftware();
+                boolean guestUser = SharedPrefUtil.getLoginInfo(getActivity()).isEmpty();
+                if (!guestUser ){
+                    Intent intent = new Intent(getActivity(), QrcodeScanActivity.class);
+                    getActivity().startActivity(intent);
+                }else {
+                    checkLogin();
+                }
             }
         });
 

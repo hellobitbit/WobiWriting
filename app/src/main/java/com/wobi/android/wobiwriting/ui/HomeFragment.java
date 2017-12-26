@@ -1,5 +1,7 @@
 package com.wobi.android.wobiwriting.ui;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -29,8 +31,11 @@ import com.wobi.android.wobiwriting.home.adapters.CustomSpinnerAdapter;
 import com.wobi.android.wobiwriting.home.message.GetGradeRequest;
 import com.wobi.android.wobiwriting.home.message.GetGradeResponse;
 import com.wobi.android.wobiwriting.home.model.Grade;
+import com.wobi.android.wobiwriting.user.LoginActivity;
+import com.wobi.android.wobiwriting.user.RegisterActivity;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
+import com.wobi.android.wobiwriting.views.CustomDialog;
 import com.wobi.android.wobiwriting.views.HomeItemView;
 import com.wobi.android.wobiwriting.views.SpinnerPopWindow;
 
@@ -45,7 +50,7 @@ import java.util.TimerTask;
  */
 
 public class HomeFragment extends BaseFragment implements View.OnClickListener,
-        AbstractSpinnerAdapter.IOnItemSelectListener{
+        AbstractSpinnerAdapter.IOnItemSelectListener {
     private static final String TAG = "HomeFragment";
     private TextView textView;
     private SpinnerPopWindow mSpinnerPopWindow;
@@ -65,11 +70,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     private int index;
     //定时器，用于实现轮播
     private Timer timer;
-    Handler mHandler  = new Handler(){
+    Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case 1:
                     index++;
                     banner_viewpager.setCurrentItem(index);
@@ -78,14 +83,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     };
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_frag_layout, null);
         initView(view);
         return view;
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState){
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         checkGradeInfo();
 
@@ -105,39 +110,50 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
-        if (timer != null){
+        if (timer != null) {
             timer.cancel();
             timer = null;
         }
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         scheduleTimer();
-        if (!SharedPrefUtil.getHomeGradeTipsState(getActivity())) {
+//        if (!SharedPrefUtil.getHomeGradeTipsState(getActivity())) {
+//            banner_viewpager.post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    displayPopupWindowTips(R.drawable.home_grade_click_tips);
+//
+//                }
+//            });
+//        }
+
+        if (!SharedPrefUtil.getHomeRegisterTipsState(getActivity())) {
             banner_viewpager.post(new Runnable() {
                 @Override
                 public void run() {
-                    displayPopupWindowTips(R.drawable.home_grade_click_tips);
+//                    displayPopupWindowTips(R.drawable.home_grade_click_tips);
+                    displayRegisterTipsWhenFirstLoaded();
                 }
             });
         }
     }
 
-    private void initView(View view){
-        speckCN = (HomeItemView)view.findViewById(R.id.speak_chinese);
-        cnClassic = (HomeItemView)view.findViewById(R.id.chinese_classic);
-        chinese_writing = (HomeItemView)view.findViewById(R.id.chinese_writing);
+    private void initView(View view) {
+        speckCN = (HomeItemView) view.findViewById(R.id.speak_chinese);
+        cnClassic = (HomeItemView) view.findViewById(R.id.chinese_classic);
+        chinese_writing = (HomeItemView) view.findViewById(R.id.chinese_writing);
         Intent cnClassicIntent = new Intent(getActivity(), CNClassicActivity.class);
-        cnClassic.setMainIntent(cnClassicIntent,true);
-        cnClassic.setSub1Intent(cnClassicIntent,true);
-        cnClassic.setSub3Intent(cnClassicIntent,true);
+        cnClassic.setMainIntent(cnClassicIntent, true);
+        cnClassic.setSub1Intent(cnClassicIntent, true);
+        cnClassic.setSub3Intent(cnClassicIntent, true);
 
-        calligraghyClass = (HomeItemView)view.findViewById(R.id.calligraghy_class);
-        textView = (TextView)view.findViewById(R.id.dropdown);
+        calligraghyClass = (HomeItemView) view.findViewById(R.id.calligraghy_class);
+        textView = (TextView) view.findViewById(R.id.dropdown);
 
         speckCN.setOnClickListener(this);
         textView.setOnClickListener(this);
@@ -152,25 +168,25 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
         scheduleTimer();
     }
 
-    private void setViewPagerScrollSpeed( ){
+    private void setViewPagerScrollSpeed() {
         try {
             Field mScroller = null;
             mScroller = ViewPager.class.getDeclaredField("mScroller");
             mScroller.setAccessible(true);
-            FixedSpeedScroller scroller = new FixedSpeedScroller( banner_viewpager.getContext( ) );
-            mScroller.set( banner_viewpager, scroller);
-        }catch(NoSuchFieldException e){
+            FixedSpeedScroller scroller = new FixedSpeedScroller(banner_viewpager.getContext());
+            mScroller.set(banner_viewpager, scroller);
+        } catch (NoSuchFieldException e) {
 
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
 
-        }catch (IllegalAccessException e){
+        } catch (IllegalAccessException e) {
 
         }
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.speak_chinese:
                 if (mGradeList.size() > 0) {
                     String gradeId = mGradeList.get(mSelected).getGradeId();
@@ -179,7 +195,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                     intent.putExtra(SpeakCNSzActivity.SPEAK_TYPE,
                             SpeakCNSzActivity.SpeakType.SWJZ.getValue());
                     getActivity().startActivity(intent);
-                }else {
+                } else {
                     showNetWorkException();
                 }
                 break;
@@ -188,7 +204,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
         }
     }
 
-    private void showSpinWindow(){
+    private void showSpinWindow() {
         mSpinnerPopWindow.setWidth(textView.getWidth());
         mSpinnerPopWindow.showAsDropDown(textView);
         textView.setBackgroundResource(R.drawable.home_grade_title_selected_shape_corner);
@@ -200,16 +216,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
-        LogUtil.d(TAG," onDestroy ");
-        if (timer != null){
+        LogUtil.d(TAG, " onDestroy ");
+        if (timer != null) {
             timer.cancel();
             timer = null;
         }
     }
 
-    private void refreshGradeInfo(int position){
+    private void refreshGradeInfo(int position) {
         mSelected = position;
         textView.setText(mGradeList.get(position).getGradeName());
 
@@ -218,12 +234,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
         Intent classIntent = new Intent(getActivity(), CalligraphyClassActivity.class);
         classIntent.putExtra(CalligraphyClassActivity.GRADE_ID,
                 mGradeList.get(position).getGradeId());
-        calligraghyClass.setMainIntent(classIntent,true);
-        calligraghyClass.setSub1Intent(classIntent,true);
-        if (Integer.parseInt(gradeId) > 40){
-            calligraghyClass.setSub3Intent(classIntent,true);
-        }else {
-            calligraghyClass.setSub3Intent(classIntent,false, true);
+        calligraghyClass.setMainIntent(classIntent, true);
+        calligraghyClass.setSub1Intent(classIntent, true);
+        if (Integer.parseInt(gradeId) > 40) {
+            calligraghyClass.setSub3Intent(classIntent, true);
+        } else {
+            calligraghyClass.setSub3Intent(classIntent, false, true);
         }
 
         //bishun
@@ -232,12 +248,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                 mGradeList.get(position).getGradeId());
         bishunIntent.putExtra(SpeakCNSzActivity.SPEAK_TYPE,
                 SpeakCNSzActivity.SpeakType.BISHUN.getValue());
-        chinese_writing.setMainIntent(bishunIntent,true);
-        chinese_writing.setSub1Intent(bishunIntent,true);
-        if (Integer.parseInt(gradeId) > 70){
+        chinese_writing.setMainIntent(bishunIntent, true);
+        chinese_writing.setSub1Intent(bishunIntent, true);
+        if (Integer.parseInt(gradeId) > 70) {
             speckCN.setVisibility(View.GONE);
             chinese_writing.updateItem1Visibility(false);
-        }else {
+        } else {
             speckCN.setVisibility(View.VISIBLE);
             chinese_writing.updateItem1Visibility(true);
         }
@@ -248,12 +264,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                 mGradeList.get(position).getGradeId());
         banshuIntent.putExtra(SpeakCNSzActivity.SPEAK_TYPE,
                 SpeakCNSzActivity.SpeakType.BANSHU.getValue());
-        if (Integer.parseInt(gradeId) > 70){
+        if (Integer.parseInt(gradeId) > 70) {
             banshuIntent.putExtra(SpeakCNScActivity.SPEAK_TYPE,
                     SpeakCNScActivity.SpeakType.BANSHU.getValue());
-            chinese_writing.setMainIntent(banshuIntent,true);
+            chinese_writing.setMainIntent(banshuIntent, true);
         }
-        chinese_writing.setSub2Intent(banshuIntent,true);
+        chinese_writing.setSub2Intent(banshuIntent, true);
 
 
         //yingbi
@@ -262,11 +278,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                 mGradeList.get(position).getGradeId());
         yingbiIntent.putExtra(SpeakCNSzActivity.SPEAK_TYPE,
                 SpeakCNSzActivity.SpeakType.YINGBI.getValue());
-        if (Integer.parseInt(gradeId) > 70){
+        if (Integer.parseInt(gradeId) > 70) {
             yingbiIntent.putExtra(SpeakCNScActivity.SPEAK_TYPE,
                     SpeakCNScActivity.SpeakType.YINGBI.getValue());
         }
-        chinese_writing.setSub3Intent(yingbiIntent,true);
+        chinese_writing.setSub3Intent(yingbiIntent, true);
 
         //maobi
         Intent maobiIntent = new Intent(getActivity(), KewenDirectoryActivity.class);
@@ -274,40 +290,40 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                 mGradeList.get(position).getGradeId());
         maobiIntent.putExtra(SpeakCNSzActivity.SPEAK_TYPE,
                 SpeakCNSzActivity.SpeakType.MAOBI.getValue());
-        if (Integer.parseInt(gradeId) > 70){
+        if (Integer.parseInt(gradeId) > 70) {
             maobiIntent.putExtra(SpeakCNScActivity.SPEAK_TYPE,
                     SpeakCNScActivity.SpeakType.MAOBI.getValue());
         }
-        chinese_writing.setSub4Intent(maobiIntent,true);
+        chinese_writing.setSub4Intent(maobiIntent, true);
     }
 
-    private void checkGradeInfo(){
-        if (mGradeList.size() == 0){
+    private void checkGradeInfo() {
+        if (mGradeList.size() == 0) {
             loadGradeInfo();
         }
     }
 
-    private void loadGradeInfo(){
+    private void loadGradeInfo() {
         GetGradeRequest request = new GetGradeRequest();
         String jsonBody = request.jsonToString();
         NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
             @Override
             public void onSucceed(String response) {
-                LogUtil.d(TAG," response: "+response);
+                LogUtil.d(TAG, " response: " + response);
                 try {
                     GetGradeResponse getGradeResponse = gson.fromJson(response, GetGradeResponse.class);
                     if (getGradeResponse != null && getGradeResponse.getHandleResult().equals("OK")) {
-                        if (getGradeResponse.getGradeList() != null){
+                        if (getGradeResponse.getGradeList() != null) {
                             mGradeList.clear();
                             mGradeList.addAll(getGradeResponse.getGradeList());
                             refreshGradeInfo(0);
-                        }else {
+                        } else {
                             showErrorMsg("没有年级信息");
                         }
-                    }else {
+                    } else {
                         showErrorMsg("获取年级信息失败");
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                     showErrorMsg("获取年级信息异常");
                 }
@@ -315,25 +331,27 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
 
             @Override
             public void onFailed(String errorMessage) {
-                LogUtil.e(TAG," error: "+errorMessage);
+                LogUtil.e(TAG, " error: " + errorMessage);
                 showNetWorkException();
             }
         });
     }
 
     /**
-     *根据当前选中的页面设置按钮的选中
+     * 根据当前选中的页面设置按钮的选中
      */
     private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         }
+
         @Override
         public void onPageSelected(int position) {
             index = position;//当前位置赋值给索引
 //            setCurrentDot(index%imageIds.length);
             LogUtil.d(TAG, "onPageSelected position = " + position);
         }
+
         @Override
         public void onPageScrollStateChanged(int state) {
 
@@ -343,10 +361,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     /**
      * 根据当前触摸事件判断是否要轮播
      */
-    private View.OnTouchListener onTouchListener  = new View.OnTouchListener() {
+    private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            switch (event.getAction()){
+            switch (event.getAction()) {
                 //手指按下和划动的时候停止图片的轮播
                 case MotionEvent.ACTION_DOWN:
                 case MotionEvent.ACTION_MOVE:
@@ -363,20 +381,20 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         this.hidden = hidden;
-        LogUtil.d(TAG," onHiddenChanged hidden = "+hidden);
-        if (hidden){
-            if (timer != null){
+        LogUtil.d(TAG, " onHiddenChanged hidden = " + hidden);
+        if (hidden) {
+            if (timer != null) {
                 timer.cancel();
                 timer = null;
             }
-        }else {
+        } else {
             scheduleTimer();
             checkGradeInfo();
         }
     }
 
-    private void scheduleTimer(){
-        if (timer == null && !hidden){
+    private void scheduleTimer() {
+        if (timer == null && !hidden) {
             timer = new Timer();//创建Timer对象
             //执行定时任务
             timer.schedule(new TimerTask() {
@@ -387,26 +405,55 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                         mHandler.sendEmptyMessage(1);
                     }
                 }
-            },5000,5000);//延迟5秒，每隔5秒发一次消息
+            }, 5000, 5000);//延迟5秒，每隔5秒发一次消息
         }
     }
 
-    private void displayPopupWindowTips(int imageResId){
-        View layout = getActivity().getLayoutInflater().inflate(R.layout.app_overlay_layout, null);
-        final PopupWindow pop = new PopupWindow(layout,
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT,
-                true);
-        layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pop.dismiss();
+//    private void displayPopupWindowTips(int imageResId) {
+//        View layout = getActivity().getLayoutInflater().inflate(R.layout.app_overlay_layout, null);
+//        final PopupWindow pop = new PopupWindow(layout,
+//                WindowManager.LayoutParams.MATCH_PARENT,
+//                WindowManager.LayoutParams.MATCH_PARENT,
+//                true);
+//        layout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                pop.dismiss();
+//            }
+//        });
+//        layout.setBackgroundResource(imageResId);
+//        pop.setClippingEnabled(false);
+//        pop.setBackgroundDrawable(new ColorDrawable(0xffffff));//支持点击Back虚拟键退出
+//        pop.showAtLocation(getActivity().findViewById(R.id.container), Gravity.TOP | Gravity.START, 0, 0);
+//        SharedPrefUtil.saveHomeGradeTipsState(getActivity(), true);
+//    }
+
+    private void displayRegisterTipsWhenFirstLoaded() {
+        LayoutInflater inflater = (LayoutInflater)getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View contentView = inflater.inflate(R.layout.dialog_contentview_registertips_layout, null);
+        CustomDialog.Builder builder = new CustomDialog.Builder(getActivity());
+        builder.setMessageType(CustomDialog.MessageType.TextView);
+        builder.setTitle("提示");
+        builder.setContentView(contentView);
+        builder.setPositiveButton("注册", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent intent = new Intent(getActivity(), RegisterActivity.class);
+                intent.putExtra("home_start",true);
+                startActivity(intent);
             }
         });
-        layout.setBackgroundResource(imageResId);
-        pop.setClippingEnabled(false);
-        pop.setBackgroundDrawable(new ColorDrawable(0xffffff));//支持点击Back虚拟键退出
-        pop.showAtLocation(getActivity().findViewById(R.id.container), Gravity.TOP|Gravity.START, 0, 0);
-        SharedPrefUtil.saveHomeGradeTipsState(getActivity(), true);
+
+        builder.setNegativeButton("取消",
+                new android.content.DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+
+                    }
+                });
+        builder.setCancelable(false);
+        builder.create().show();
+        SharedPrefUtil.saveHomeRegisterTipsState(getActivity(), true);
     }
 }

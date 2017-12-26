@@ -10,11 +10,29 @@ import java.util.Date;
 
 public class DateUtils {
 
+    public static String getCurrentTime(){
+        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String date = sDateFormat.format(new java.util.Date());
+        return date;
+    }
+
     public static String parseDateString(String str){
         Date date = null;
         try {
             date = stringToDate(str,"yyyy-MM-dd HH:mm:ss");
             String result = dateToString(date,"MM-dd HH:mm");
+            return result;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public static String parseDateToVipData(String str){
+        Date date = null;
+        try {
+            date = stringToDate(str,"yyyy-MM-dd HH:mm:ss");
+            String result = dateToString(date,"yyyy-MM-dd");
             return result;
         } catch (ParseException e) {
             e.printStackTrace();

@@ -76,6 +76,10 @@ public class CommunityInfo implements Serializable{
         return request_code;
     }
 
+    public void setrequest_code(String request_code){
+        this.request_code = request_code;
+    }
+
     public String getSummary(){
         return summary;
     }

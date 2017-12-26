@@ -10,7 +10,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wobi.android.wobiwriting.R;
-import com.wobi.android.wobiwriting.me.MyWodouActivity;
+import com.wobi.android.wobiwriting.me.PurchaseVipActivity;
 import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 
@@ -58,7 +58,7 @@ public class WXPayEntryActivity extends ActionBarActivity implements IWXAPIEvent
             case BaseResp.ErrCode.ERR_OK:
                 //正确返回
                 share_weixin_result.setText("支付完成");
-                Intent intent = new Intent(WXPayEntryActivity.this, MyWodouActivity.class);
+                Intent intent = new Intent(WXPayEntryActivity.this, PurchaseVipActivity.class);
                 intent.putExtra("支付完成", true);
                 startActivity(intent);
                 overridePendingTransition(0, 0);
@@ -67,7 +67,7 @@ public class WXPayEntryActivity extends ActionBarActivity implements IWXAPIEvent
             case BaseResp.ErrCode.ERR_USER_CANCEL:
                 //用户取消
                 share_weixin_result.setText("用户取消");
-                Intent cancel = new Intent(WXPayEntryActivity.this, MyWodouActivity.class);
+                Intent cancel = new Intent(WXPayEntryActivity.this, PurchaseVipActivity.class);
                 cancel.putExtra("用户取消", true);
                 startActivity(cancel);
                 overridePendingTransition(0, 0);
@@ -76,7 +76,7 @@ public class WXPayEntryActivity extends ActionBarActivity implements IWXAPIEvent
             case BaseResp.ErrCode.ERR_COMM:
                 //一般错误
                 share_weixin_result.setText("一般错误");
-                Intent exception = new Intent(WXPayEntryActivity.this, MyWodouActivity.class);
+                Intent exception = new Intent(WXPayEntryActivity.this, PurchaseVipActivity.class);
                 exception.putExtra("一般错误", true);
                 startActivity(exception);
                 overridePendingTransition(0, 0);

@@ -9,20 +9,32 @@
         android:background="@drawable/me_frag_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/user_icon"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+        <RelativeLayout
+            android:id="@+id/user_icon_layout"
             android:layout_marginTop="11dp"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/default_man_headphoto"
-            android:text="user_icon" />
+            android:layout_width="90dp"
+            android:layout_height="90dp">
+            <ImageView
+                android:id="@+id/user_icon"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:background="@drawable/default_man_headphoto"
+                android:text="user_icon" />
+
+            <ImageView
+                android:id="@+id/my_vip_level"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/my_vip_v1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/user_name"
             android:layout_marginTop="8dp"
-            android:layout_below="@id/user_icon"
+            android:layout_below="@id/user_icon_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
@@ -141,28 +153,53 @@
     </RelativeLayout>
 
     <com.wobi.android.wobiwriting.views.CustomSettingBar
+        android:id="@+id/my_vip"
+        android:background="@android:color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="58.6dp"
+        customer:leftTextColor="#2a2a2a"
+        customer:leftIconSrc="@drawable/my_vip_icon"
+        customer:leftIconVisible="true"
+        customer:leftTextValue="@string/my_vip_title" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.67dp"
+        android:background="#ededed"/>
+
+    <com.wobi.android.wobiwriting.views.CustomSettingBar
         android:id="@+id/share_app"
         android:background="@android:color/white"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_height="58.6dp"
         customer:leftTextColor="#2a2a2a"
         customer:leftIconSrc="@drawable/share_icon"
         customer:leftIconVisible="true"
         customer:leftTextValue="@string/share_the_app_to_others_title" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.67dp"
+        android:background="#ededed"/>
+
     <com.wobi.android.wobiwriting.views.CustomSettingBar
         android:id="@+id/user_feedback"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_height="58.6dp"
         customer:leftTextColor="#2a2a2a"
         customer:leftIconSrc="@drawable/user_feedback_icon"
         customer:leftIconVisible="true"
         customer:leftTextValue="@string/activity_feedback_title" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.67dp"
+        android:background="#ededed"/>
+
     <com.wobi.android.wobiwriting.views.CustomSettingBar
         android:id="@+id/account_exit"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_height="58.6dp"
         customer:leftTextColor="#2a2a2a"
         customer:leftIconSrc="@drawable/user_exit_icon"
         customer:leftIconVisible="true"

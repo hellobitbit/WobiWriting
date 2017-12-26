@@ -47,7 +47,8 @@ public enum BusinessType {
     BT_Search_Community_By_Keyword(37),          /* 跟据关键字搜索圈子,关键字是圈子名或邀请码 */
     BT_Get_WXPay_Result(38),			/* 获取微信支付的支付结果 */
     BT_Get_Province_City_Area(39),			/* 获取所有省市区 */
-    BT_Get_Sc_Info(40);			/* 获取初中生词信息 */
+    BT_Get_Sc_Info(40),                     /* 获取生词信息 */
+    BT_Join_Community_By_RequestCode(44);			/* 根据邀请码加入圈子 */
 
 
     private int mValue;

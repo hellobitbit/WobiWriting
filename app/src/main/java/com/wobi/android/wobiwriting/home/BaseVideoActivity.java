@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.home.adapters.AbstractDirectoryAdapter;
 import com.wobi.android.wobiwriting.home.adapters.TitlePickerAdapter;
-import com.wobi.android.wobiwriting.me.MyWodouActivity;
+import com.wobi.android.wobiwriting.me.PurchaseVipActivity;
 import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 import com.wobi.android.wobiwriting.user.LoginActivity;
 import com.wobi.android.wobiwriting.utils.LogUtil;
@@ -187,8 +187,8 @@ public abstract class BaseVideoActivity extends ActionBarActivity
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 //设置你的操作事项
-                Intent intent = new Intent(getApplicationContext(), MyWodouActivity.class);
-                startActivityForResult(intent,MyWodouActivity.REQUEST_CODE);
+                Intent intent = new Intent(getApplicationContext(), PurchaseVipActivity.class);
+                startActivityForResult(intent, PurchaseVipActivity.REQUEST_CODE);
             }
         });
 
@@ -210,7 +210,7 @@ public abstract class BaseVideoActivity extends ActionBarActivity
         if (requestCode == REQUEST_CODE
                 && resultCode == LoginActivity.RESULT_CODE_SUCCESS){
             mAdapter.notifyDataSetChanged();
-        }else if (requestCode == MyWodouActivity.REQUEST_CODE){
+        }else if (requestCode == PurchaseVipActivity.REQUEST_CODE){
             mAdapter.notifyDataSetChanged();
         }
     }
