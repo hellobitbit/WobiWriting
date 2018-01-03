@@ -17,7 +17,7 @@ import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.data.message.Response;
 import com.wobi.android.wobiwriting.moments.message.JoinCommunityRequest;
 import com.wobi.android.wobiwriting.moments.model.CommunityInfo;
-import com.wobi.android.wobiwriting.moments.model.CommunityInfoForPurchase;
+import com.wobi.android.wobiwriting.moments.model.JoinMomentObj;
 import com.wobi.android.wobiwriting.moments.model.CommunityInfos;
 import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoRequest;
@@ -124,7 +124,7 @@ public class MomentDetailActivity extends ActionBarActivity {
                 if (result != null && result.getHandleResult().equals("OK")){
                     updateUserInfo();
                     displayPopupWindowTips(R.drawable.add_to_moment_success);
-                    CommunityInfoForPurchase infoForPurchase = new CommunityInfoForPurchase();
+                    JoinMomentObj infoForPurchase = new JoinMomentObj();
                     infoForPurchase.setJoin_community_time(DateUtils.getCurrentTime());
                     infoForPurchase.setrequest_code(communityInfo.getRequest_code());
                     storeCommunityInfos(infoForPurchase);
@@ -184,7 +184,7 @@ public class MomentDetailActivity extends ActionBarActivity {
         });
     }
 
-    private void storeCommunityInfos(CommunityInfoForPurchase info){
+    private void storeCommunityInfos(JoinMomentObj info){
         String communityInfosStr = SharedPrefUtil.getCommunityInfosForPurchase(getApplicationContext());
         CommunityInfos communityInfos = null;
         if (!TextUtils.isEmpty(communityInfosStr)) {

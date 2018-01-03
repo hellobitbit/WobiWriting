@@ -69,5 +69,8 @@ public abstract class AbstractSpinnerAdapter<T> extends BaseAdapter {
 
     public static class ViewHolder {
         public TextView mTextView;
+
+        public TextView first_text;
+        public TextView last_text;
     }
 }

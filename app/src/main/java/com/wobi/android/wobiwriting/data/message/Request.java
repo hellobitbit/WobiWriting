@@ -13,12 +13,15 @@ public class Request {
     protected Request mInstance;
     int request_type;
     String session_id;
+    String mac_addr;
 
     public void setRequestType(int request_type){
         this.request_type = request_type;
         if (HttpConfig.session_id !=null && !HttpConfig.session_id.isEmpty()){
             this.session_id = HttpConfig.session_id;
         }
+
+        mac_addr = android.os.Build.SERIAL;
     }
 
     public String jsonToString(){

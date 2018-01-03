@@ -1,12 +1,16 @@
 package com.wobi.android.wobiwriting.moments.model;
 
+import android.support.annotation.NonNull;
+
+import com.wobi.android.wobiwriting.utils.DateUtils;
+
 import java.io.Serializable;
 
 /**
  * Created by wangyingren on 2017/9/11.
  */
 
-public class CommunityInfo implements Serializable{
+public class CommunityInfo implements Serializable, Comparable<CommunityInfo>{
 
     private String address;
     private String city_code;
@@ -19,6 +23,7 @@ public class CommunityInfo implements Serializable{
     private String request_code;
     private String summary;
     private int user_id;
+    private String join_community_time = "1970-01-01 00:00:00";
 
     public void setAddress(String address){
         this.address = address;
@@ -76,15 +81,25 @@ public class CommunityInfo implements Serializable{
         return request_code;
     }
 
-    public void setrequest_code(String request_code){
-        this.request_code = request_code;
-    }
-
     public String getSummary(){
         return summary;
     }
 
     public int getUser_id(){
         return user_id;
+    }
+
+    public void setJoin_community_time(String join_community_time){
+        this.join_community_time = join_community_time;
+    }
+
+    public String getJoin_community_time(){
+        return join_community_time;
+    }
+
+    @Override
+    public int compareTo(@NonNull CommunityInfo o) {
+
+        return DateUtils.compare(this.join_community_time, o.getJoin_community_time());
     }
 }

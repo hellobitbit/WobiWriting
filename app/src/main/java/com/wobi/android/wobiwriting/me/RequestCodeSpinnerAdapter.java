@@ -24,17 +24,22 @@ public class RequestCodeSpinnerAdapter extends AbstractSpinnerAdapter<CommunityI
         ViewHolder viewHolder;
 
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.spiner_item_layout, null);
+            convertView = mInflater.inflate(R.layout.request_code_spiner_item_layout, null);
             viewHolder = new ViewHolder();
-            viewHolder.mTextView = (TextView) convertView.findViewById(R.id.textView);
+            viewHolder.mTextView = (TextView) convertView.findViewById(R.id.moment_name);
+            viewHolder.first_text = (TextView) convertView.findViewById(R.id.sequence_num);
+            viewHolder.last_text = (TextView) convertView.findViewById(R.id.request_code);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
 
-//        CommunityInfo item = getItem(pos);
-        viewHolder.mTextView.setText("test");
+        CommunityInfo item = getItem(pos);
+        viewHolder.mTextView.setText(item.getCommunity_name());
+        viewHolder.first_text.setText(" "+(pos+1)+". ");
+//        viewHolder.last_text.setText(item.getCity_code());
+        viewHolder.last_text.setText(item.getRequest_code());
 
         return convertView;
     }

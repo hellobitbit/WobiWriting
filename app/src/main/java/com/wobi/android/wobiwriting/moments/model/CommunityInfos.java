@@ -9,9 +9,9 @@ import java.util.List;
 
 public class CommunityInfos {
 
-    private List<CommunityInfoForPurchase> communityInfos;
+    private List<JoinMomentObj> communityInfos;
 
-    public List<CommunityInfoForPurchase> getCommunityInfos(){
+    public List<JoinMomentObj> getCommunityInfos(){
         return communityInfos;
     }
 
@@ -19,8 +19,8 @@ public class CommunityInfos {
         communityInfos = new ArrayList<>();
     }
 
-    public boolean isContains(CommunityInfoForPurchase communityInfoForPurchase){
-        for (CommunityInfoForPurchase infoForPurchase: communityInfos){
+    public boolean isContains(JoinMomentObj communityInfoForPurchase){
+        for (JoinMomentObj infoForPurchase: communityInfos){
 
             if (infoForPurchase.getRequest_code().equals(communityInfoForPurchase.getRequest_code())){
                 return true;
@@ -30,8 +30,17 @@ public class CommunityInfos {
         return false;
     }
 
-    public void updateCommunityInfo(CommunityInfoForPurchase infoForPurchase){
-        for (CommunityInfoForPurchase info: communityInfos){
+    public void updateInfo(CommunityInfo info){
+        for (JoinMomentObj joinMomentObj: communityInfos){
+
+            if (joinMomentObj.getRequest_code().equals(info.getRequest_code())){
+                info.setJoin_community_time(joinMomentObj.getJoin_community_time());
+            }
+        }
+    }
+
+    public void updateCommunityInfo(JoinMomentObj infoForPurchase){
+        for (JoinMomentObj info: communityInfos){
 
             if (info.getRequest_code().equals(infoForPurchase.getRequest_code())){
                 info.setJoin_community_time(infoForPurchase.getJoin_community_time());
@@ -40,8 +49,8 @@ public class CommunityInfos {
     }
 
     public void deleteCommunityInfo(String request_code){
-        CommunityInfoForPurchase needDelete = null;
-        for (CommunityInfoForPurchase info: communityInfos){
+        JoinMomentObj needDelete = null;
+        for (JoinMomentObj info: communityInfos){
 
             if (info.getRequest_code().equals(request_code)){
                 needDelete = info;

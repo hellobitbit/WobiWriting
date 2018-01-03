@@ -10,6 +10,28 @@ import java.util.Date;
 
 public class DateUtils {
 
+    private static final String TAG = "DateUtils";
+
+    public static int compare(String date1, String date2){
+        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date date11 = sDateFormat.parse(date1);
+            Date date22 = sDateFormat.parse(date2);
+
+            if (date11.getTime() > date22.getTime()){
+                return -1;
+            }else if (date11.getTime() == date22.getTime()){
+                return 0;
+            }else {
+                return 1;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            LogUtil.d(TAG, e.toString());
+        }
+        return 0;
+    }
+
     public static String getCurrentTime(){
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String date = sDateFormat.format(new java.util.Date());

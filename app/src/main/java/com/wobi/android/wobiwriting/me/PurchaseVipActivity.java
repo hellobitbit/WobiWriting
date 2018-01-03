@@ -20,25 +20,28 @@ import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.data.IResponseListener;
 import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.home.adapters.AbstractSpinnerAdapter;
-import com.wobi.android.wobiwriting.home.adapters.CustomSpinnerAdapter;
 import com.wobi.android.wobiwriting.me.message.BuyVIPServiceRequest;
 import com.wobi.android.wobiwriting.me.message.BuyVIPServiceResponse;
 import com.wobi.android.wobiwriting.me.message.GetWXPayResultRequest;
 import com.wobi.android.wobiwriting.me.message.GetWXPayResultResponse;
+import com.wobi.android.wobiwriting.moments.message.SearchCommunityResultResponse;
 import com.wobi.android.wobiwriting.moments.message.SearchJoinedCommunityRequest;
+import com.wobi.android.wobiwriting.moments.message.SearchOwnedCommunityRequest;
 import com.wobi.android.wobiwriting.moments.model.CommunityInfo;
+import com.wobi.android.wobiwriting.moments.model.CommunityInfos;
+import com.wobi.android.wobiwriting.moments.model.JoinMomentObj;
 import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoRequest;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
-import com.wobi.android.wobiwriting.views.SpinnerPopWindow;
-
-import org.json.JSONException;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by wangyingren on 2017/9/14.
@@ -58,6 +61,8 @@ public class PurchaseVipActivity extends ActionBarActivity implements View.OnCli
     private RequestCodeSpinnerAdapter mAdapter;
 
     private List<CommunityInfo> communityInfos = new ArrayList<>();
+    private Map<String, CommunityInfo> communityIds = new HashMap<>();
+    private CommunityInfos joinMomentsInfo = null;
     private RelativeLayout request_code_layout;
 
     @Override
@@ -68,7 +73,94 @@ public class PurchaseVipActivity extends ActionBarActivity implements View.OnCli
         userInfo = gson.fromJson(useInfoStr,UserGetInfoResponse.class);
         initViews();
         setCustomActionBar();
+        updateCommunityInfos();
+        initData();
+    }
 
+    private void initData(){
+        searchOwnedCommunity();
+        searchJoinedCommunity();
+    }
+
+    private void searchOwnedCommunity(){
+        SearchOwnedCommunityRequest request = new SearchOwnedCommunityRequest();
+        request.setUser_id(userInfo.getUserId());
+        String jsonBody = request.jsonToString();
+        NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
+            @Override
+            public void onSucceed(String response) {
+                updateCommunities(response);
+            }
+
+            @Override
+            public void onFailed(String errorMessage) {
+                LogUtil.e(TAG," error: "+errorMessage);
+                showNetWorkException();
+            }
+        });
+    }
+
+    private void searchJoinedCommunity(){
+        SearchJoinedCommunityRequest request = new SearchJoinedCommunityRequest();
+        request.setUser_id(userInfo.getUserId());
+        String jsonBody = request.jsonToString();
+        NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
+            @Override
+            public void onSucceed(String response) {
+                updateCommunities(response);
+            }
+
+            @Override
+            public void onFailed(String errorMessage) {
+                LogUtil.e(TAG," error: "+errorMessage);
+                showNetWorkException();
+            }
+        });
+    }
+
+    private void updateCommunities(String response){
+        LogUtil.d(TAG," response: "+response);
+        SearchCommunityResultResponse searchResponse = gson.
+                fromJson(response,SearchCommunityResultResponse.class);
+        if (searchResponse != null
+                && searchResponse.getHandleResult().equals("OK")){
+            if (searchResponse.getCommunityList() == null
+                    || searchResponse.getCommunityList().size() == 0){
+//                showErrorMsg("当前不存在圈子");
+            }else {
+                for (CommunityInfo communityInfo: searchResponse.getCommunityList()){
+                    if (!communityIds.containsKey(communityInfo.getRequest_code())) {
+                        communityInfos.add(communityInfo);
+                        communityIds.put(communityInfo.getRequest_code(), communityInfo);
+                        updateCommunity(communityInfo);
+                    }
+                }
+                Collections.sort(communityInfos);
+                mAdapter.notifyDataSetChanged();
+                if (communityInfos.size()>=1) {
+                    request_code_edit.setText(communityInfos.get(0).getRequest_code());
+                }
+            }
+        }else {
+            showErrorMsg("获取数据异常");
+        }
+    }
+
+    private void updateCommunityInfos(){
+        String communityInfosStr = SharedPrefUtil.getCommunityInfosForPurchase(getApplicationContext());
+
+        if (!TextUtils.isEmpty(communityInfosStr)) {
+            joinMomentsInfo = gson.fromJson(communityInfosStr, CommunityInfos.class);
+
+        }
+
+        LogUtil.d(TAG," updateCommunityInfos == "+ communityInfosStr);
+    }
+
+    private void updateCommunity(CommunityInfo communityInfo){
+        if (joinMomentsInfo != null){
+            joinMomentsInfo.updateInfo(communityInfo);
+        }
     }
 
     private void initViews(){
@@ -76,7 +168,6 @@ public class PurchaseVipActivity extends ActionBarActivity implements View.OnCli
         request_code_layout = (RelativeLayout)findViewById(R.id.request_code_layout);
 
         mAdapter = new RequestCodeSpinnerAdapter(getApplicationContext());
-        communityInfos.add(new CommunityInfo());
         mAdapter.refreshData(communityInfos, 0);
 
         mSpinnerPopWindow = new RequestCodeSpinnerPopWindow(getApplicationContext());
@@ -405,6 +496,6 @@ public class PurchaseVipActivity extends ActionBarActivity implements View.OnCli
 
     @Override
     public void onItemClick(int pos) {
-
+        request_code_edit.setText(communityInfos.get(pos).getRequest_code());
     }
 }

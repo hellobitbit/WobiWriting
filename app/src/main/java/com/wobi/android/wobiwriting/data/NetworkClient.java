@@ -97,12 +97,23 @@ public class NetworkClient {
 
                 if (statusCode == 200) {
                     String handle_result = jsonObject.optString("handle_result");
-                    if (!TextUtils.isEmpty(handle_result) && handle_result.equals("wrong session id")) {
-                        if (WobiWritingApplication.getInstance().getTopActivity() != null){
+                    String request_result = jsonObject.optString("request_result");
+                    if (TextUtils.isEmpty(handle_result) || !handle_result.equals("OK")
+                            || TextUtils.isEmpty(request_result) || !request_result.equals("OK")) {
+                        if (!TextUtils.isEmpty(handle_result) && handle_result.equals("wrong session id")) {
+                            if (WobiWritingApplication.getInstance().getTopActivity() != null) {
+                                mSenderHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        displayReLoginWindow();
+                                    }
+                                });
+                            }
+                        }else {
                             mSenderHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    displayReLoginWindow();
+                                    listener.onFailed("parse response exception");
                                 }
                             });
                         }

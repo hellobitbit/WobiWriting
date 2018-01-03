@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@android:color/white"
+    android:background="#ffffff"
     android:layout_height="match_parent">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.3dp"
+        android:background="#fed7d5"/>
     <ListView
         android:id="@+id/listview"
+        android:dividerHeight="0.5dp"
+        android:divider="#c8c8c8"
         android:layout_width="fill_parent"
-        android:layout_height="210dp"
+        android:layout_height="149dp"
         android:cacheColorHint="#00000000"
         android:scrollbars="none"/>
 </LinearLayout>
