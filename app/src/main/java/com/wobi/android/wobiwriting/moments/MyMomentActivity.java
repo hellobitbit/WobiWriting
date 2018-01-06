@@ -11,14 +11,9 @@ import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.data.IResponseListener;
 import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.home.SpaceItemDecoration;
-import com.wobi.android.wobiwriting.me.MyInformationActivity;
-import com.wobi.android.wobiwriting.moments.ModifyMomentActivity;
-import com.wobi.android.wobiwriting.moments.NewMomentActivity;
-import com.wobi.android.wobiwriting.moments.NewOrModifyMomentBaseActivity;
 import com.wobi.android.wobiwriting.moments.adapters.PersonalMomentsAdapter;
 import com.wobi.android.wobiwriting.moments.message.GetAllProvincesRequest;
 import com.wobi.android.wobiwriting.moments.message.GetAllProvincesResponse;
-import com.wobi.android.wobiwriting.moments.message.GetProvinceCityAreaRequest;
 import com.wobi.android.wobiwriting.moments.message.SearchCommunityResultResponse;
 import com.wobi.android.wobiwriting.moments.message.SearchJoinedCommunityRequest;
 import com.wobi.android.wobiwriting.moments.message.SearchOwnedCommunityRequest;
@@ -26,7 +21,6 @@ import com.wobi.android.wobiwriting.moments.model.CommunityInfo;
 import com.wobi.android.wobiwriting.moments.model.MomentData;
 import com.wobi.android.wobiwriting.moments.model.Province;
 import com.wobi.android.wobiwriting.ui.ActionBarActivity;
-import com.wobi.android.wobiwriting.user.LoginActivity;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoRequest;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;
 import com.wobi.android.wobiwriting.utils.LogUtil;
@@ -34,7 +28,6 @@ import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -87,12 +80,12 @@ public class MyMomentActivity extends ActionBarActivity {
         momentsAdapter.setOnItemClickListener(new PersonalMomentsAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getApplicationContext(), MomentDescriptionActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MomentIntroduceActivity.class);
                 MomentData momentData = new MomentData();
                 momentData.setCommunityInfo(communityInfos.get(position));
                 momentData.setProvinceMap(provinceMap);
-                intent.putExtra(MomentDescriptionActivity.MOMENT_DATA,momentData);
-                startActivityForResult(intent, MomentDescriptionActivity.REQUEST_CODE);
+                intent.putExtra(MomentIntroduceActivity.MOMENT_DATA,momentData);
+                startActivityForResult(intent, MomentIntroduceActivity.REQUEST_CODE);
             }
         });
         momentsRecycler.setAdapter(momentsAdapter);
@@ -221,9 +214,9 @@ public class MyMomentActivity extends ActionBarActivity {
                 && resultCode == NewMomentActivity.RESULT_CODE_SUCCESS){
             updateUserInfo();
             searchOwnedCommunity();
-        }else if (requestCode == MomentDescriptionActivity.REQUEST_CODE
-                && resultCode == MomentDescriptionActivity.RESULT_CODE_SUCCESS){
-            int community_id = data.getIntExtra(MomentDescriptionActivity.RESULT_COMMUNITY_ID, -1);
+        }else if (requestCode == MomentIntroduceActivity.REQUEST_CODE
+                && resultCode == MomentIntroduceActivity.RESULT_CODE_SUCCESS){
+            int community_id = data.getIntExtra(MomentIntroduceActivity.RESULT_COMMUNITY_ID, -1);
             if (community_id != -1) {
                 updateUserInfo();
                 CommunityInfo communityInfo = communityIds.get(community_id);

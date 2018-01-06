@@ -63,7 +63,9 @@
         <activity android:name=".moments.NewMomentActivity" />
         <activity android:name=".moments.QrcodeScanActivity" />
         <activity android:name=".moments.ModifyMomentActivity" />
-        <activity android:name=".moments.MomentDescriptionActivity" />
+        <activity android:name=".moments.MomentIntroduceActivity" />
+        <activity android:name=".moments.MomentGainActivity" />
+        <activity android:name=".moments.MoneyGotActivity" />
         <activity android:name=".me.MyInformationActivity" />
         <activity android:name=".me.FeedbackActivity" />
         <activity android:name=".me.MyVipActivity" />

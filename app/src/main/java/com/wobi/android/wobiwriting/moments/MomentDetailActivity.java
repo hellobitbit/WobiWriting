@@ -2,7 +2,6 @@ package com.wobi.android.wobiwriting.moments;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,8 +16,6 @@ import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.data.message.Response;
 import com.wobi.android.wobiwriting.moments.message.JoinCommunityRequest;
 import com.wobi.android.wobiwriting.moments.model.CommunityInfo;
-import com.wobi.android.wobiwriting.moments.model.JoinMomentObj;
-import com.wobi.android.wobiwriting.moments.model.CommunityInfos;
 import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoRequest;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;

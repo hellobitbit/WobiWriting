@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/actionbar_layout"/>
+
+    <View
+        android:background="#ededed"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="57dp">
+        <ImageView
+            android:src="@drawable/money_got_wechat"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="微信提现"
+            android:textColor="@android:color/black"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="46dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <View
+        android:background="#ededed"
+        android:layout_width="match_parent"
+        android:layout_height="11dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp">
+
+        <TextView
+            android:text="提现金额"
+            android:textColor="#bdbdbd"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="可用余额134元"
+            android:textColor="#bdbdbd"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="全部提现"
+            android:textColor="@android:color/holo_red_light"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/money_tag"
+            android:text="¥"
+            android:textColor="@android:color/black"
+            android:layout_centerVertical="true"
+            android:textSize="30sp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/money_tag"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/money_to_got"
+                android:text="100"
+                android:textColor="@android:color/black"
+                android:textSize="50sp"
+                android:background="@null"
+                android:inputType="numberDecimal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:id="@+id/bottom_line"
+                android:layout_below="@id/money_to_got"
+                android:layout_marginTop="2dp"
+                android:background="#ababab"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"/>
+
+            <TextView
+                android:text="元"
+                android:layout_above="@id/bottom_line"
+                android:textColor="#bdbdbd"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:background="#ededed"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:gravity="center"
+            android:layout_marginTop="26dp"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="9dp"
+            android:background="@drawable/money_get_shape_corner"
+            android:textColor="@android:color/white"
+            android:text="两个小时内全部到账，确认提现"
+            android:layout_width="match_parent"
+            android:layout_height="45dp" />
+    </RelativeLayout>
+
+</LinearLayout>

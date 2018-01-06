@@ -28,8 +28,6 @@ import com.wobi.android.wobiwriting.moments.message.SearchCommunityResultRespons
 import com.wobi.android.wobiwriting.moments.message.SearchJoinedCommunityRequest;
 import com.wobi.android.wobiwriting.moments.message.SearchOwnedCommunityRequest;
 import com.wobi.android.wobiwriting.moments.model.CommunityInfo;
-import com.wobi.android.wobiwriting.moments.model.CommunityInfos;
-import com.wobi.android.wobiwriting.moments.model.JoinMomentObj;
 import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoRequest;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;
@@ -62,7 +60,6 @@ public class PurchaseVipActivity extends ActionBarActivity implements View.OnCli
 
     private List<CommunityInfo> communityInfos = new ArrayList<>();
     private Map<String, CommunityInfo> communityIds = new HashMap<>();
-    private CommunityInfos joinMomentsInfo = null;
     private RelativeLayout request_code_layout;
 
     @Override

@@ -28,7 +28,7 @@ public class ModifyMomentActivity extends NewOrModifyMomentBaseActivity{
         super.onCreate(savedInstanceState);
         String useInfoStr = SharedPrefUtil.getLoginInfo(getApplicationContext());
         userInfo = gson.fromJson(useInfoStr,UserGetInfoResponse.class);
-        momentData = (MomentData)getIntent().getSerializableExtra(MomentDescriptionActivity.MOMENT_DATA);
+        momentData = (MomentData)getIntent().getSerializableExtra(MomentIntroduceActivity.MOMENT_DATA);
         updateTitleText("圈子信息修改");
         updateRightText("保存");
         updateInfo();

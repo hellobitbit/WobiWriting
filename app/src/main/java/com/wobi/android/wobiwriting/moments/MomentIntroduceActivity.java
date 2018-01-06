@@ -3,7 +3,6 @@ package com.wobi.android.wobiwriting.moments;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,12 +14,9 @@ import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.data.message.Response;
 import com.wobi.android.wobiwriting.moments.message.QuitCommunityRequest;
 import com.wobi.android.wobiwriting.moments.model.CommunityInfo;
-import com.wobi.android.wobiwriting.moments.model.JoinMomentObj;
-import com.wobi.android.wobiwriting.moments.model.CommunityInfos;
 import com.wobi.android.wobiwriting.moments.model.MomentData;
 import com.wobi.android.wobiwriting.ui.ActionBarActivity;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;
-import com.wobi.android.wobiwriting.utils.DateUtils;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
 import com.wobi.android.wobiwriting.views.CustomDialog;
@@ -30,13 +26,13 @@ import com.wobi.android.wobiwriting.views.CustomSettingBar;
  * Created by wangyingren on 2017/11/1.
  */
 
-public class MomentDescriptionActivity extends ActionBarActivity {
+public class MomentIntroduceActivity extends ActionBarActivity {
 
     public static final int REQUEST_CODE = 1011;
     public static final int RESULT_CODE_SUCCESS = 0x11;
     public static final String RESULT_COMMUNITY_ID = "result_community_id";
     public static final String MOMENT_DATA = "moment_data";
-    public static final String TAG = "MomentDescriptionActivity";
+    public static final String TAG = "MomentIntroduceActivity";
     private UserGetInfoResponse userInfo;
     private MomentData momentData;
     private TextView moment_modify;
@@ -56,7 +52,7 @@ public class MomentDescriptionActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_moment_description_layout);
+        setContentView(R.layout.activity_moment_introduce_layout);
         String useInfoStr = SharedPrefUtil.getLoginInfo(getApplicationContext());
         userInfo = gson.fromJson(useInfoStr,UserGetInfoResponse.class);
         momentData = (MomentData)getIntent().getSerializableExtra(MOMENT_DATA);
@@ -112,7 +108,9 @@ public class MomentDescriptionActivity extends ActionBarActivity {
         moment_make_money_bar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showErrorMsg("该版本未有此功能，敬请期待");
+//                showErrorMsg("该版本未有此功能，敬请期待");
+                Intent intent = new Intent(getApplicationContext(), MomentGainActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -120,7 +118,7 @@ public class MomentDescriptionActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ModifyMomentActivity.class);
-                intent.putExtra(MomentDescriptionActivity.MOMENT_DATA,momentData);
+                intent.putExtra(MomentIntroduceActivity.MOMENT_DATA,momentData);
                 startActivityForResult(intent, ModifyMomentActivity.REQUEST_CODE);
             }
         });
@@ -128,7 +126,7 @@ public class MomentDescriptionActivity extends ActionBarActivity {
         moment_exit_bar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomDialog.Builder builder = new CustomDialog.Builder(MomentDescriptionActivity.this);
+                CustomDialog.Builder builder = new CustomDialog.Builder(MomentIntroduceActivity.this);
                 builder.setMessage("是否退出此圈子");
                 builder.setMessageType(CustomDialog.MessageType.TextView);
                 builder.setTitle("提示");
@@ -162,10 +160,6 @@ public class MomentDescriptionActivity extends ActionBarActivity {
             public void onSucceed(String response) {
                 Response rsp =  gson.fromJson(response, Response.class);
                 if (rsp != null && rsp.getHandleResult().equals("OK")){
-//                    JoinMomentObj infoForPurchase = new JoinMomentObj();
-//                    infoForPurchase.setJoin_community_time(DateUtils.getCurrentTime());
-//                    infoForPurchase.setrequest_code(momentData.getCommunityInfo().getRequest_code());
-//                    deleteAndUpdateCommunityInfos(infoForPurchase);
                     Intent intent = new Intent();
                     intent.putExtra(RESULT_COMMUNITY_ID, momentData.getCommunityInfo().getId());
                     setResult(RESULT_CODE_SUCCESS, intent);
@@ -238,18 +232,4 @@ public class MomentDescriptionActivity extends ActionBarActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-//
-//    private void deleteAndUpdateCommunityInfos(JoinMomentObj info){
-//        String communityInfosStr = SharedPrefUtil.getCommunityInfosForPurchase(getApplicationContext());
-//        CommunityInfos communityInfos = null;
-//        if (!TextUtils.isEmpty(communityInfosStr) && info != null) {
-//            communityInfos = gson.fromJson(communityInfosStr, CommunityInfos.class);
-//            communityInfos.deleteCommunityInfo(info.getRequest_code());
-//        }
-//
-//        communityInfosStr =  gson.toJson(communityInfos);
-//        SharedPrefUtil.saveCommunityInfosForPurchase(getApplicationContext(), communityInfosStr);
-//
-//        LogUtil.d(TAG," deleteAndUpdateCommunityInfos == "+ communityInfosStr);
-//    }
 }
