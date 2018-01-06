@@ -294,7 +294,7 @@ public class KwDirectoryAdapter extends RecyclerView.Adapter<KwDirectoryAdapter.
                 @Override
                 public void onFailed(String errorMessage) {
                     LogUtil.e(TAG," error: "+errorMessage);
-                    showNetWorkException();
+                    showErrorMsg(errorMessage);
                 }
             });
         }

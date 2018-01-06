@@ -169,6 +169,7 @@ public class CalligraphyClassActivity extends BaseVideoActivity{
             @Override
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
+                showErrorMsg(errorMessage);
             }
         });
     }
@@ -195,6 +196,7 @@ public class CalligraphyClassActivity extends BaseVideoActivity{
             @Override
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
+                showErrorMsg(errorMessage);
             }
         });
     }

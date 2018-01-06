@@ -73,16 +73,12 @@ public class LoginActivity extends AccountBaseActivity{
             public void onSucceed(String response) {
                 LogUtil.d(TAG," response: "+response);
                 UserLoginResponse userLoginResponse = gson.fromJson(response, UserLoginResponse.class);
-                if (userLoginResponse.getHandleResult().equals("OK")) {
-                    if (userLoginResponse.getLoginResult() == 1) {
-                        SharedPrefUtil.saveSessionId(getApplicationContext(), userLoginResponse.getSession_id());
-                        HttpConfig.setSessionId(userLoginResponse.getSession_id());
-                        getUserInfo(userLoginResponse);
-                    } else if (userLoginResponse.getLoginResult() == 2) {
-                        showErrorMsg("登录失败");
-                    }
-                }else {
-                    showErrorMsg("登录失败 "+userLoginResponse.getHandleResult());
+                if (userLoginResponse != null) {
+                    SharedPrefUtil.saveSessionId(getApplicationContext(), userLoginResponse.getSession_id());
+                    HttpConfig.setSessionId(userLoginResponse.getSession_id());
+                    getUserInfo(userLoginResponse);
+                } else {
+                    showErrorMsg("登录失败，数据异常");
                 }
 
             }
@@ -90,7 +86,7 @@ public class LoginActivity extends AccountBaseActivity{
             @Override
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
-                showNetWorkException();
+                showErrorMsg(errorMessage);
             }
         });
     }
@@ -104,7 +100,7 @@ public class LoginActivity extends AccountBaseActivity{
             public void onSucceed(String response) {
                 LogUtil.d(TAG," response: "+response);
                 UserGetInfoResponse userGetInfoResponse = gson.fromJson(response, UserGetInfoResponse.class);
-                if (userGetInfoResponse != null  && userGetInfoResponse.getHandleResult().equals("OK")){
+                if (userGetInfoResponse != null){
                     SharedPrefUtil.saveLastLoginAccount(getApplicationContext(), phone_edit.getText().toString());
                     SharedPrefUtil.saveLoginInfo(getApplicationContext(),response);
                     SharedPrefUtil.saveLoginPassword(getApplicationContext(), password_edit.getText().toString());
@@ -113,7 +109,7 @@ public class LoginActivity extends AccountBaseActivity{
                     showErrorMsg("登录成功");
                     finish();
                 }else {
-                    showErrorMsg("登录失败 "+ userGetInfoResponse.getHandleResult());
+                    showErrorMsg("登录失败，数据异常");
                 }
 
             }
@@ -121,7 +117,7 @@ public class LoginActivity extends AccountBaseActivity{
             @Override
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
-                showNetWorkException();
+                showErrorMsg(errorMessage);
             }
         });
     }

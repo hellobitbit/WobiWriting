@@ -196,17 +196,17 @@ public class SharedPrefUtil {
         return userSettings.getBoolean(ME_TIPS_DISPLAY, false);
     }
 
-    public static void saveCommunityInfosForPurchase(Context context, String communityInfos){
-        SharedPreferences userSettings = context.
-                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = userSettings.edit();
-        editor.putString(COMMUNITY_INFOS_FOR_PURCHASE,communityInfos);
-        editor.commit();
-    }
-
-    public static String getCommunityInfosForPurchase(Context context){
-        SharedPreferences userSettings = context.
-                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
-        return userSettings.getString(COMMUNITY_INFOS_FOR_PURCHASE, "");
-    }
+//    public static void saveCommunityInfosForPurchase(Context context, String communityInfos){
+//        SharedPreferences userSettings = context.
+//                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = userSettings.edit();
+//        editor.putString(COMMUNITY_INFOS_FOR_PURCHASE,communityInfos);
+//        editor.commit();
+//    }
+//
+//    public static String getCommunityInfosForPurchase(Context context){
+//        SharedPreferences userSettings = context.
+//                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+//        return userSettings.getString(COMMUNITY_INFOS_FOR_PURCHASE, "");
+//    }
 }

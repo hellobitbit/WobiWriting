@@ -69,20 +69,23 @@ public class RegisterActivity extends AccountBaseActivity{
                 LogUtil.d(TAG," response: "+response);
                 UserVerifyPhoneResponse userVerifyPhoneResponse = gson.fromJson(response,
                         UserVerifyPhoneResponse.class);
-                if (userVerifyPhoneResponse.getPhoneStatus() == 1){
-                    Intent intent = new Intent(getApplicationContext(), GetVerifyCodeActivity.class);
-                    intent.putExtra(USER_PHONE_KEY, phone_edit.getText().toString());
-                    startActivityForResult(intent, GetVerifyCodeActivity.REQUEST_CODE);
-                }else if (userVerifyPhoneResponse.getPhoneStatus() == 2){
-                    showErrorMsg("该手机号码已经注册");
-                }else if (userVerifyPhoneResponse.getPhoneStatus() == 3){
-                    showErrorMsg("该手机号码存在异常");
+                if (userVerifyPhoneResponse != null) {
+                    if (userVerifyPhoneResponse.getPhoneStatus() == 1) {
+                        Intent intent = new Intent(getApplicationContext(), GetVerifyCodeActivity.class);
+                        intent.putExtra(USER_PHONE_KEY, phone_edit.getText().toString());
+                        startActivityForResult(intent, GetVerifyCodeActivity.REQUEST_CODE);
+                    } else if (userVerifyPhoneResponse.getPhoneStatus() == 2) {
+                        showErrorMsg("该手机号码已经注册");
+                    } else if (userVerifyPhoneResponse.getPhoneStatus() == 3) {
+                        showErrorMsg("该手机号码存在异常");
+                    }
                 }
             }
 
             @Override
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
+                showErrorMsg(errorMessage);
             }
         });
     }
@@ -128,7 +131,7 @@ public class RegisterActivity extends AccountBaseActivity{
             public void onSucceed(String response) {
                 LogUtil.d(TAG," response: "+response);
                 Response userCommitRegisterResponse = gson.fromJson(response, Response.class);
-                if (userCommitRegisterResponse.getHandleResult().equals("OK")){
+                if (userCommitRegisterResponse != null){
                     Intent intent = new Intent();
                     intent.putExtra(USER_PHONE,phone_edit.getText().toString());
                     intent.putExtra(USER_PASSWORD,password_edit.getText().toString());
@@ -143,7 +146,7 @@ public class RegisterActivity extends AccountBaseActivity{
                     showErrorMsg("注册成功");
                     finish();
                 }else {
-                    showErrorMsg("注册失败"+userCommitRegisterResponse.getHandleResult());
+                    showErrorMsg("注册失败,数据异常");
                 }
 
             }
@@ -151,6 +154,7 @@ public class RegisterActivity extends AccountBaseActivity{
             @Override
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
+                showErrorMsg(errorMessage);
             }
         });
     }

@@ -195,7 +195,7 @@ public class MyInformationActivity extends ActionBarActivity implements View.OnC
             @Override
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
-                showNetWorkException();
+                showErrorMsg(errorMessage);
             }
         });
     }

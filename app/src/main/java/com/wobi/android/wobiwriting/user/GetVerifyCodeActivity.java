@@ -121,9 +121,7 @@ public class GetVerifyCodeActivity extends BaseActivity {
                 LogUtil.d(TAG," response: "+response);
                 UserGetVerifyCodeResponse userGetVerifyCodeResponse = gson.fromJson(response,
                         UserGetVerifyCodeResponse.class);
-                if (!userGetVerifyCodeResponse.getHandleResult().equals("OK")){
-                    showErrorMsg(userGetVerifyCodeResponse.getHandleResult());
-                }else {
+                if (userGetVerifyCodeResponse != null){
                     mVerifyCodeResponse = userGetVerifyCodeResponse;
                     updateUIDisplay();
                 }
@@ -132,7 +130,7 @@ public class GetVerifyCodeActivity extends BaseActivity {
             @Override
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
-                showErrorMsg("网络异常，请稍后重试");
+                showErrorMsg(errorMessage);
             }
         });
     }

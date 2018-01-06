@@ -168,6 +168,7 @@ public class CNClassicActivity extends BaseVideoActivity {
             @Override
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
+                showErrorMsg(errorMessage);
             }
         });
     }

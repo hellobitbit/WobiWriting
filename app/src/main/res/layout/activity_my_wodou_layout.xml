@@ -33,14 +33,23 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/code_icon"/>
 
+        <ImageView
+            android:id="@+id/tips_arrow"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/purchase_moments_tips"/>
+
         <EditText
             android:id="@+id/request_code_edit"
             android:layout_toRightOf="@id/code_title"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="12dp"
+            android:layout_toLeftOf="@id/tips_arrow"
+            android:layout_marginRight="5dp"
             android:hint="请输入您的圈子邀请码"
             android:singleLine="true"
-            android:maxLength="30"
+            android:maxLength="40"
             android:editable="false"
             android:textSize="14sp"
             android:layout_centerVertical="true"

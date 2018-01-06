@@ -162,10 +162,10 @@ public class MomentDescriptionActivity extends ActionBarActivity {
             public void onSucceed(String response) {
                 Response rsp =  gson.fromJson(response, Response.class);
                 if (rsp != null && rsp.getHandleResult().equals("OK")){
-                    JoinMomentObj infoForPurchase = new JoinMomentObj();
-                    infoForPurchase.setJoin_community_time(DateUtils.getCurrentTime());
-                    infoForPurchase.setrequest_code(momentData.getCommunityInfo().getRequest_code());
-                    deleteAndUpdateCommunityInfos(infoForPurchase);
+//                    JoinMomentObj infoForPurchase = new JoinMomentObj();
+//                    infoForPurchase.setJoin_community_time(DateUtils.getCurrentTime());
+//                    infoForPurchase.setrequest_code(momentData.getCommunityInfo().getRequest_code());
+//                    deleteAndUpdateCommunityInfos(infoForPurchase);
                     Intent intent = new Intent();
                     intent.putExtra(RESULT_COMMUNITY_ID, momentData.getCommunityInfo().getId());
                     setResult(RESULT_CODE_SUCCESS, intent);
@@ -179,7 +179,7 @@ public class MomentDescriptionActivity extends ActionBarActivity {
             @Override
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
-                showNetWorkException();
+                showErrorMsg(errorMessage);
             }
         });
     }
@@ -238,18 +238,18 @@ public class MomentDescriptionActivity extends ActionBarActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
-    private void deleteAndUpdateCommunityInfos(JoinMomentObj info){
-        String communityInfosStr = SharedPrefUtil.getCommunityInfosForPurchase(getApplicationContext());
-        CommunityInfos communityInfos = null;
-        if (!TextUtils.isEmpty(communityInfosStr) && info != null) {
-            communityInfos = gson.fromJson(communityInfosStr, CommunityInfos.class);
-            communityInfos.deleteCommunityInfo(info.getRequest_code());
-        }
-
-        communityInfosStr =  gson.toJson(communityInfos);
-        SharedPrefUtil.saveCommunityInfosForPurchase(getApplicationContext(), communityInfosStr);
-
-        LogUtil.d(TAG," deleteAndUpdateCommunityInfos == "+ communityInfosStr);
-    }
+//
+//    private void deleteAndUpdateCommunityInfos(JoinMomentObj info){
+//        String communityInfosStr = SharedPrefUtil.getCommunityInfosForPurchase(getApplicationContext());
+//        CommunityInfos communityInfos = null;
+//        if (!TextUtils.isEmpty(communityInfosStr) && info != null) {
+//            communityInfos = gson.fromJson(communityInfosStr, CommunityInfos.class);
+//            communityInfos.deleteCommunityInfo(info.getRequest_code());
+//        }
+//
+//        communityInfosStr =  gson.toJson(communityInfos);
+//        SharedPrefUtil.saveCommunityInfosForPurchase(getApplicationContext(), communityInfosStr);
+//
+//        LogUtil.d(TAG," deleteAndUpdateCommunityInfos == "+ communityInfosStr);
+//    }
 }

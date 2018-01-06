@@ -67,7 +67,7 @@ public class NewMomentActivity extends NewOrModifyMomentBaseActivity{
             @Override
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
-                showNetWorkException();
+                showErrorMsg(errorMessage);
             }
         });
     }

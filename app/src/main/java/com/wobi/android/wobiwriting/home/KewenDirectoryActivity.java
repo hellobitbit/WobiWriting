@@ -115,7 +115,7 @@ public class KewenDirectoryActivity extends BaseActivity
             @Override
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
-                showNetWorkException();
+                showErrorMsg(errorMessage);
             }
         });
     }
@@ -147,7 +147,7 @@ public class KewenDirectoryActivity extends BaseActivity
             @Override
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
-                showNetWorkException();
+                showErrorMsg(errorMessage);
             }
         });
     }

@@ -73,7 +73,6 @@ public class PurchaseVipActivity extends ActionBarActivity implements View.OnCli
         userInfo = gson.fromJson(useInfoStr,UserGetInfoResponse.class);
         initViews();
         setCustomActionBar();
-        updateCommunityInfos();
         initData();
     }
 
@@ -95,7 +94,7 @@ public class PurchaseVipActivity extends ActionBarActivity implements View.OnCli
             @Override
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
-                showNetWorkException();
+                showErrorMsg(errorMessage);
             }
         });
     }
@@ -113,7 +112,7 @@ public class PurchaseVipActivity extends ActionBarActivity implements View.OnCli
             @Override
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
-                showNetWorkException();
+                showErrorMsg(errorMessage);
             }
         });
     }
@@ -132,7 +131,6 @@ public class PurchaseVipActivity extends ActionBarActivity implements View.OnCli
                     if (!communityIds.containsKey(communityInfo.getRequest_code())) {
                         communityInfos.add(communityInfo);
                         communityIds.put(communityInfo.getRequest_code(), communityInfo);
-                        updateCommunity(communityInfo);
                     }
                 }
                 Collections.sort(communityInfos);
@@ -143,23 +141,6 @@ public class PurchaseVipActivity extends ActionBarActivity implements View.OnCli
             }
         }else {
             showErrorMsg("获取数据异常");
-        }
-    }
-
-    private void updateCommunityInfos(){
-        String communityInfosStr = SharedPrefUtil.getCommunityInfosForPurchase(getApplicationContext());
-
-        if (!TextUtils.isEmpty(communityInfosStr)) {
-            joinMomentsInfo = gson.fromJson(communityInfosStr, CommunityInfos.class);
-
-        }
-
-        LogUtil.d(TAG," updateCommunityInfos == "+ communityInfosStr);
-    }
-
-    private void updateCommunity(CommunityInfo communityInfo){
-        if (joinMomentsInfo != null){
-            joinMomentsInfo.updateInfo(communityInfo);
         }
     }
 
@@ -374,7 +355,7 @@ public class PurchaseVipActivity extends ActionBarActivity implements View.OnCli
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
                 dismissDialog();
-                showNetWorkException();
+                showErrorMsg(errorMessage);
             }
         });
     }
@@ -464,7 +445,7 @@ public class PurchaseVipActivity extends ActionBarActivity implements View.OnCli
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
                 dismissDialog();
-                showNetWorkException();
+                showErrorMsg(errorMessage);
             }
         });
     }
@@ -489,7 +470,7 @@ public class PurchaseVipActivity extends ActionBarActivity implements View.OnCli
             @Override
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG," error: "+errorMessage);
-                showNetWorkException();
+                showErrorMsg(errorMessage);
             }
         });
     }

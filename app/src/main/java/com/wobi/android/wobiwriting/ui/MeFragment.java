@@ -332,7 +332,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
             @Override
             public void onFailed(String errorMessage) {
                 LogUtil.e(TAG, " error: " + errorMessage);
-                showNetWorkException();
+                showErrorMsg(errorMessage);
             }
         });
     }

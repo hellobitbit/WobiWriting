@@ -23,7 +23,7 @@ public class CommunityInfo implements Serializable, Comparable<CommunityInfo>{
     private String request_code;
     private String summary;
     private int user_id;
-    private String join_community_time = "1970-01-01 00:00:00";
+    private String joined_time = "1970-01-01 00:00:00";
 
     public void setAddress(String address){
         this.address = address;
@@ -89,17 +89,17 @@ public class CommunityInfo implements Serializable, Comparable<CommunityInfo>{
         return user_id;
     }
 
-    public void setJoin_community_time(String join_community_time){
-        this.join_community_time = join_community_time;
+    public void setJoin_community_time(String joined_time){
+        this.joined_time = joined_time;
     }
 
     public String getJoin_community_time(){
-        return join_community_time;
+        return joined_time;
     }
 
     @Override
     public int compareTo(@NonNull CommunityInfo o) {
 
-        return DateUtils.compare(this.join_community_time, o.getJoin_community_time());
+        return DateUtils.compare(this.joined_time, o.getJoin_community_time());
     }
 }

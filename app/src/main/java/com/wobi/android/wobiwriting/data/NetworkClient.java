@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.wobi.android.wobiwriting.WobiWritingApplication;
 import com.wobi.android.wobiwriting.data.dispatcher.ResponseDispatcher;
@@ -79,7 +80,7 @@ public class NetworkClient {
             public void onError(Call call, Exception e, int id) {
                 LogUtil.d(TAG, "onError,", e);
                 if (listener != null) {
-                    listener.onFailed(e.getMessage());
+                    listener.onFailed("网络异常");
                 }
             }
 
@@ -96,8 +97,9 @@ public class NetworkClient {
                 JSONObject jsonObject = new JSONObject(json);
 
                 if (statusCode == 200) {
-                    String handle_result = jsonObject.optString("handle_result");
-                    String request_result = jsonObject.optString("request_result");
+                    final String handle_result = jsonObject.optString("handle_result");
+                    final String request_result = jsonObject.optString("request_result");
+                    LogUtil.d(TAG," handle_result = "+handle_result +" request_result = "+request_result);
                     if (TextUtils.isEmpty(handle_result) || !handle_result.equals("OK")
                             || TextUtils.isEmpty(request_result) || !request_result.equals("OK")) {
                         if (!TextUtils.isEmpty(handle_result) && handle_result.equals("wrong session id")) {
@@ -110,12 +112,22 @@ public class NetworkClient {
                                 });
                             }
                         }else {
-                            mSenderHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    listener.onFailed("parse response exception");
-                                }
-                            });
+                            if (listener != null) {
+                                mSenderHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (!TextUtils.isEmpty(handle_result)
+                                                && !handle_result.equals("OK")) {
+                                            listener.onFailed(handle_result);
+                                        } else if (!TextUtils.isEmpty(request_result)
+                                                && !request_result.equals("OK")) {
+                                            listener.onFailed(request_result);
+                                        } else {
+                                            listener.onFailed("网络异常");
+                                        }
+                                    }
+                                });
+                            }
                         }
                     } else {
                         mSenderHandler.post(new Runnable() {
