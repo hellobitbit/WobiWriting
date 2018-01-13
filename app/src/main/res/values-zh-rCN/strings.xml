@@ -17,6 +17,7 @@
     <string name="default_user_description">规范汉语习字 弘扬民族文化</string>
     <string name="my_vip_title">我的VIP会员</string>
     <string name="share_the_app_to_others_title">把沃笔习字推荐给好友</string>
+    <string name="app_check_update">检查版本更新</string>
     <string name="account_exit_title">退出此账号</string>
     <string name="activity_feedback_title">用户反馈</string>
     <string name="activity_feedback_content_hint">您好，请填写您的宝贵意见</string>

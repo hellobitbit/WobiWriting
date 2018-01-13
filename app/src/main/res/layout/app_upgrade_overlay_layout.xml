@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#40000000"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:background="@drawable/app_upgrade_bg"
+        android:layout_width="256dp"
+        android:layout_height="397dp"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:layout_marginLeft="18dp"
+            android:id="@+id/version_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="190dp"
+            android:text="最新版本:"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:layout_marginLeft="18dp"
+            android:id="@+id/version_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/version_name"
+            android:text="新版本大小"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/update_content_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/version_size"
+            android:text="更新内容:"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:layout_marginLeft="18dp"
+            android:id="@+id/update_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/update_content_title"
+            android:text="1.修复交互问题;\n2.修复某些按钮;" />
+
+        <ImageView
+            android:id="@+id/upgrade_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/confirm_upgrade_button_icon" />
+    </RelativeLayout>
+</RelativeLayout>

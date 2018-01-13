@@ -28,6 +28,8 @@ public class SharedPrefUtil {
 
     private static final String COMMUNITY_INFOS_FOR_PURCHASE = "community_infos_for_chase";
 
+    private static final String APP_UPGRADE_VERSION ="app_upgrade_version";
+
     public static void saveBusinessUrl(Context context, String url){
         SharedPreferences userSettings = context.
                 getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
@@ -196,17 +198,17 @@ public class SharedPrefUtil {
         return userSettings.getBoolean(ME_TIPS_DISPLAY, false);
     }
 
-//    public static void saveCommunityInfosForPurchase(Context context, String communityInfos){
-//        SharedPreferences userSettings = context.
-//                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = userSettings.edit();
-//        editor.putString(COMMUNITY_INFOS_FOR_PURCHASE,communityInfos);
-//        editor.commit();
-//    }
-//
-//    public static String getCommunityInfosForPurchase(Context context){
-//        SharedPreferences userSettings = context.
-//                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
-//        return userSettings.getString(COMMUNITY_INFOS_FOR_PURCHASE, "");
-//    }
+    public static void setShowedAppGradeVersion(Context context, int versionCode){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = userSettings.edit();
+        editor.putInt(APP_UPGRADE_VERSION,versionCode);
+        editor.commit();
+    }
+
+    public static int getShowedAppGradeVersion(Context context){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        return userSettings.getInt(APP_UPGRADE_VERSION, -1);
+    }
 }

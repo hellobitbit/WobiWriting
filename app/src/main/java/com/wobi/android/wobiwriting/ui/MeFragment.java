@@ -41,6 +41,7 @@ import com.wobi.android.wobiwriting.me.MyVipActivity;
 import com.wobi.android.wobiwriting.moments.MyMomentActivity;
 import com.wobi.android.wobiwriting.me.PurchaseVipActivity;
 import com.wobi.android.wobiwriting.me.MyInformationActivity;
+import com.wobi.android.wobiwriting.upgrade.AppUpgradeManager;
 import com.wobi.android.wobiwriting.user.LoginActivity;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;
 import com.wobi.android.wobiwriting.user.message.UserLogoutRequest;
@@ -92,6 +93,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
         RelativeLayout shareApp = (RelativeLayout) view.findViewById(R.id.share_app);
         RelativeLayout userFeedback = (RelativeLayout) view.findViewById(R.id.user_feedback);
         RelativeLayout accountExit = (RelativeLayout) view.findViewById(R.id.account_exit);
+        RelativeLayout app_version_check = (RelativeLayout) view.findViewById(R.id.app_version_check);
 
         my_vip =(CustomSettingBar)view.findViewById(R.id.my_vip);
 
@@ -103,6 +105,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
 
         userFeedback.setOnClickListener(this);
         accountExit.setOnClickListener(this);
+        app_version_check.setOnClickListener(this);
         my_vip.setOnClickListener(this);
 
         momentsNumLayout.setOnClickListener(this);
@@ -152,6 +155,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
         switch (v.getId()) {
             case R.id.account_exit:
                 logout();
+                break;
+            case R.id.app_version_check:
+                AppUpgradeManager.getInstance(getActivity()).checkUpdate(false);
                 break;
             case R.id.user_feedback:
                 showErrorMsg("该版本未有此功能，敬请期待");

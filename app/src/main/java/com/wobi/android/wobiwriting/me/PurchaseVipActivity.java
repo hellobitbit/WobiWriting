@@ -74,26 +74,7 @@ public class PurchaseVipActivity extends ActionBarActivity implements View.OnCli
     }
 
     private void initData(){
-        searchOwnedCommunity();
         searchJoinedCommunity();
-    }
-
-    private void searchOwnedCommunity(){
-        SearchOwnedCommunityRequest request = new SearchOwnedCommunityRequest();
-        request.setUser_id(userInfo.getUserId());
-        String jsonBody = request.jsonToString();
-        NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
-            @Override
-            public void onSucceed(String response) {
-                updateCommunities(response);
-            }
-
-            @Override
-            public void onFailed(String errorMessage) {
-                LogUtil.e(TAG," error: "+errorMessage);
-                showErrorMsg(errorMessage);
-            }
-        });
     }
 
     private void searchJoinedCommunity(){

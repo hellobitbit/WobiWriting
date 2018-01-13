@@ -31,6 +31,7 @@ import com.wobi.android.wobiwriting.home.adapters.CustomSpinnerAdapter;
 import com.wobi.android.wobiwriting.home.message.GetGradeRequest;
 import com.wobi.android.wobiwriting.home.message.GetGradeResponse;
 import com.wobi.android.wobiwriting.home.model.Grade;
+import com.wobi.android.wobiwriting.upgrade.AppUpgradeManager;
 import com.wobi.android.wobiwriting.user.LoginActivity;
 import com.wobi.android.wobiwriting.user.RegisterActivity;
 import com.wobi.android.wobiwriting.utils.LogUtil;
@@ -141,6 +142,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                 }
             });
         }
+
+        banner_viewpager.post(new Runnable() {
+            @Override
+            public void run() {
+                AppUpgradeManager.getInstance(getActivity()).checkUpdate(true);
+            }
+        });
     }
 
     private void initView(View view) {
@@ -390,6 +398,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
         } else {
             scheduleTimer();
             checkGradeInfo();
+            AppUpgradeManager.getInstance(getActivity()).checkUpdate(true);
         }
     }
 
