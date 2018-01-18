@@ -73,7 +73,7 @@
     <string name="user_phone_hint">请输入您的电话号码</string>
     <string name="user_password_hint">请输入您的密码</string>
     <string name="user_confirm_password_hint">请再次输入您的密码</string>
-    <string name="user_request_code_hint">请输入您的邀请码(选填)</string>
+    <string name="user_request_code_hint">请输入邀请码或者扫一扫</string>
     <string name="user_get_verify_code_title">短信验证码</string>
     <string name="user_get_verify_code_hint">请输入短信验证码</string>
     <string name="user_get_verify_code_send">请发送短信验证码至</string>

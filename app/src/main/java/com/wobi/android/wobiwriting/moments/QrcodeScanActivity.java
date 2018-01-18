@@ -1,5 +1,6 @@
 package com.wobi.android.wobiwriting.moments;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -32,6 +33,12 @@ public class QrcodeScanActivity extends ActionBarActivity implements QRCodeView.
     private UserGetInfoResponse userInfo;
     private ZXingView mQRCodeView;
 
+    public static final int REQUEST_CODE = 999;
+    public static final int RESULT_CODE = 100;
+    public static final String GET_MOMENT_REQUEST_CODE = "get_moment_request_code";
+
+    private boolean getMomentRequestCode = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +51,8 @@ public class QrcodeScanActivity extends ActionBarActivity implements QRCodeView.
 
         mQRCodeView = (ZXingView) findViewById(R.id.zxingview);
         mQRCodeView.setDelegate(this);
+
+        getMomentRequestCode = getIntent().getBooleanExtra(GET_MOMENT_REQUEST_CODE, false);
     }
 
     @Override
@@ -105,7 +114,14 @@ public class QrcodeScanActivity extends ActionBarActivity implements QRCodeView.
 //        Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
         vibrate();
 //        mQRCodeView.startSpot();
-        addToMoment(result);
+        if (getMomentRequestCode){
+            Intent data = new Intent();
+            data.putExtra("qr_scan_request_code", result);
+            setResult(RESULT_CODE, data);
+            finish();
+        }else {
+            addToMoment(result);
+        }
     }
 
     @Override

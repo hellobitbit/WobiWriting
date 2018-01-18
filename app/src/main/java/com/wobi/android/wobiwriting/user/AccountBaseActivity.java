@@ -3,6 +3,8 @@ package com.wobi.android.wobiwriting.user;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,8 @@ public abstract class AccountBaseActivity extends BaseActivity implements View.O
     protected TextView login_register_switch;
     protected TextView login_or_register;
     protected ClearEditText request_code_edit;
+    protected RelativeLayout request_code_layout;
+    protected ImageView register_scan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,9 @@ public abstract class AccountBaseActivity extends BaseActivity implements View.O
         password_edit = (ClearEditText)findViewById(R.id.password);
         confirm_password_edit = (ClearEditText)findViewById(R.id.confirm_password);
         request_code_edit = (ClearEditText)findViewById(R.id.request_code);
+        request_code_layout = (RelativeLayout)findViewById(R.id.request_code_layout);
+        register_scan = (ImageView)findViewById(R.id.register_scan);
+        register_scan.setOnClickListener(this);
     }
 
     abstract void updateViewsState();

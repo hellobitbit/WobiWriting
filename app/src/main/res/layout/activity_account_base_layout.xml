@@ -88,18 +88,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <com.wobi.android.wobiwriting.views.ClearEditText
-            android:layout_marginTop="5dp"
-            android:id="@+id/request_code"
-            android:hint="@string/user_request_code_hint"
+        <RelativeLayout
             android:layout_below="@id/confirm_password"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:singleLine="true"
-            android:inputType="number"
-            android:textSize="16sp"
+            android:id="@+id/request_code_layout"
+            android:layout_marginTop="5dp"
+            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_marginRight="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/register_scan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/register_scan_icon"/>
+
+            <com.wobi.android.wobiwriting.views.ClearEditText
+                android:id="@+id/request_code"
+                android:layout_toLeftOf="@id/register_scan"
+                android:hint="@string/user_request_code_hint"
+                android:layout_marginRight="12dp"
+                android:singleLine="true"
+                android:inputType="number"
+                android:textSize="16sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/login_or_register"

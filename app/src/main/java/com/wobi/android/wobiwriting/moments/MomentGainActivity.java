@@ -30,8 +30,9 @@ public class MomentGainActivity extends ActionBarActivity {
         findViewById(R.id.get_money).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MomentGainActivity.this, MoneyGotActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(MomentGainActivity.this, MoneyGotActivity.class);
+//                startActivity(intent);
+                showErrorMsg("此功能正在内部测试中，即将开放");
             }
         });
     }

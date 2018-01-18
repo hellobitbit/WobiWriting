@@ -8,6 +8,7 @@ import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.data.IResponseListener;
 import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.data.message.Response;
+import com.wobi.android.wobiwriting.moments.QrcodeScanActivity;
 import com.wobi.android.wobiwriting.user.message.UserCommitRegisterInfoRequest;
 import com.wobi.android.wobiwriting.user.message.UserVerifyPhoneRequest;
 import com.wobi.android.wobiwriting.user.message.UserVerifyPhoneResponse;
@@ -39,7 +40,7 @@ public class RegisterActivity extends AccountBaseActivity{
         login_register_label.setText(getResources().getString(R.string.user_register_label));
         login_register_switch.setText(getResources().getString(R.string.user_register_to_login_label));
         confirm_password_edit.setVisibility(View.VISIBLE);
-        request_code_edit.setVisibility(View.VISIBLE);
+        request_code_layout.setVisibility(View.VISIBLE);
         login_or_register.setText(getResources().getString(R.string.user_register_label));
     }
 
@@ -55,6 +56,11 @@ public class RegisterActivity extends AccountBaseActivity{
                 break;
             case R.id.login_or_register:
                 register();
+                break;
+            case R.id.register_scan:
+                Intent scan = new Intent(this, QrcodeScanActivity.class);
+                scan.putExtra(QrcodeScanActivity.GET_MOMENT_REQUEST_CODE, true);
+                startActivityForResult(scan, QrcodeScanActivity.REQUEST_CODE);
                 break;
         }
     }
@@ -94,8 +100,12 @@ public class RegisterActivity extends AccountBaseActivity{
         if (password_edit.getText().toString().isEmpty()
                 || phone_edit.getText().toString().isEmpty()
                 || confirm_password_edit.getText().toString().isEmpty()){
-//                || request_code_edit.getText().toString().isEmpty()){
             showErrorMsg("电话或者密码输入不能为空");
+            return;
+        }
+
+        if (request_code_edit.getText().toString().isEmpty()){
+            showErrorMsg("邀请码输入不能为空");
             return;
         }
 
@@ -117,6 +127,11 @@ public class RegisterActivity extends AccountBaseActivity{
         if (requestCode == GetVerifyCodeActivity.REQUEST_CODE
                 && resultCode == GetVerifyCodeActivity.RESULT_CODE_SUCCESS){
             commitRegisterInfo();
+        }else if (requestCode == QrcodeScanActivity.REQUEST_CODE
+                && resultCode == QrcodeScanActivity.RESULT_CODE){
+            String request_code = data.getStringExtra("qr_scan_request_code");
+            LogUtil.d(TAG," data = "+request_code);
+            request_code_edit.setText(request_code);
         }
     }
 
