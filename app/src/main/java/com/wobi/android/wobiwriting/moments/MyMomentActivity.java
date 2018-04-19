@@ -59,16 +59,6 @@ public class MyMomentActivity extends ActionBarActivity {
 
     private void initViews(){
 
-        LinearLayout new_moment_layout = (LinearLayout)findViewById(R.id.new_moment_layout);
-        new_moment_layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), NewMomentActivity.class);
-                startActivityForResult(intent, NewMomentActivity.REQUEST_CODE);
-            }
-        });
-
-
         RecyclerView momentsRecycler = (RecyclerView)findViewById(R.id.momentsRecycler);
         momentsAdapter = new PersonalMomentsAdapter(getApplicationContext(), communityInfos,
                 userInfo.getUserId(), provinceMap);
