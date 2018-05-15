@@ -87,8 +87,9 @@
         android:layout_marginTop="@dimen/home_screen_vertical_margin"
         android:layout_weight="1"
         android:background="@drawable/home_classic_shape_corner"
-        customer:itemSubType1Name="@string/home_item_classic_dizigui"
-        customer:itemSubType3Name="@string/home_item_classic_three"
+        customer:itemSubType1Name="@string/home_item_classic_gushi"
+        customer:itemSubType3Name="@string/home_item_classic_dizigui"
+        customer:itemSubType4Name="@string/home_item_classic_three"
         customer:itemTypeIcon="@drawable/guoxuejindian"
         customer:itemTypeName="@string/home_item_classic" />
 </LinearLayout>

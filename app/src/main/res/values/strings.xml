@@ -20,6 +20,8 @@
     <string name="app_check_update">检查版本更新</string>
     <string name="account_exit_title">退出此账号</string>
     <string name="activity_feedback_title">用户反馈</string>
+    <string name="activity_my_jiaocai">我的教材</string>
+    <string name="activity_modify_password">修改密码</string>
     <string name="activity_feedback_content_hint">您好，请填写您的宝贵意见</string>
     <string name="activity_feedback_assistant">小贴士:</string>
     <string name="activity_feedback_assistant_content">感谢您对沃笔习字一直以来的支持\n您的建议我们会及时采纳的.</string>
@@ -59,6 +61,7 @@
     <string name="home_item_writing_class_brush">年级同步毛笔</string>
 
     <string name="home_item_classic">国学经典</string>
+    <string name="home_item_classic_gushi">古诗</string>
     <string name="home_item_classic_dizigui">弟子规</string>
     <string name="home_item_classic_three">三字经</string>
     <string name="home_item_classic_daode">道德经</string>
@@ -78,4 +81,7 @@
     <string name="user_get_verify_code_hint">请输入短信验证码</string>
     <string name="user_get_verify_code_send">等待短信验证码发送至</string>
     <string name="user_get_verify_code_has_been_send">短信验证码已发送至</string>
+
+    //modify password
+    <string name="modify_password_confirm_introduction">为了保护您的账户安全,\n修改密码前请进行安全认证</string>
 </resources>

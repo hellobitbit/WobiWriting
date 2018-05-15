@@ -37,12 +37,14 @@ import com.wobi.android.wobiwriting.data.IResponseListener;
 import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.data.message.Response;
 import com.wobi.android.wobiwriting.http.HttpConfig;
+import com.wobi.android.wobiwriting.me.MyJcSelectionActivty;
 import com.wobi.android.wobiwriting.me.MyVipActivity;
 import com.wobi.android.wobiwriting.moments.MyMomentActivity;
 import com.wobi.android.wobiwriting.me.PurchaseVipActivity;
 import com.wobi.android.wobiwriting.me.MyInformationActivity;
 import com.wobi.android.wobiwriting.upgrade.AppUpgradeManager;
 import com.wobi.android.wobiwriting.user.LoginActivity;
+import com.wobi.android.wobiwriting.user.ModifyPasswordConfirmActivity;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;
 import com.wobi.android.wobiwriting.user.message.UserLogoutRequest;
 import com.wobi.android.wobiwriting.utils.DateUtils;
@@ -91,7 +93,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
         RelativeLayout userInfo = (RelativeLayout) view.findViewById(R.id.user_info);
 
         RelativeLayout shareApp = (RelativeLayout) view.findViewById(R.id.share_app);
-        RelativeLayout userFeedback = (RelativeLayout) view.findViewById(R.id.user_feedback);
+//        RelativeLayout userFeedback = (RelativeLayout) view.findViewById(R.id.user_feedback);
+        RelativeLayout my_jiaocai = (RelativeLayout) view.findViewById(R.id.my_jiaocai);
+        RelativeLayout modify_password = (RelativeLayout) view.findViewById(R.id.modify_password);
         RelativeLayout accountExit = (RelativeLayout) view.findViewById(R.id.account_exit);
         RelativeLayout app_version_check = (RelativeLayout) view.findViewById(R.id.app_version_check);
 
@@ -103,7 +107,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
 
         shareApp.setOnClickListener(this);
 
-        userFeedback.setOnClickListener(this);
+//        userFeedback.setOnClickListener(this);
+        my_jiaocai.setOnClickListener(this);
+        modify_password.setOnClickListener(this);
         accountExit.setOnClickListener(this);
         app_version_check.setOnClickListener(this);
         my_vip.setOnClickListener(this);
@@ -159,10 +165,13 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
             case R.id.app_version_check:
                 AppUpgradeManager.getInstance(getActivity()).checkUpdate(false);
                 break;
-            case R.id.user_feedback:
-                showErrorMsg("该版本未有此功能，敬请期待");
-//                Intent feedback = new Intent(getActivity(), FeedbackActivity.class);
-//                getActivity().startActivity(feedback);
+            case R.id.my_jiaocai:
+                Intent jcSelection = new Intent(getActivity(), MyJcSelectionActivty.class);
+                getActivity().startActivity(jcSelection);
+                break;
+            case R.id.modify_password:
+                Intent modifyPassword = new Intent(getActivity(), ModifyPasswordConfirmActivity.class);
+                getActivity().startActivity(modifyPassword);
                 break;
             case R.id.share_app:
                 showPopupWindow();

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -123,21 +124,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     public void onResume() {
         super.onResume();
         scheduleTimer();
-//        if (!SharedPrefUtil.getHomeGradeTipsState(getActivity())) {
-//            banner_viewpager.post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    displayPopupWindowTips(R.drawable.home_grade_click_tips);
-//
-//                }
-//            });
-//        }
 
         if (!SharedPrefUtil.getHomeRegisterTipsState(getActivity())) {
             banner_viewpager.post(new Runnable() {
                 @Override
                 public void run() {
-//                    displayPopupWindowTips(R.drawable.home_grade_click_tips);
                     displayRegisterTipsWhenFirstLoaded();
                 }
             });
@@ -159,6 +150,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
         cnClassic.setMainIntent(cnClassicIntent, true);
         cnClassic.setSub1Intent(cnClassicIntent, true);
         cnClassic.setSub3Intent(cnClassicIntent, true);
+        cnClassic.setSub4Intent(cnClassicIntent, true);
 
         calligraghyClass = (HomeItemView) view.findViewById(R.id.calligraghy_class);
         textView = (TextView) view.findViewById(R.id.dropdown);
@@ -238,6 +230,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
         textView.setText(mGradeList.get(position).getGradeName());
 
         String gradeId = mGradeList.get(mSelected).getGradeId();
+        if (!TextUtils.isEmpty(gradeId)){
+            SharedPrefUtil.setGrade_ID(getActivity(), Integer.parseInt(gradeId.substring(0, 1)));
+            SharedPrefUtil.setTerm_num(getActivity(), Integer.parseInt(gradeId.substring(1, 2)));
+        }
 
         Intent classIntent = new Intent(getActivity(), CalligraphyClassActivity.class);
         classIntent.putExtra(CalligraphyClassActivity.GRADE_ID,
@@ -417,25 +413,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
             }, 5000, 5000);//延迟5秒，每隔5秒发一次消息
         }
     }
-
-//    private void displayPopupWindowTips(int imageResId) {
-//        View layout = getActivity().getLayoutInflater().inflate(R.layout.app_overlay_layout, null);
-//        final PopupWindow pop = new PopupWindow(layout,
-//                WindowManager.LayoutParams.MATCH_PARENT,
-//                WindowManager.LayoutParams.MATCH_PARENT,
-//                true);
-//        layout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                pop.dismiss();
-//            }
-//        });
-//        layout.setBackgroundResource(imageResId);
-//        pop.setClippingEnabled(false);
-//        pop.setBackgroundDrawable(new ColorDrawable(0xffffff));//支持点击Back虚拟键退出
-//        pop.showAtLocation(getActivity().findViewById(R.id.container), Gravity.TOP | Gravity.START, 0, 0);
-//        SharedPrefUtil.saveHomeGradeTipsState(getActivity(), true);
-//    }
 
     private void displayRegisterTipsWhenFirstLoaded() {
         LayoutInflater inflater = (LayoutInflater)getActivity()

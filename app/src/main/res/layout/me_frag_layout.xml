@@ -177,6 +177,21 @@
             android:background="#ededed" />
 
         <com.wobi.android.wobiwriting.views.CustomSettingBar
+            android:id="@+id/my_jiaocai"
+            android:layout_width="wrap_content"
+            android:layout_height="58.6dp"
+            android:background="@android:color/white"
+            customer:leftIconSrc="@drawable/my_jiaocai_icon"
+            customer:leftIconVisible="true"
+            customer:leftTextColor="#2a2a2a"
+            customer:leftTextValue="@string/activity_my_jiaocai" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.67dp"
+            android:background="#ededed" />
+
+        <com.wobi.android.wobiwriting.views.CustomSettingBar
             android:id="@+id/share_app"
             android:layout_width="wrap_content"
             android:layout_height="58.6dp"
@@ -192,14 +207,29 @@
             android:background="#ededed" />
 
         <com.wobi.android.wobiwriting.views.CustomSettingBar
-            android:id="@+id/user_feedback"
+            android:id="@+id/modify_password"
             android:layout_width="wrap_content"
             android:layout_height="58.6dp"
             android:background="@android:color/white"
-            customer:leftIconSrc="@drawable/user_feedback_icon"
+            customer:leftIconSrc="@drawable/modify_password_icon"
             customer:leftIconVisible="true"
             customer:leftTextColor="#2a2a2a"
-            customer:leftTextValue="@string/activity_feedback_title" />
+            customer:leftTextValue="@string/activity_modify_password" />
+
+        <!--  <View
+              android:layout_width="match_parent"
+              android:layout_height="0.67dp"
+              android:background="#ededed" />
+
+          <com.wobi.android.wobiwriting.views.CustomSettingBar
+              android:id="@+id/user_feedback"
+              android:layout_width="wrap_content"
+              android:layout_height="58.6dp"
+              android:background="@android:color/white"
+              customer:leftIconSrc="@drawable/user_feedback_icon"
+              customer:leftIconVisible="true"
+              customer:leftTextColor="#2a2a2a"
+              customer:leftTextValue="@string/activity_feedback_title" /> -->
 
         <View
             android:layout_width="match_parent"
@@ -230,10 +260,11 @@
             customer:leftIconVisible="true"
             customer:leftTextColor="#2a2a2a"
             customer:leftTextValue="@string/account_exit_title" />
+
         <View
-            android:background="#ededed"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="#ededed" />
 
     </LinearLayout>
 </ScrollView>

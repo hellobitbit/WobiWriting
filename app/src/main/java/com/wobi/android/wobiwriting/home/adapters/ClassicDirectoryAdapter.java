@@ -1,6 +1,7 @@
 package com.wobi.android.wobiwriting.home.adapters;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -21,7 +22,11 @@ public class ClassicDirectoryAdapter extends AbstractDirectoryAdapter<CNClassicC
 
     @Override
     public void updateTitleUI(TextView title_view, int position) {
-        title_view.setText(mDirectories.get(position).getCourseName());
+        if (!TextUtils.isEmpty(mDirectories.get(position).getCourseName())){
+            title_view.setText(mDirectories.get(position).getCourseName());
+        }else {
+            title_view.setText(mDirectories.get(position).getCatalog_name());
+        }
     }
 
     @Override

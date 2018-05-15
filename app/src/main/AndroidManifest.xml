@@ -73,6 +73,10 @@
         <activity android:name=".me.MyVipActivity" />
         <activity android:name=".moments.MyMomentActivity" />
         <activity android:name=".me.MyFollowActivity" />
+        <activity android:name=".user.ModifyPasswordConfirmActivity" />
+        <activity android:name=".user.VerifyCodeActivity" />
+        <activity android:name=".user.ModifyPasswordActivity" />
+        <activity android:name=".me.MyJcSelectionActivty" />
         <activity
             android:name=".me.PurchaseVipActivity"
             android:launchMode="singleTask" />

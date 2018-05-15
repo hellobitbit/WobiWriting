@@ -13,6 +13,8 @@ import com.wobi.android.wobiwriting.home.adapters.ClassCourseDirectoryAdapter;
 import com.wobi.android.wobiwriting.home.adapters.ClassicDirectoryAdapter;
 import com.wobi.android.wobiwriting.home.message.DiZiGuiRequest;
 import com.wobi.android.wobiwriting.home.message.DiZiGuiResponse;
+import com.wobi.android.wobiwriting.home.message.GushiRequest;
+import com.wobi.android.wobiwriting.home.message.GushiResponse;
 import com.wobi.android.wobiwriting.home.message.SanZiJingRequest;
 import com.wobi.android.wobiwriting.home.message.SanZiJingResponse;
 import com.wobi.android.wobiwriting.home.model.CNClassicCourse;
@@ -39,19 +41,22 @@ public class CNClassicActivity extends BaseVideoActivity {
         String type = getIntent().getStringExtra(HomeItemView.SUB_TYPE);
         initDirectory();
         if (HomeItemView.SUB_TYPE_1.equals(type)){
-            loadDiZiGui();
+            loadGushi();
             adapter.setSelected(0);
         }else if (HomeItemView.SUB_TYPE_3.equals(type)){
-            loadSanZiJing();
+            loadDiZiGui();
             adapter.setSelected(1);
+        }else if (HomeItemView.SUB_TYPE_4.equals(type)){
+            loadSanZiJing();
+            adapter.setSelected(2);
         }
         adapter.notifyDataSetChanged();
     }
 
     private void initData(){
+        mTitles.add(getResources().getString(R.string.home_item_classic_gushi));
         mTitles.add(getResources().getString(R.string.home_item_classic_dizigui));
         mTitles.add(getResources().getString(R.string.home_item_classic_three));
-//        mTitles.add(getResources().getString(R.string.home_item_classic_daode));
 //        mTitles.add(getResources().getString(R.string.home_item_classic_ancient_poetry));
     }
 
@@ -80,8 +85,10 @@ public class CNClassicActivity extends BaseVideoActivity {
         adapter.setSelected(position);
         adapter.notifyDataSetChanged();
         if (position == 0){
-            loadDiZiGui();
+            loadGushi();
         }else if (position == 1){
+            loadDiZiGui();
+        }else if (position == 2){
             loadSanZiJing();
         }
     }
@@ -106,20 +113,14 @@ public class CNClassicActivity extends BaseVideoActivity {
                 UserGetInfoResponse userObj = gson.fromJson(userInfo, UserGetInfoResponse.class);
                 if (TextUtils.isEmpty(userInfo)){
                     if (position == 0){
-                        mAdapter.setSelected(position);
-                        mAdapter.notifyDataSetChanged();
-                        play(mDirectories.get(position).getJieduUrl(),
-                                mDirectories.get(position).getCourseName());
+                        updateSelection(position);
                     }else {
                         checkLogin();
                     }
                 }else {
                     if (userObj.getIs_vip() == 1 || (userObj.getIs_vip() == 0
                             && (position == 0 || position == 1 || position ==2 ))){
-                        mAdapter.setSelected(position);
-                        mAdapter.notifyDataSetChanged();
-                        play(mDirectories.get(position).getJieduUrl(),
-                                mDirectories.get(position).getCourseName());
+                        updateSelection(position);
                     }else {
                         checkVip();
                     }
@@ -128,6 +129,28 @@ public class CNClassicActivity extends BaseVideoActivity {
 
             }
         });
+    }
+
+    private void updateSelection(int position){
+        mAdapter.setSelected(position);
+        mAdapter.notifyDataSetChanged();
+        if (!TextUtils.isEmpty(mDirectories.get(position).getCourseName())){
+            play(mDirectories.get(position).getJieduUrl(),
+                    mDirectories.get(position).getCourseName());
+        }else {
+            play(mDirectories.get(position).getJj_url(),
+                    mDirectories.get(position).getCatalog_name());
+        }
+
+    }
+
+    private void loadGushi(){
+        GushiRequest request = new GushiRequest();
+        request.setGrade_id(SharedPrefUtil.getGrade_ID(getApplicationContext()));
+        request.setTerm_num(SharedPrefUtil.getTerm_num(getApplicationContext()));
+        request.setJc_id(SharedPrefUtil.getJC_ID(getApplicationContext()));
+        String jsonBody = request.jsonToString();
+        sendRequest(jsonBody, ClassicType.Gushi);
     }
 
     private void loadDiZiGui(){
@@ -160,6 +183,12 @@ public class CNClassicActivity extends BaseVideoActivity {
                         mDirectories.clear();
                         mDirectories.addAll(diZiGuiResponse.getDzjList());
                     }
+                }else if (type == ClassicType.Gushi){
+                    GushiResponse gushiResponse = gson.fromJson(response, GushiResponse.class);
+                    if (!gushiResponse.getGssd_list().isEmpty()){
+                        mDirectories.clear();
+                        mDirectories.addAll(gushiResponse.getGssd_list());
+                    }
                 }
                 mAdapter.notifyDataSetChanged();
 
@@ -175,6 +204,7 @@ public class CNClassicActivity extends BaseVideoActivity {
 
     private enum ClassicType{
         DiZiGui,
-        SanZiJing
+        SanZiJing,
+        Gushi
     }
 }

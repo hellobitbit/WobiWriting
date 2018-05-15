@@ -30,6 +30,10 @@ public class SharedPrefUtil {
 
     private static final String APP_UPGRADE_VERSION ="app_upgrade_version";
 
+    private static final String JC_ID_DISPLAY = "jc_id_display";
+    private static final String GRADE_ID= "grade_id";
+    private static final String TERM_NUMBER= "term_number";
+
     public static void saveBusinessUrl(Context context, String url){
         SharedPreferences userSettings = context.
                 getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
@@ -142,20 +146,6 @@ public class SharedPrefUtil {
         return userSettings.getInt(SZ_POSITION, 0);
     }
 
-//    public static void saveHomeGradeTipsState(Context context, boolean hasDisplayed){
-//        SharedPreferences userSettings = context.
-//                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = userSettings.edit();
-//        editor.putBoolean(HOME_GRADE_TIPS_DISPLAY,hasDisplayed);
-//        editor.commit();
-//    }
-//
-//    public static boolean getHomeGradeTipsState(Context context){
-//        SharedPreferences userSettings = context.
-//                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
-//        return userSettings.getBoolean(HOME_GRADE_TIPS_DISPLAY, false);
-//    }
-
     public static void saveHomeRegisterTipsState(Context context, boolean hasDisplayed){
         SharedPreferences userSettings = context.
                 getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
@@ -210,5 +200,47 @@ public class SharedPrefUtil {
         SharedPreferences userSettings = context.
                 getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
         return userSettings.getInt(APP_UPGRADE_VERSION, -1);
+    }
+
+    public static void setJC_ID(Context context, int jc_id){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = userSettings.edit();
+        editor.putInt(JC_ID_DISPLAY,jc_id);
+        editor.commit();
+    }
+
+    public static int getJC_ID(Context context){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        return userSettings.getInt(JC_ID_DISPLAY, -1);
+    }
+
+    public static void setGrade_ID(Context context, int grade_id){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = userSettings.edit();
+        editor.putInt(GRADE_ID,grade_id);
+        editor.commit();
+    }
+
+    public static int getGrade_ID(Context context){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        return userSettings.getInt(GRADE_ID, -1);
+    }
+
+    public static void setTerm_num(Context context, int term_num){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = userSettings.edit();
+        editor.putInt(TERM_NUMBER,term_num);
+        editor.commit();
+    }
+
+    public static int getTerm_num(Context context){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        return userSettings.getInt(TERM_NUMBER, -1);
     }
 }

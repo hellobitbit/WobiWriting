@@ -16,6 +16,8 @@
     <string name="wodou_num_title">沃豆</string>
     <string name="default_user_description">规范汉语习字 弘扬民族文化</string>
     <string name="my_vip_title">我的VIP会员</string>
+    <string name="activity_my_jiaocai">我的教材</string>
+    <string name="activity_modify_password">修改密码</string>
     <string name="share_the_app_to_others_title">把沃笔习字推荐给好友</string>
     <string name="app_check_update">检查版本更新</string>
     <string name="account_exit_title">退出此账号</string>
@@ -49,6 +51,7 @@
     <string name="home_item_writing_class_brush">年级同步毛笔</string>
 
     <string name="home_item_classic">国学经典</string>
+    <string name="home_item_classic_gushi">古诗</string>
     <string name="home_item_classic_dizigui">弟子规</string>
     <string name="home_item_classic_three">三字经</string>
     <string name="home_item_classic_daode">道德经</string>
