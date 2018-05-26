@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:paddingBottom="9dp"
     android:orientation="vertical">
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/home_screen_poster_height">
 
@@ -30,7 +30,19 @@
             android:text="一年级（上）"
             android:layout_width="116dp"
             android:layout_height="30dp" />
-    </FrameLayout>
+
+        <TextView
+            android:background="@drawable/home_grade_title_default_shape_corner"
+            android:id="@+id/search"
+            android:gravity="center"
+            android:layout_marginTop="6dp"
+            android:clickable="true"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/white"
+            android:text="搜索单字"
+            android:layout_width="116dp"
+            android:layout_height="30dp" />
+    </RelativeLayout>
 
     <com.wobi.android.wobiwriting.views.HomeItemView
         android:id="@+id/speak_chinese"

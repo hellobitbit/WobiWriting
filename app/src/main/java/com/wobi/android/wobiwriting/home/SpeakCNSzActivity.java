@@ -56,6 +56,7 @@ public class SpeakCNSzActivity extends ActionBarActivity
     private RecyclerView szListRecycler;
     private SpeakSZAdapter mSZAdapter;
     private int speakTypeValue = 0;
+    private int originSpeakTypeValue = 0;
     private GetSZInfoResponse currentSzInfo;
 
     private UniversalVideoView mVideoView;
@@ -74,14 +75,17 @@ public class SpeakCNSzActivity extends ActionBarActivity
     private WutiziTypeAdapter wutiziAdapter;
     private ImageButton wutizi_left_button;
     private ImageButton wutizi_right_button;
-//    private WutiziPageAdapter mWutiziPageAdapter;
 
     public enum SpeakType{
         SWJZ(0),
         BISHUN(1),
         BANSHU(2),
         YINGBI(3),
-        MAOBI(4);
+        MAOBI(4),
+        SWJZ_ZY(5),
+        SWJZ_ZXYB(6),
+        SWJZ_XXSY(7),
+        SWJZ_GXGS(8);
 
         private int mValue;
 
@@ -98,7 +102,15 @@ public class SpeakCNSzActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speak_cn_layout);
-        speakTypeValue = getIntent().getIntExtra(SPEAK_TYPE, 0);
+        originSpeakTypeValue = getIntent().getIntExtra(SPEAK_TYPE, 0);
+        if (originSpeakTypeValue == SpeakCNSzActivity.SpeakType.SWJZ_GXGS.getValue()
+                || originSpeakTypeValue == SpeakCNSzActivity.SpeakType.SWJZ_XXSY.getValue()
+                || originSpeakTypeValue == SpeakCNSzActivity.SpeakType.SWJZ_ZY.getValue()
+                || originSpeakTypeValue == SpeakCNSzActivity.SpeakType.SWJZ_ZXYB.getValue()){
+            speakTypeValue  = 0;
+        }else {
+            speakTypeValue =  originSpeakTypeValue;
+        }
         szList = getIntent().getStringArrayListExtra(SZ_LIST);
         kewenTitle = getIntent().getStringExtra(KEWEN_TITLE);
         initViews();
@@ -172,9 +184,6 @@ public class SpeakCNSzActivity extends ActionBarActivity
                     wutiziInfoAdapter.setSelected(position);
                     wutiziInfoAdapter.notifyDataSetChanged();
                 }
-//                if (mWutiziPageAdapter != null){
-//                    mWutiziPageAdapter.setSelected(position);
-//                }
             }
         });
 
@@ -234,10 +243,6 @@ public class SpeakCNSzActivity extends ActionBarActivity
             }
         });
 
-//        ViewPager wutiInfo_viewpager = (ViewPager)findViewById(R.id.wutiInfo_viewpager);
-//        mWutiziPageAdapter = new WutiziPageAdapter(getApplicationContext());
-//        wutiInfo_viewpager.setAdapter(mWutiziPageAdapter);
-
     }
 
     @Override
@@ -296,18 +301,24 @@ public class SpeakCNSzActivity extends ActionBarActivity
         wutiziInfoAdapter.setSzInfo(szInfoResponse);
         wutiziInfoAdapter.setSelected(wutiziAdapter.getSelected());
         wutiziInfoAdapter.notifyDataSetChanged();
-
-//        if (mWutiziPageAdapter != null){
-//            mWutiziPageAdapter.setSzInfo(szInfoResponse);
-//            mWutiziPageAdapter.setSelected(wutiziAdapter.getSelected());
-//            mWutiziPageAdapter.notifyDataSetChanged();
-//        }
     }
 
     private void refreshVideoPlay(GetSZInfoResponse szInfoResponse){
         //play media
-        if (speakTypeValue == SpeakType.SWJZ.getValue()){
+        if (speakTypeValue == 0 && originSpeakTypeValue == SpeakType.SWJZ.getValue()){
             String url = szInfoResponse.getSwjz_url()+szInfoResponse.getWord()+VIDEO_SUFFIX;
+            play(url);
+        }else if (speakTypeValue == 0 && originSpeakTypeValue == SpeakType.SWJZ_ZY.getValue()){
+            String url = szInfoResponse.getSwjz_zy_url()+szInfoResponse.getWord()+VIDEO_SUFFIX;
+            play(url);
+        }else if (speakTypeValue == 0 && originSpeakTypeValue == SpeakType.SWJZ_ZXYB.getValue()){
+            String url = szInfoResponse.getSwjz_zxyb_url()+szInfoResponse.getWord()+VIDEO_SUFFIX;
+            play(url);
+        }else if (speakTypeValue == 0 && originSpeakTypeValue == SpeakType.SWJZ_XXSY.getValue()){
+            String url = szInfoResponse.getSwjz_xxsy_url()+szInfoResponse.getWord()+VIDEO_SUFFIX;
+            play(url);
+        }else if (speakTypeValue == 0 && originSpeakTypeValue == SpeakType.SWJZ_GXGS.getValue()){
+            String url = szInfoResponse.getSwjz_gs_url()+szInfoResponse.getWord()+VIDEO_SUFFIX;
             play(url);
         }else if (speakTypeValue == SpeakType.BISHUN.getValue()){
             String url = szInfoResponse.getBishun_url()+szInfoResponse.getWord()+VIDEO_SUFFIX;

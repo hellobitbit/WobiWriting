@@ -66,6 +66,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
     private static final String TAG = "MeFragment";
     private static final String W_APPID = "wx811d8d46a1d5cb01";
     private static final String Q_APPID = "1106533048";
+    private static final String SHARED_URL = "http://wobi.oss-cn-hangzhou.aliyuncs.com/app/wobi.apk ";
     private ImageView user_icon;
     private TextView user_name;
     private TextView user_description;
@@ -184,13 +185,10 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
                     Intent purchaseVip = new Intent(getActivity(), PurchaseVipActivity.class);
                     getActivity().startActivity(purchaseVip);
                 }
-//                Intent myVip = new Intent(getActivity(), MyVipActivity.class);
-//                getActivity().startActivity(myVip);
                 break;
             case R.id.user_icon:
                 Intent personalInfo = new Intent(getActivity(), MyInformationActivity.class);
                 personalInfo.putExtra(MyInformationActivity.USER_INFO, userInfoResponse);
-//                getActivity().startActivity(personalInfo);
                 MainActivity mainActivity = (MainActivity) getActivity();
                 mainActivity.startUserInfoActivity(personalInfo, MyInformationActivity.REQUEST_CODE);
                 break;
@@ -453,7 +451,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
 
         //创建一个WXWebPageObject对象，用于封装要发送的Url
         WXWebpageObject webpage = new WXWebpageObject();
-        webpage.webpageUrl = "http://www.wobi365.com／";
+        webpage.webpageUrl = SHARED_URL;
         //创建一个WXMediaMessage对象
         WXMediaMessage msg = new WXMediaMessage(webpage);
         msg.title = "沃笔习字";
@@ -514,7 +512,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
         params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
         params.putString(QQShare.SHARE_TO_QQ_TITLE, "沃笔习字");// 标题
         params.putString(QQShare.SHARE_TO_QQ_SUMMARY, "规范汉语习字，弘扬民族文化");// 摘要
-        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, "http://www.wobi365.com／");// 内容地址
+        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, SHARED_URL);// 内容地址
         //params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, "http://imgcache.qq.com/qzone/space_item/pre/0/66768.gif");// 网络图片地址　　
         // params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "应用名称");// 应用名称
         params.putString(QQShare.SHARE_TO_QQ_EXT_INT, "其它附加功能");
@@ -558,7 +556,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
         TextObject textObject = new TextObject();
         textObject.text = "规范汉语习字，弘扬民族文化";
         textObject.title = "沃笔习字";
-        textObject.actionUrl = "http://www.wobi365.com";
+        textObject.actionUrl = SHARED_URL;
         return textObject;
     }
 

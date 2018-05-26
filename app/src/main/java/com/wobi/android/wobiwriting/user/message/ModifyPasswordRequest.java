@@ -10,7 +10,8 @@ import com.wobi.android.wobiwriting.data.message.Request;
 public class ModifyPasswordRequest extends Request {
 
     private int user_id; //用户id
-    private String password;
+    private String old_password;
+    private String new_password;
 
     public ModifyPasswordRequest(){
         setRequestType(BusinessType.BT_User_Change_Password.getValue());
@@ -21,8 +22,11 @@ public class ModifyPasswordRequest extends Request {
         this.user_id = user_id;
     }
 
-    public void setPassword(String password){
-        this.password = password;
+    public void setOldPassword(String old_password){
+        this.old_password = old_password;
     }
 
+    public void setNewPassword(String new_password){
+        this.new_password = new_password;
+    }
 }

@@ -81,4 +81,7 @@
     <string name="user_get_verify_code_hint">请输入短信验证码</string>
     <string name="user_get_verify_code_send">等待短信验证码发送至</string>
     <string name="user_get_verify_code_has_been_send">短信验证码已发送至</string>
+
+    //modify password
+    <string name="modify_password_confirm_introduction">为了保护您的账户安全,\n修改密码前请进行安全认证</string>
 </resources>

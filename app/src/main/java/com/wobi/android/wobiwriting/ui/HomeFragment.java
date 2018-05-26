@@ -24,6 +24,7 @@ import com.wobi.android.wobiwriting.data.NetDataManager;
 import com.wobi.android.wobiwriting.home.CNClassicActivity;
 import com.wobi.android.wobiwriting.home.CalligraphyClassActivity;
 import com.wobi.android.wobiwriting.home.KewenDirectoryActivity;
+import com.wobi.android.wobiwriting.home.SearchActivity;
 import com.wobi.android.wobiwriting.home.SpeakCNScActivity;
 import com.wobi.android.wobiwriting.home.SpeakCNSzActivity;
 import com.wobi.android.wobiwriting.home.adapters.AbstractSpinnerAdapter;
@@ -155,7 +156,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
         calligraghyClass = (HomeItemView) view.findViewById(R.id.calligraghy_class);
         textView = (TextView) view.findViewById(R.id.dropdown);
 
-        speckCN.setOnClickListener(this);
+        TextView search = (TextView) view.findViewById(R.id.search);
+        search.setOnClickListener(this);
+
+//        speckCN.setOnClickListener(this);
         textView.setOnClickListener(this);
 
         banner_viewpager = (ViewPager) view.findViewById(R.id.banner_viewpager);
@@ -187,20 +191,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.speak_chinese:
-                if (mGradeList.size() > 0) {
-                    String gradeId = mGradeList.get(mSelected).getGradeId();
-                    Intent intent = new Intent(getActivity(), KewenDirectoryActivity.class);
-                    intent.putExtra(SpeakCNSzActivity.GRADE_ID, gradeId);
-                    intent.putExtra(SpeakCNSzActivity.SPEAK_TYPE,
-                            SpeakCNSzActivity.SpeakType.SWJZ.getValue());
-                    getActivity().startActivity(intent);
-                } else {
-                    showNetWorkException();
-                }
-                break;
             case R.id.dropdown:
                 showSpinWindow();
+                break;
+            case R.id. search:
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                intent.putExtra(SearchActivity.SEARCH_TYPE,"sz");
+                startActivity(intent);
+                break;
         }
     }
 
@@ -235,6 +233,47 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
             SharedPrefUtil.setTerm_num(getActivity(), Integer.parseInt(gradeId.substring(1, 2)));
         }
 
+        //swjz
+        Intent swjzIntent = new Intent(getActivity(), KewenDirectoryActivity.class);
+        swjzIntent.putExtra(SpeakCNSzActivity.GRADE_ID,
+                mGradeList.get(position).getGradeId());
+        swjzIntent.putExtra(SpeakCNSzActivity.SPEAK_TYPE,
+                SpeakCNSzActivity.SpeakType.SWJZ.getValue());
+        speckCN.setMainIntent(swjzIntent, true);
+
+        //swjz_zy
+        Intent swjzZyIntent = new Intent(getActivity(), KewenDirectoryActivity.class);
+        swjzZyIntent.putExtra(SpeakCNSzActivity.GRADE_ID,
+                mGradeList.get(position).getGradeId());
+        swjzZyIntent.putExtra(SpeakCNSzActivity.SPEAK_TYPE,
+                SpeakCNSzActivity.SpeakType.SWJZ_ZY.getValue());
+        speckCN.setSub1Intent(swjzZyIntent, true);
+
+        //swjz_zxyb
+        Intent swjzZxybIntent = new Intent(getActivity(), KewenDirectoryActivity.class);
+        swjzZxybIntent.putExtra(SpeakCNSzActivity.GRADE_ID,
+                mGradeList.get(position).getGradeId());
+        swjzZxybIntent.putExtra(SpeakCNSzActivity.SPEAK_TYPE,
+                SpeakCNSzActivity.SpeakType.SWJZ_ZXYB.getValue());
+        speckCN.setSub2Intent(swjzZxybIntent, true);
+
+        //swjz_xxsy
+        Intent swjzXxsybIntent = new Intent(getActivity(), KewenDirectoryActivity.class);
+        swjzXxsybIntent.putExtra(SpeakCNSzActivity.GRADE_ID,
+                mGradeList.get(position).getGradeId());
+        swjzXxsybIntent.putExtra(SpeakCNSzActivity.SPEAK_TYPE,
+                SpeakCNSzActivity.SpeakType.SWJZ_XXSY.getValue());
+        speckCN.setSub3Intent(swjzXxsybIntent, true);
+
+        //swjz_gxgs
+        Intent swjzGxgsIntent = new Intent(getActivity(), KewenDirectoryActivity.class);
+        swjzGxgsIntent.putExtra(SpeakCNSzActivity.GRADE_ID,
+                mGradeList.get(position).getGradeId());
+        swjzGxgsIntent.putExtra(SpeakCNSzActivity.SPEAK_TYPE,
+                SpeakCNSzActivity.SpeakType.SWJZ_GXGS.getValue());
+        speckCN.setSub4Intent(swjzGxgsIntent, true);
+
+        //shu fa ke tang
         Intent classIntent = new Intent(getActivity(), CalligraphyClassActivity.class);
         classIntent.putExtra(CalligraphyClassActivity.GRADE_ID,
                 mGradeList.get(position).getGradeId());

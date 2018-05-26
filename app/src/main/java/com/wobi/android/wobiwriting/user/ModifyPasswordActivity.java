@@ -1,11 +1,13 @@
 package com.wobi.android.wobiwriting.user;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -81,7 +83,8 @@ public class ModifyPasswordActivity extends ActionBarActivity {
 
     private void modifyPassword(final String password){
         ModifyPasswordRequest request = new ModifyPasswordRequest();
-        request.setPassword(password);
+        request.setOldPassword(SharedPrefUtil.getLoginPassword(getApplicationContext()));
+        request.setNewPassword(password);
         String loginInfo = SharedPrefUtil.getLoginInfo(getApplicationContext());
         UserLoginResponse info  = gson.fromJson(loginInfo, UserLoginResponse.class);
         request.setUserId(Integer.parseInt(info.getUserId()));
@@ -93,6 +96,10 @@ public class ModifyPasswordActivity extends ActionBarActivity {
                 Response result = gson.fromJson(response,Response.class);
                 if (result != null && result.getHandleResult().equals("OK")){
                     SharedPrefUtil.saveLoginPassword(getApplicationContext(), password);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+                    }
                     displayPopupWindowTips(R.drawable.modify_password_success);
                 }else {
                     showErrorMsg("更新密码失败");
@@ -123,6 +130,6 @@ public class ModifyPasswordActivity extends ActionBarActivity {
         });
         pop.setClippingEnabled(false);
         pop.setBackgroundDrawable(new ColorDrawable(0xffffff));//支持点击Back虚拟键退出
-        pop.showAtLocation(findViewById(R.id.addToMoment), Gravity.TOP|Gravity.START, 0, 0);
+        pop.showAtLocation(findViewById(R.id.pw_modify_confirm), Gravity.TOP|Gravity.START, 0, 0);
     }
 }

@@ -25,6 +25,10 @@ public class GetSZInfoResponse extends Response implements Serializable {
     private String bishun_url;
     private String maobi_url;
     private String swjz_url;
+    private String swjz_zy_url;
+    private String swjz_zxyb_url;
+    private String swjz_xxsy_url;
+    private String swjz_gs_url;
     private String wutizi_url;
     private String yingbi_url;
     private String zuci_url;
@@ -130,6 +134,22 @@ public class GetSZInfoResponse extends Response implements Serializable {
 
     public String getSwjz_url(){
         return swjz_url;
+    }
+
+    public String getSwjz_zy_url(){
+        return swjz_zy_url;
+    }
+
+    public String getSwjz_zxyb_url(){
+        return swjz_zxyb_url;
+    }
+
+    public String getSwjz_gs_url(){
+        return swjz_gs_url;
+    }
+
+    public String getSwjz_xxsy_url(){
+        return swjz_xxsy_url;
     }
 
     public String getWutizi_url(){

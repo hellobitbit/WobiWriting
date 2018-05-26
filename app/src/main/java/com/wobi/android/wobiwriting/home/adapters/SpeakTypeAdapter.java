@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wobi.android.wobiwriting.R;
+import com.wobi.android.wobiwriting.home.SpeakCNSzActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
