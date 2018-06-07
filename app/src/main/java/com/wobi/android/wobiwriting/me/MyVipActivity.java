@@ -1,5 +1,6 @@
 package com.wobi.android.wobiwriting.me;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,10 +9,12 @@ import android.widget.TextView;
 
 import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.ui.ActionBarActivity;
+import com.wobi.android.wobiwriting.user.LoginActivity;
 import com.wobi.android.wobiwriting.user.message.UserGetInfoResponse;
 import com.wobi.android.wobiwriting.utils.DateUtils;
 import com.wobi.android.wobiwriting.utils.LogUtil;
 import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
+import com.wobi.android.wobiwriting.views.CustomDialog;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -89,7 +92,7 @@ public class MyVipActivity extends ActionBarActivity {
         }
     }
 
-    private static boolean isExpired(String vip_expire_time){
+    public static boolean isExpired(String vip_expire_time){
         LogUtil.e(TAG,"isExpire = "+compare_date(vip_expire_time));
         return compare_date(vip_expire_time)!=1;
     }

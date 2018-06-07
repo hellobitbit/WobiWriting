@@ -30,6 +30,8 @@ public class LoginActivity extends AccountBaseActivity{
         login_register_switch.setText(getResources().getString(R.string.user_login_to_register_label));
         confirm_password_edit.setVisibility(View.GONE);
         request_code_layout.setVisibility(View.GONE);
+        forgetPassword.setVisibility(View.VISIBLE);
+
         login_or_register.setText(getResources().getString(R.string.user_login_label));
 
         if (getIntent()!=null){
@@ -53,6 +55,10 @@ public class LoginActivity extends AccountBaseActivity{
                 break;
             case R.id.login_or_register:
                 login();
+                break;
+            case R.id.forgetPassword:
+                Intent modifyPassword = new Intent(LoginActivity.this, ModifyPasswordConfirmActivity.class);
+                startActivity(modifyPassword);
                 break;
         }
     }

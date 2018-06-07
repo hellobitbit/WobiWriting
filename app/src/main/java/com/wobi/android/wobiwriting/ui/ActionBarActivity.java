@@ -96,6 +96,12 @@ public abstract class ActionBarActivity extends BaseActivity {
         }
     }
 
+    public void updateBackVisibility(int visible){
+        if (back != null){
+            back.setVisibility(visible);
+        }
+    }
+
     public String getTitleText(){
         if (title != null){
             return title.getText().toString();

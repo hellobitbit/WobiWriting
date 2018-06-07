@@ -40,7 +40,6 @@ public class KewenDirectoryActivity extends BaseActivity
     private static final int LOGIN_REQUEST_CODE = 1006;
     private static final int SPEAK_REQUEST_CODE = 1007;
     private List<KeWenDirectory> mDirectories =  new ArrayList<>();
-    private List<JiaoCaiObject> mJCList = new ArrayList<>();
     private KwDirectoryAdapter mAdapter;
     private String grade_id;
     private RecyclerView recyclerView;
@@ -54,8 +53,8 @@ public class KewenDirectoryActivity extends BaseActivity
         grade_id = getIntent().getStringExtra(SpeakCNSzActivity.GRADE_ID);
         speakTypeValue = getIntent().getIntExtra(SpeakCNSzActivity.SPEAK_TYPE, 0);
         LogUtil.d(TAG, "onCreate speakTypeValue = "+speakTypeValue);
-        loadJCList();
         initViews();
+        loadKWMLListSync();
         updateSelectedKewen();
     }
 
@@ -120,36 +119,19 @@ public class KewenDirectoryActivity extends BaseActivity
         });
     }
 
-    private void loadJCList(){
-        GetJCListRequest request = new GetJCListRequest();
-        String jsonBody = request.jsonToString();
-        NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
-            @Override
-            public void onSucceed(String response) {
-                LogUtil.d(TAG," response: "+response);
-                GetJCListResponse getJCListResponse = gson.fromJson(response, GetJCListResponse.class);
-                if (getJCListResponse!=null && getJCListResponse.getHandleResult().equals("OK")){
-                    mJCList.clear();
-                    mJCList.addAll(getJCListResponse.getJcList());
-                    int gradeid = Integer.parseInt(grade_id);
-                    if (gradeid > 70){
-                        loadKWMLList(10);
-                        mAdapter.setJc_id(10);
-                    }else {
-                        loadKWMLList(1);
-                        mAdapter.setJc_id(1);
-                    }
-                }else {
-                    showErrorMsg("获取教程失败");
-                }
-            }
-
-            @Override
-            public void onFailed(String errorMessage) {
-                LogUtil.e(TAG," error: "+errorMessage);
-                showErrorMsg(errorMessage);
-            }
-        });
+    private void loadKWMLListSync(){
+        int gradeid = Integer.parseInt(grade_id);
+        int zx_jc_id = SharedPrefUtil.getZX_JC_ID(getApplicationContext());
+        int xx_jc_id = SharedPrefUtil.getXX_JC_ID(getApplicationContext());
+        if (gradeid > 70
+                ||(gradeid > 60
+                && SharedPrefUtil.getFiveYearsVersion(getApplicationContext()))){
+            loadKWMLList(zx_jc_id);
+            mAdapter.setJc_id(zx_jc_id);
+        }else {
+            loadKWMLList(xx_jc_id);
+            mAdapter.setJc_id(xx_jc_id);
+        }
     }
 
     private void updateUI(){
@@ -181,8 +163,11 @@ public class KewenDirectoryActivity extends BaseActivity
 
     @Override
     public void onSZItemClick(List<String> szList, int position) {
-        int gradeId = Integer.parseInt(grade_id);
-        if (gradeId > 70){
+
+        int gradeid = Integer.parseInt(grade_id);
+        if (gradeid > 70
+                ||(gradeid > 60
+                && SharedPrefUtil.getFiveYearsVersion(getApplicationContext()))){
             Intent intent = new Intent(getApplicationContext(), SpeakCNScActivity.class);
             intent.putExtra(SpeakCNSzActivity.KEWEN_TITLE,mDirectories.get(mAdapter.getClicked()).getKewen());
             intent.putExtra(SpeakCNSzActivity.SPEAK_TYPE, speakTypeValue);

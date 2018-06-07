@@ -152,14 +152,14 @@ public class KwDirectoryAdapter extends RecyclerView.Adapter<KwDirectoryAdapter.
 
         private void setRecyclerView(){
             //设置布局管理器
-            if (jc_id == 1){
+            if (jc_id == SharedPrefUtil.getXX_JC_ID(mContext)){
                 LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mContext);
                 linearLayoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
                 directory_sz_list_recycler.setLayoutManager(linearLayoutManager1);
                 directory_sz_list_recycler.addItemDecoration(new SpaceItemDecoration(mContext, 9, 0));
                 directory_sz_list_recycler.setHasFixedSize(true);
                 mSZAdapter = new DirectorySzAdapter(mContext,szList);
-            }else if (jc_id == 10){
+            }else if (jc_id == SharedPrefUtil.getZX_JC_ID(mContext)){
                 directory_sz_list_recycler.setLayoutManager(new GridLayoutManager(mContext, 3));
                 directory_sz_list_recycler.addItemDecoration(new SpaceItemDecoration(mContext, 0, 6, true));
                 directory_sz_list_recycler.setHasFixedSize(true);

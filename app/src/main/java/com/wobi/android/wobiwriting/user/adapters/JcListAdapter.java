@@ -24,48 +24,39 @@ import java.util.List;
 public class JcListAdapter extends RecyclerView.Adapter<JcListAdapter.JcListViewHolder> {
 
     private static final String TAG = "JcListAdapter";
+    private final View mParentView;
     private Gson gson = new Gson();
     private final Context mContext;
     protected final LayoutInflater mInflater;
     protected List<JiaoCaiObject> mJCList;
     private JcListAdapter.OnRecyclerViewItemClickListener listener;
-    private int selectedPosition = -1;
-    private int clickedPosition = -1;
-
-    private int jc_id = 1;
+    private int jc_id = -1;
 
     public interface OnRecyclerViewItemClickListener {
-        void onItemClick(View view, int position);
+        void onItemClick(View parentView, View view, int position);
     }
 
     public void setOnItemClickListener(JcListAdapter.OnRecyclerViewItemClickListener listener) {
         this.listener = listener;
     }
 
-    public void setSelected(int position){
-        this.selectedPosition = position;
+    public void setJcId(int jc_id){
+        for (JiaoCaiObject object : mJCList){
+            if (object.getId() == jc_id){
+                this.jc_id = jc_id;
+            }
+        }
     }
 
-    public int getSelected(){
-        return selectedPosition;
+    public int getJcId(){
+        return jc_id;
     }
 
-    public void setClicked(int position){
-        this.clickedPosition = position;
-    }
-
-    public int getClicked(){
-        return clickedPosition;
-    }
-
-    public void resetClicked(){
-        clickedPosition = -1;
-    }
-
-    public JcListAdapter(Context context, List<JiaoCaiObject> jcList) {
+    public JcListAdapter(Context context, List<JiaoCaiObject> jcList, View parentView) {
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
         mJCList = jcList;
+        mParentView = parentView;
     }
 
     @Override
@@ -96,7 +87,6 @@ public class JcListAdapter extends RecyclerView.Adapter<JcListAdapter.JcListView
         }
 
         public void bind(int position) {
-            int jc_id = SharedPrefUtil.getJC_ID(mContext);
             itemView.setTag(position);
             itemView.setOnClickListener(this);
 
@@ -111,7 +101,7 @@ public class JcListAdapter extends RecyclerView.Adapter<JcListAdapter.JcListView
 
         @Override
         public void onClick(View v) {
-            if (listener != null) listener.onItemClick(v, (Integer) itemView.getTag());
+            if (listener != null) listener.onItemClick(mParentView, v, (Integer) itemView.getTag());
         }
     }
 

@@ -33,6 +33,7 @@ import com.wobi.android.wobiwriting.home.adapters.CustomSpinnerAdapter;
 import com.wobi.android.wobiwriting.home.message.GetGradeRequest;
 import com.wobi.android.wobiwriting.home.message.GetGradeResponse;
 import com.wobi.android.wobiwriting.home.model.Grade;
+import com.wobi.android.wobiwriting.me.MyJcSelectionActivty;
 import com.wobi.android.wobiwriting.upgrade.AppUpgradeManager;
 import com.wobi.android.wobiwriting.user.LoginActivity;
 import com.wobi.android.wobiwriting.user.RegisterActivity;
@@ -196,7 +197,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                 break;
             case R.id. search:
                 Intent intent = new Intent(getActivity(), SearchActivity.class);
-                intent.putExtra(SearchActivity.SEARCH_TYPE,"sz");
+                intent.putExtra(SearchActivity.SEARCH_TYPE,"key");
                 startActivity(intent);
                 break;
         }
@@ -224,6 +225,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
     }
 
     private void refreshGradeInfo(int position) {
+
+        if (SharedPrefUtil.getXX_JC_ID(getActivity()) == -1
+                || SharedPrefUtil.getZX_JC_ID(getActivity()) == -1){
+            Intent jcSelection = new Intent(getActivity(), MyJcSelectionActivty.class);
+            startActivity(jcSelection);
+        }
+
         mSelected = position;
         textView.setText(mGradeList.get(position).getGradeName());
 

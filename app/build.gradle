@@ -9,8 +9,8 @@ android {
         applicationId "com.wobi.android.wobiwriting"
         minSdkVersion 19
         targetSdkVersion 22
-        versionCode 9
-        versionName "1.1.5"
+        versionCode 12
+        versionName "1.2.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

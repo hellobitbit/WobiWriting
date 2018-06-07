@@ -6,15 +6,15 @@ package com.wobi.android.wobiwriting.home.model;
 
 public class JiaoCaiObject {
 
-    private String edu_school;
+    private int edu_school;
 
     private int id;
 
-    private String sort;
+    private int sort;
 
     private String teach_name;
 
-    public String getEduSchool(){
+    public int getEduSchool(){
         return edu_school;
     }
 
@@ -22,7 +22,7 @@ public class JiaoCaiObject {
         return id;
     }
 
-    public String getSort(){
+    public int getSort(){
         return sort;
     }
 

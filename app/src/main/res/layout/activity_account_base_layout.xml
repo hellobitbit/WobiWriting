@@ -75,6 +75,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <TextView
+            android:id="@+id/forgetPassword"
+            android:text="忘记密码"
+            android:layout_below="@id/password"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <com.wobi.android.wobiwriting.views.ClearEditText
             android:layout_marginTop="5dp"
             android:id="@+id/confirm_password"

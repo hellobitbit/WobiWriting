@@ -30,7 +30,9 @@ public class SharedPrefUtil {
 
     private static final String APP_UPGRADE_VERSION ="app_upgrade_version";
 
-    private static final String JC_ID_DISPLAY = "jc_id_display";
+    private static final String FIVE_YEARS_VERSION = "five_years_version";
+    private static final String XX_JC_ID_DISPLAY = "xx_jc_id_display";
+    private static final String ZX_JC_ID_DISPLAY = "zx_jc_id_display";
     private static final String GRADE_ID= "grade_id";
     private static final String TERM_NUMBER= "term_number";
 
@@ -202,18 +204,46 @@ public class SharedPrefUtil {
         return userSettings.getInt(APP_UPGRADE_VERSION, -1);
     }
 
-    public static void setJC_ID(Context context, int jc_id){
+    public static void updateFiveYearsVersion(Context context, boolean enable){
         SharedPreferences userSettings = context.
                 getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = userSettings.edit();
-        editor.putInt(JC_ID_DISPLAY,jc_id);
+        editor.putBoolean(FIVE_YEARS_VERSION,enable);
         editor.commit();
     }
 
-    public static int getJC_ID(Context context){
+    public static boolean getFiveYearsVersion(Context context){
         SharedPreferences userSettings = context.
                 getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
-        return userSettings.getInt(JC_ID_DISPLAY, -1);
+        return userSettings.getBoolean(FIVE_YEARS_VERSION, false);
+    }
+
+    public static void setXX_JC_ID(Context context, int jc_id){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = userSettings.edit();
+        editor.putInt(XX_JC_ID_DISPLAY,jc_id);
+        editor.commit();
+    }
+
+    public static void setZX_JC_ID(Context context, int jc_id){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = userSettings.edit();
+        editor.putInt(ZX_JC_ID_DISPLAY,jc_id);
+        editor.commit();
+    }
+
+    public static int getXX_JC_ID(Context context){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        return userSettings.getInt(XX_JC_ID_DISPLAY, -1);
+    }
+
+    public static int getZX_JC_ID(Context context){
+        SharedPreferences userSettings = context.
+                getSharedPreferences(WOBI_APP_INFO, Activity.MODE_PRIVATE);
+        return userSettings.getInt(ZX_JC_ID_DISPLAY, -1);
     }
 
     public static void setGrade_ID(Context context, int grade_id){

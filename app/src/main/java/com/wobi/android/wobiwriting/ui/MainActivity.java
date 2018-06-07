@@ -16,8 +16,10 @@ import android.widget.LinearLayout;
 import com.wobi.android.wobiwriting.R;
 import com.wobi.android.wobiwriting.WobiWritingApplication;
 import com.wobi.android.wobiwriting.me.MyInformationActivity;
+import com.wobi.android.wobiwriting.me.MyJcSelectionActivty;
 import com.wobi.android.wobiwriting.user.LoginActivity;
 import com.wobi.android.wobiwriting.utils.LogUtil;
+import com.wobi.android.wobiwriting.utils.SharedPrefUtil;
 import com.wobi.android.wobiwriting.views.TargetToolBar;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener{
@@ -41,6 +43,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         initViews();
         displayFrag(getIntent());
 
+        if (SharedPrefUtil.getXX_JC_ID(getApplicationContext()) == -1
+                || SharedPrefUtil.getZX_JC_ID(getApplicationContext()) == -1){
+            Intent jcSelection = new Intent(MainActivity.this, MyJcSelectionActivty.class);
+            startActivity(jcSelection);
+        }
     }
 
     @Override

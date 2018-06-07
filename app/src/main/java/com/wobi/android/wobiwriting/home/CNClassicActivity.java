@@ -148,7 +148,16 @@ public class CNClassicActivity extends BaseVideoActivity {
         GushiRequest request = new GushiRequest();
         request.setGrade_id(SharedPrefUtil.getGrade_ID(getApplicationContext()));
         request.setTerm_num(SharedPrefUtil.getTerm_num(getApplicationContext()));
-        request.setJc_id(SharedPrefUtil.getJC_ID(getApplicationContext()));
+        if (SharedPrefUtil.getGrade_ID(getApplicationContext()) > 60){
+            if (SharedPrefUtil.getFiveYearsVersion(getApplicationContext())){
+                request.setJc_id(SharedPrefUtil.getZX_JC_ID(getApplicationContext()));
+            }else {
+                request.setJc_id(SharedPrefUtil.getXX_JC_ID(getApplicationContext()));
+            }
+        }else {
+            request.setJc_id(SharedPrefUtil.getXX_JC_ID(getApplicationContext()));
+        }
+
         String jsonBody = request.jsonToString();
         sendRequest(jsonBody, ClassicType.Gushi);
     }

@@ -76,7 +76,8 @@
         <activity android:name=".user.ModifyPasswordConfirmActivity" />
         <activity android:name=".user.VerifyCodeActivity" />
         <activity android:name=".user.ModifyPasswordActivity" />
-        <activity android:name=".me.MyJcSelectionActivty" />
+        <activity android:name=".me.MyJcSelectionActivty"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".me.PurchaseVipActivity"
             android:launchMode="singleTask" />

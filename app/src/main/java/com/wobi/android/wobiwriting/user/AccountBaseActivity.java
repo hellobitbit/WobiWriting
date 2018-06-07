@@ -29,6 +29,7 @@ public abstract class AccountBaseActivity extends BaseActivity implements View.O
     protected ClearEditText request_code_edit;
     protected RelativeLayout request_code_layout;
     protected ImageView register_scan;
+    protected TextView forgetPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,9 @@ public abstract class AccountBaseActivity extends BaseActivity implements View.O
         login_register_switch = (TextView)findViewById(R.id.login_register_switch);
         login_register_switch.setOnClickListener(this);
         login_or_register = (TextView)findViewById(R.id.login_or_register);
+        login_or_register = (TextView)findViewById(R.id.login_or_register);
+        forgetPassword = (TextView)findViewById(R.id.forgetPassword);
+        forgetPassword.setOnClickListener(this);
         login_or_register.setOnClickListener(this);
         phone_edit = (ClearEditText)findViewById(R.id.phone);
         phone_edit.setText(SharedPrefUtil.getLastLoginAccount(getApplicationContext()));

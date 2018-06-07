@@ -84,4 +84,5 @@
 
     //modify password
     <string name="modify_password_confirm_introduction">为了保护您的账户安全,\n修改密码前请进行安全认证</string>
+    <string name="purchase_vip">该生字所在的课程需要成为VIP才\n能学习，是否成为VIP</string>
 </resources>

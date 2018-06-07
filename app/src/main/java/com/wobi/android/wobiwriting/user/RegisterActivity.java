@@ -41,7 +41,7 @@ public class RegisterActivity extends AccountBaseActivity{
         login_register_switch.setText(getResources().getString(R.string.user_register_to_login_label));
         confirm_password_edit.setVisibility(View.VISIBLE);
         request_code_layout.setVisibility(View.VISIBLE);
-        login_or_register.setText(getResources().getString(R.string.user_register_label));
+        forgetPassword.setVisibility(View.GONE);
     }
 
     @Override

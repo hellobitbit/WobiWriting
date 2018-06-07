@@ -66,7 +66,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener, IU
     private static final String TAG = "MeFragment";
     private static final String W_APPID = "wx811d8d46a1d5cb01";
     private static final String Q_APPID = "1106533048";
-    private static final String SHARED_URL = "http://wobi.oss-cn-hangzhou.aliyuncs.com/app/wobi.apk ";
+    private static final String SHARED_URL = "http://wobi.oss-cn-hangzhou.aliyuncs.com/app/wobi.apk";
     private ImageView user_icon;
     private TextView user_name;
     private TextView user_description;
