@@ -24,6 +24,9 @@ import com.wobi.android.wobiwriting.me.message.BuyVIPServiceRequest;
 import com.wobi.android.wobiwriting.me.message.BuyVIPServiceResponse;
 import com.wobi.android.wobiwriting.me.message.GetWXPayResultRequest;
 import com.wobi.android.wobiwriting.me.message.GetWXPayResultResponse;
+import com.wobi.android.wobiwriting.me.message.VIPLIstRequest;
+import com.wobi.android.wobiwriting.me.message.VipLIstResponse;
+import com.wobi.android.wobiwriting.me.model.VipPackage;
 import com.wobi.android.wobiwriting.moments.message.SearchCommunityResultResponse;
 import com.wobi.android.wobiwriting.moments.message.SearchJoinedCommunityRequest;
 import com.wobi.android.wobiwriting.moments.message.SearchOwnedCommunityRequest;
@@ -50,6 +53,10 @@ public class PurchaseVipActivity extends ActionBarActivity implements View.OnCli
 
     public static final int REQUEST_CODE = 1050;
     public static final int RESULT_CODE_SUCCESS = 0x88;
+    private static final double XUEQI_TAOCAN = 99.0;
+    private static final double ONE_YEAR_TAOCAN = 180.0;
+    private static final double TWO_YEAR_TAOCAN = 350.0;
+    private static final double THREE_YEAR_TAOCAN = 480.0;
     private static final String TAG = "PurchaseVipActivity";
     private final DecimalFormat df = new DecimalFormat("######0.00");
     private EditText request_code_edit;
@@ -59,8 +66,13 @@ public class PurchaseVipActivity extends ActionBarActivity implements View.OnCli
     private RequestCodeSpinnerAdapter mAdapter;
 
     private List<CommunityInfo> communityInfos = new ArrayList<>();
+    private List<VipPackage> vipPackages = new ArrayList<>();
     private Map<String, CommunityInfo> communityIds = new HashMap<>();
     private RelativeLayout request_code_layout;
+    private TextView xueqi_taocan_price;
+    private TextView one_year_taocan_price;
+    private TextView two_years_taocan_price;
+    private TextView three_year_taocan_price;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +87,48 @@ public class PurchaseVipActivity extends ActionBarActivity implements View.OnCli
 
     private void initData(){
         searchJoinedCommunity();
+        getVipList();
+    }
+
+    private void getVipList(){
+        VIPLIstRequest request = new VIPLIstRequest();
+        String jsonBody = request.jsonToString();
+        NetDataManager.getInstance().getMessageSender().sendEvent(jsonBody, new IResponseListener() {
+            @Override
+            public void onSucceed(String response) {
+                updateVipList(response);
+            }
+
+            @Override
+            public void onFailed(String errorMessage) {
+                LogUtil.e(TAG," error: "+errorMessage);
+                showErrorMsg(errorMessage);
+            }
+        });
+    }
+
+    private void updateVipList(String response){
+        LogUtil.d(TAG," response: "+response);
+        VipLIstResponse vipLIstResponse = gson.
+                fromJson(response,VipLIstResponse.class);
+        if (vipLIstResponse != null
+                && vipLIstResponse.getHandleResult().equals("OK")){
+            if (vipLIstResponse.getVip_package_list() == null
+                    || vipLIstResponse.getVip_package_list().size() == 0){
+//                showErrorMsg("当前不存在圈子");
+            }else {
+                vipPackages.clear();
+                vipPackages.addAll(vipLIstResponse.getVip_package_list());
+                if (vipPackages.size() >= 4){
+                    xueqi_taocan_price.setText(""+ vipPackages.get(0).getPrice());
+                    one_year_taocan_price.setText(""+ vipPackages.get(1).getPrice());
+                    two_years_taocan_price.setText(""+ vipPackages.get(2).getPrice());
+                    three_year_taocan_price.setText(""+ vipPackages.get(3).getPrice());
+                }
+            }
+        }else {
+            showErrorMsg("获取数据异常");
+        }
     }
 
     private void searchJoinedCommunity(){
@@ -138,10 +192,20 @@ public class PurchaseVipActivity extends ActionBarActivity implements View.OnCli
         TextView tao_can3_purchase = (TextView)findViewById(R.id.tao_can3_purchase);
         TextView tao_can4_purchase = (TextView)findViewById(R.id.tao_can4_purchase);
 
+        xueqi_taocan_price = (TextView)findViewById(R.id.xueqi_taocan_price);
+        one_year_taocan_price = (TextView)findViewById(R.id.one_year_taocan_price);
+        two_years_taocan_price = (TextView)findViewById(R.id.two_years_taocan_price);
+        three_year_taocan_price = (TextView)findViewById(R.id.three_year_taocan_price);
+
         tao_can1_purchase.setOnClickListener(this);
         tao_can2_purchase.setOnClickListener(this);
         tao_can3_purchase.setOnClickListener(this);
         tao_can4_purchase.setOnClickListener(this);
+
+        xueqi_taocan_price.setText(""+XUEQI_TAOCAN);
+        one_year_taocan_price.setText(""+ONE_YEAR_TAOCAN);
+        two_years_taocan_price.setText(""+TWO_YEAR_TAOCAN);
+        three_year_taocan_price.setText(""+THREE_YEAR_TAOCAN);
 
         request_code_edit = (EditText)findViewById(R.id.request_code_edit);
 
@@ -179,16 +243,47 @@ public class PurchaseVipActivity extends ActionBarActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tao_can1_purchase:
-                purchase("学期卡（6个月）",6, 60, 49.8);
+                if (vipPackages.size() >= 1){
+                    purchase("学期卡（6个月）",6, 0, vipPackages.get(0).getPrice());
+                }else {
+                    showErrorMsg("套餐异常，请检查网络");
+                }
+//                else {
+//                    purchase("学期卡（6个月）",6, 0, XUEQI_TAOCAN);
+//                }
+
                 break;
             case R.id.tao_can2_purchase:
-                purchase("学年卡（12个月）",12, 120, 90);
+                if (vipPackages.size() >= 2){
+                    purchase("学年卡（12个月）",12, 0, vipPackages.get(1).getPrice());
+                }else {
+                    showErrorMsg("套餐异常，请检查网络");
+                }
+//                else {
+//                    purchase("学年卡（12个月）",12, 0, ONE_YEAR_TAOCAN);
+//                }
+
                 break;
             case R.id.tao_can3_purchase:
-                purchase("两年卡（24个月）",24, 240, 170);
+                if (vipPackages.size() >= 3){
+                    purchase("两年卡（24个月）",24, 0, vipPackages.get(2).getPrice());
+                }else {
+                    showErrorMsg("套餐异常，请检查网络");
+                }
+//                else {
+//                    purchase("两年卡（24个月）",24, 0, TWO_YEAR_TAOCAN);
+//                }
                 break;
             case R.id.tao_can4_purchase:
-                purchase("三年卡（36个月）",36, 360, 240);
+                if (vipPackages.size() >= 4){
+                    purchase("三年卡（36个月）",36, 0, vipPackages.get(3).getPrice());
+                }else {
+                    showErrorMsg("套餐异常，请检查网络");
+                }
+//                else {
+//                    purchase("三年卡（36个月）",36, 0, THREE_YEAR_TAOCAN);
+//                }
+
                 break;
         }
     }
@@ -213,6 +308,7 @@ public class PurchaseVipActivity extends ActionBarActivity implements View.OnCli
         product_name.setText(title);
         origin_price.setText("原价"+originPrice+"元");
         current_price.setText("现价"+price+"元");
+
         final double wobiMaxDiscount  = (userInfo.getWobiBeans()/10) > 0 ? userInfo.getWobiBeans()/10 : 0;
         final double price_need_pay = wobiMaxDiscount >= price ? 0: price-wobiMaxDiscount;
         final double usedDiscount = wobiMaxDiscount >= price ? price: wobiMaxDiscount;

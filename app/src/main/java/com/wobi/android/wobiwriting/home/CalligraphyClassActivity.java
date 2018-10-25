@@ -92,7 +92,7 @@ public class CalligraphyClassActivity extends BaseVideoActivity{
 
     @Override
     public void onItemClick(View view, int position) {
-        if (grade > 3) {
+        if (grade > 2) {
             adapter.setSelected(position);
             adapter.notifyDataSetChanged();
             if (position == 0) {

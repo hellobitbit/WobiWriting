@@ -200,6 +200,16 @@ public class HomeItemView extends LinearLayout {
         }
     }
 
+    public void updateItem3Visibility(boolean visible){
+        if (visible){
+            itemSubType3Name.setVisibility(VISIBLE);
+            findViewById(R.id.interval_above).setVisibility(VISIBLE);
+        }else {
+            itemSubType3Name.setVisibility(GONE);
+            findViewById(R.id.interval_above).setVisibility(GONE);
+        }
+    }
+
     private void showMessage(){
         Toast.makeText(getContext(),"当前版本不支持该功能", Toast.LENGTH_LONG).show();
     }

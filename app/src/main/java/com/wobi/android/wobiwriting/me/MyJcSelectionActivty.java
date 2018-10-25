@@ -89,7 +89,11 @@ public class MyJcSelectionActivty extends ActionBarActivity implements JcListAda
 
                     mJCList.clear();
                     mJCList.addAll(getXiaoxueJcList(mAllJCList));
-                    mAdapter.setJcId(SharedPrefUtil.getXX_JC_ID(getApplicationContext()));
+                    if (SharedPrefUtil.getXX_JC_ID(getApplicationContext()) == -1){
+                        mAdapter.setJcId(mJCList.get(0).getId());
+                    }else {
+                        mAdapter.setJcId(SharedPrefUtil.getXX_JC_ID(getApplicationContext()));
+                    }
                     mAdapter.notifyDataSetChanged();
 
                     mZxJCList.clear();
@@ -209,7 +213,11 @@ public class MyJcSelectionActivty extends ActionBarActivity implements JcListAda
             if (mZxJCList.size() == 1) {
                 mZxAdapter.setJcId(mZxJCList.get(0).getId());
             }else {
-                mZxAdapter.setJcId(SharedPrefUtil.getZX_JC_ID(getApplicationContext()));
+                if (SharedPrefUtil.getZX_JC_ID(getApplicationContext()) == -1){
+                    mZxAdapter.setJcId(mZxJCList.get(0).getId());
+                }else {
+                    mZxAdapter.setJcId(SharedPrefUtil.getZX_JC_ID(getApplicationContext()));
+                }
             }
             mZxAdapter.notifyDataSetChanged();
             mLastXxSort = sort;

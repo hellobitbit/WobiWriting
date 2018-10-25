@@ -48,6 +48,7 @@ public enum BusinessType {
     BT_Get_WXPay_Result(38),			/* 获取微信支付的支付结果 */
     BT_Get_Province_City_Area(39),			/* 获取所有省市区 */
     BT_Get_Sc_Info(40),                     /* 获取生词信息 */
+    BT_GET_VIP_LIST(41),                    /* 获取vip 套餐列表 */
     BT_Join_Community_By_RequestCode(44),			/* 根据邀请码加入圈子 */
     BT_Check_App_Upgrade(45),			/* 获取应用最新版本号 */
     BT_Gu_Shi(48);			/* 古诗诵读 */

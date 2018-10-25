@@ -79,6 +79,7 @@
             android:layout_alignBottom="@id/tao_can1_icon"
             android:layout_marginBottom="15dp"
             android:textSize="10sp"
+            android:visibility="gone"
             android:text="-已有2017人购买-"
             android:textColor="@android:color/white"
             android:layout_width="wrap_content"
@@ -96,6 +97,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tao_can1_icon"
+            android:layout_alignRight="@id/tao_can1_icon"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:text="￥ "
+                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/xueqi_taocan_price"
+                android:text="99.0"
+                android:textSize="25sp"
+                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -109,11 +132,13 @@
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
         <TextView
             android:layout_centerHorizontal="true"
             android:layout_alignBottom="@id/tao_can2_icon"
             android:layout_marginBottom="15dp"
             android:textSize="10sp"
+            android:visibility="gone"
             android:text="-已有2017人购买-"
             android:textColor="@android:color/white"
             android:layout_width="wrap_content"
@@ -131,6 +156,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tao_can2_icon"
+            android:layout_alignRight="@id/tao_can2_icon"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:text="￥ "
+                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/one_year_taocan_price"
+                android:text="180.0"
+                android:textSize="25sp"
+                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -149,6 +199,7 @@
             android:layout_alignBottom="@id/tao_can3_icon"
             android:layout_marginBottom="15dp"
             android:textSize="10sp"
+            android:visibility="gone"
             android:text="-已有2017人购买-"
             android:textColor="@android:color/white"
             android:layout_width="wrap_content"
@@ -166,6 +217,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tao_can3_icon"
+            android:layout_alignRight="@id/tao_can3_icon"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:text="￥ "
+                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/two_years_taocan_price"
+                android:text="350.0"
+                android:textSize="25sp"
+                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -184,6 +259,7 @@
             android:layout_alignBottom="@id/tao_can4_icon"
             android:layout_marginBottom="15dp"
             android:textSize="10sp"
+            android:visibility="gone"
             android:text="-已有2017人购买-"
             android:textColor="@android:color/white"
             android:layout_width="wrap_content"
@@ -201,6 +277,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tao_can4_icon"
+            android:layout_alignRight="@id/tao_can4_icon"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:text="￥ "
+                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/three_year_taocan_price"
+                android:text="480.0"
+                android:textSize="25sp"
+                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
     </RelativeLayout>
 
 </LinearLayout>

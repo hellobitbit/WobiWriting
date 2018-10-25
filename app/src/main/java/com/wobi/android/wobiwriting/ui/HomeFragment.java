@@ -287,10 +287,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                 mGradeList.get(position).getGradeId());
         calligraghyClass.setMainIntent(classIntent, true);
         calligraghyClass.setSub1Intent(classIntent, true);
-        if (Integer.parseInt(gradeId) > 40) {
+        if (Integer.parseInt(gradeId) > 30) {
             calligraghyClass.setSub3Intent(classIntent, true);
+//            calligraghyClass.updateItem1Visibility(true);
         } else {
             calligraghyClass.setSub3Intent(classIntent, false, true);
+//            calligraghyClass.updateItem3Visibility(false);
         }
 
         //bishun
@@ -301,7 +303,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                 SpeakCNSzActivity.SpeakType.BISHUN.getValue());
         chinese_writing.setMainIntent(bishunIntent, true);
         chinese_writing.setSub1Intent(bishunIntent, true);
-        if (Integer.parseInt(gradeId) > 70) {
+        if (Integer.parseInt(gradeId) > 70
+                ||(Integer.parseInt(gradeId) > 60
+                && SharedPrefUtil.getFiveYearsVersion(getActivity()))){
             speckCN.setVisibility(View.GONE);
             chinese_writing.updateItem1Visibility(false);
         } else {
@@ -315,7 +319,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                 mGradeList.get(position).getGradeId());
         banshuIntent.putExtra(SpeakCNSzActivity.SPEAK_TYPE,
                 SpeakCNSzActivity.SpeakType.BANSHU.getValue());
-        if (Integer.parseInt(gradeId) > 70) {
+        if (Integer.parseInt(gradeId) > 70
+                ||(Integer.parseInt(gradeId) > 60
+                && SharedPrefUtil.getFiveYearsVersion(getActivity()))){
             banshuIntent.putExtra(SpeakCNScActivity.SPEAK_TYPE,
                     SpeakCNScActivity.SpeakType.BANSHU.getValue());
             chinese_writing.setMainIntent(banshuIntent, true);
@@ -329,7 +335,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,
                 mGradeList.get(position).getGradeId());
         yingbiIntent.putExtra(SpeakCNSzActivity.SPEAK_TYPE,
                 SpeakCNSzActivity.SpeakType.YINGBI.getValue());
-        if (Integer.parseInt(gradeId) > 70) {
+        if (Integer.parseInt(gradeId) > 70
+                ||(Integer.parseInt(gradeId) > 60
+                && SharedPrefUtil.getFiveYearsVersion(getActivity()))){
             yingbiIntent.putExtra(SpeakCNScActivity.SPEAK_TYPE,
                     SpeakCNScActivity.SpeakType.YINGBI.getValue());
         }
